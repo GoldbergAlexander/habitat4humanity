@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Store Location</title>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Street Line One</th>
+        <th>Street Line Two</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Zip</th>
+        <th>Enabled</th>
+        <th>Modify</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr th:each="location : ${locations}">
+            <form th:action="@{/storelocation/modify}" th:object="${newLocation}" method="post">
+                <input type="hidden" id="id" name="id" th:value="${location.id}"/>
+                <td><input id="name" name="name" th:value="${location.name}"/></td>
+                <td><input id="lineOne" name="lineOne" th:value="${location.lineOne}"/></td>
+                <td><input id="lineTwo" name="lineTwo" th:value="${location.lineTwo}"/></td>
+                <td><input id="city" name="city" th:value="${location.city}"/></td>
+                <td><input id="state" name="state" th:value="${location.state}"/></td>
+                <td><input id="zipcode" name="zipcode" th:value="${location.zipcode}"/></td>
+                <td><input type="checkbox" id="enabled" name="enabled" th:checked="${location.enabled}"/></td>
+                <td><input type="submit" value="modify"/></td>
+            </form>
+            <td>
+                <form th:action="@{/storelocation/delete}" th:object="${newLocation}" method="post">
+                    <input type="hidden" id="id" name="id" th:value="${location.id}"/>
+                    <input type="submit" value="delete"/>
+                </form>
+            <td>
+            </form>
+            </td>
+        </tr>
+        <form th:action="@{/storelocation/create}" th:object="${newLocation}" method="post">
+            <td><input th:field="*{name}"/></td>
+            <td><input th:field="*{lineOne}"/></td>
+            <td><input th:field="*{lineTwo}"/></td>
+            <td><input th:field="*{city}"/></td>
+            <td><input th:field="*{state}"/></td>
+            <td><input th:field="*{zipcode}"/></td>
+            <td><input type="checkbox" th:field="*{enabled}" th:checked="true"/></td>
+            <td><input type="submit" value="create"/></td>
+        </form>
+    </tbody>
+</table>
+</body>
+</html>
