@@ -17,12 +17,16 @@ public class AdminUserDataLoader implements ApplicationListener<ContextRefreshed
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
 
-        if(!loaded) {
-            UserDTO admin = new UserDTO();
-            admin.setUsername("admin@admin.com");
-            admin.setPassword("admin");
-            userService.registerUser(admin);
-            loaded = true;
+        try {
+            if (!loaded) {
+                UserDTO admin = new UserDTO();
+                admin.setUsername("admin@admin.com");
+                admin.setPassword("admin");
+                userService.registerUser(admin);
+                loaded = true;
+            }
+        } catch (Exception e){
+
         }
 
     }

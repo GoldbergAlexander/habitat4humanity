@@ -55,6 +55,14 @@ public class StoreLocationService {
         storeLocationDAO.save(domain);
     }
 
+    public StoreLocationDomain getStoreLocation(Long id){
+        StoreLocationDomain storeLocation = storeLocationDAO.findByIdAndAndEnabledIsTrue(id);
+        if(storeLocation == null){
+            throw new IllegalStateException("A store location that is enabled and with the ID provided could not be found.");
+        }
+        return storeLocation;
+    }
+
     public List<StoreLocationDTO> getStoreLocations(){
         List<StoreLocationDomain> domains = storeLocationDAO.findAll();
         List<StoreLocationDTO> dtos = new ArrayList<>();

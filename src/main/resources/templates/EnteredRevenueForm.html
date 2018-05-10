@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Revenue Entry</title>
+</head>
+<body>
+
+<form th:action="@{/revenue/entry}" th:object="${enteredRevenue}" method="post">
+    <table>
+        <tbody>
+
+        <!-- Date -->
+        <tr>
+        <th>Date</th>
+        <td><input type="date" th:field="*{date}"/></td>
+            <p th:each="error : ${#fields.errors('date')}"
+               th:text="${error}">Constraint error</p>
+        </tr>
+
+        <!-- Location -->
+        <tr>
+            <th>Location</th>
+            <td><select th:field="*{locationId}">
+                <option th:each="location : ${locationList}"
+                        th:value="${location.id}"
+                        th:text="${location.name}"
+                        th:selected="${enteredRevenue.locationId == location.id}">
+                </option>
+            </select></td>
+            <p th:each="error : ${#fields.errors('locationId')}"
+               th:text="${error}">Constraint error</p>
+        </tr>
+        <!-- transactionCount -->
+        <tr>
+            <th>Transaction Count</th>
+            <td><input type="text" th:field="*{transactionCount}"/></td>
+            <p th:each="error : ${#fields.errors('transactionCount')}"
+               th:text="${error}">Constraint error</p>
+        </tr>
+        <!-- cashCount -->
+        <tr>
+            <th>Cash Count</th>
+            <td><input type="text" th:field="*{cashCount}"/></td>
+            <p th:each="error : ${#fields.errors('cashCount')}"
+               th:text="${error}">Constraint error</p>
+        </tr>
+        <!-- checkCount -->
+        <tr>
+            <th>Check Count</th>
+            <td><input type="text" th:field="*{checkCount}"/></td>
+            <p th:each="error : ${#fields.errors('checkCount')}"
+               th:text="${error}">Constraint error</p>
+        </tr>
+        <!-- cardUnit -->
+        <tr>
+            <th>Card Unit</th>
+            <td><input type="text" th:field="*{cardUnit}"/></td>
+            <p th:each="error : ${#fields.errors('cardUnit')}"
+               th:text="${error}">Constraint error</p>
+        </tr>
+        <!-- payoutReceipt -->
+        <tr>
+            <th>Payout Receipt</th>
+            <td><input type="text" th:field="*{payoutReceipt}"/></td>
+            <p th:each="error : ${#fields.errors('payoutReceipt')}"
+               th:text="${error}">Constraint error</p>
+        </tr>
+        <!-- cashTape -->
+        <tr>
+            <th>Cash Tape</th>
+            <td><input type="text" th:field="*{cashTape}"/></td>
+            <p th:each="error : ${#fields.errors('cashTape')}"
+               th:text="${error}">Constraint error</p>
+        </tr>
+        <!-- checkTape -->
+        <tr>
+            <th>Check Tape</th>
+            <td><input type="text" th:field="*{checkTape}"/></td>
+            <p th:each="error : ${#fields.errors('checkTape')}"
+               th:text="${error}">Constraint error</p>
+        </tr>
+        <!-- cardTape -->
+        <tr>
+            <th>Card Tape</th>
+            <td><input type="text" th:field="*{cardTape}"/></td>
+            <p th:each="error : ${#fields.errors('cardTape')}"
+               th:text="${error}">Constraint error</p>
+        </tr>
+        <!-- taxTape -->
+        <tr>
+            <th>Tax Tape</th>
+            <td><input type="text" th:field="*{taxTape}"/></td>
+            <p th:each="error : ${#fields.errors('taxTape')}"
+               th:text="${error}">Constraint error</p>
+        </tr>
+        <!-- vehicleSale -->
+        <tr>
+            <th>Vehicle Sale</th>
+            <td><input type="text" th:field="*{vehicleSale}"/></td>
+            <p th:each="error : ${#fields.errors('vehicleSale')}"
+               th:text="${error}">Constraint error</p>
+        </tr>
+        <!-- salesVoid -->
+        <tr>
+            <th>Sales Void</th>
+            <td><input type="text" th:field="*{salesVoid}"/></td>
+            <p th:each="error : ${#fields.errors('salesVoid')}"
+               th:text="${error}">Constraint error</p>
+        </tr>
+        <!-- taxVoid -->
+        <tr>
+            <th>Tax Void</th>
+            <td><input type="text" th:field="*{taxVoid}"/></td>
+            <p th:each="error : ${#fields.errors('taxVoid')}"
+               th:text="${error}">Constraint error</p>
+        </tr>
+        <!-- memo -->
+        <tr>
+            <th>Memo</th>
+            <td><textarea type="" th:field="*{memo}"></textarea></td>
+            <p th:each="error : ${#fields.errors('memo')}"
+               th:text="${error}">Constraint error</p>
+        </tr>
+
+        <tr>
+            <th></th>
+            <td><input type="submit" value="submit"/></td>
+        </tr>
+
+        </tbody>
+    </table>
+</form>
+
+</body>
+</html>

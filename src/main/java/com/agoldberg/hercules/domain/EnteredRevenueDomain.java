@@ -27,11 +27,12 @@ public class EnteredRevenueDomain {
     private double vehicleSale;
     private double salesVoid;
     private double taxVoid;
+    private String memo;
 
     public EnteredRevenueDomain() {
     }
 
-    public EnteredRevenueDomain(StoreLocationDomain location, Date date, boolean processed, long transactionCount, double cashCount, double checkCount, double cardUnit, double payoutReceipt, double cashTape, double checkTape, double cardTape, double taxTape, double vehicleSale, double salesVoid, double taxVoid) {
+    public EnteredRevenueDomain(StoreLocationDomain location, Date date, boolean processed, long transactionCount, double cashCount, double checkCount, double cardUnit, double payoutReceipt, double cashTape, double checkTape, double cardTape, double taxTape, double vehicleSale, double salesVoid, double taxVoid, String memo) {
         this.location = location;
         this.date = date;
         this.processed = processed;
@@ -47,14 +48,19 @@ public class EnteredRevenueDomain {
         this.vehicleSale = vehicleSale;
         this.salesVoid = salesVoid;
         this.taxVoid = taxVoid;
+        this.memo = memo;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public String getMemo() {
+        return memo;
+    }
+
+    public void setMemo(String memo) {
+        this.memo = memo;
     }
 
     public StoreLocationDomain getLocation() {
@@ -63,6 +69,14 @@ public class EnteredRevenueDomain {
 
     public void setLocation(StoreLocationDomain location) {
         this.location = location;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public boolean isProcessed() {

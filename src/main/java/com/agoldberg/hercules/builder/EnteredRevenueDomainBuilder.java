@@ -21,6 +21,7 @@ public class EnteredRevenueDomainBuilder {
     private double vehicleSale;
     private double salesVoid;
     private double taxVoid;
+    private String memo;
 
     public EnteredRevenueDomainBuilder setLocation(StoreLocationDomain location) {
         this.location = location;
@@ -97,7 +98,12 @@ public class EnteredRevenueDomainBuilder {
         return this;
     }
 
+    public EnteredRevenueDomainBuilder setMemo(String memo){
+        this.memo = memo;
+        return this;
+    }
+
     public EnteredRevenueDomain createEnteredRevenueDomain() {
-        return new EnteredRevenueDomain(location, date, processed, transactionCount, cashCount, checkCount, cardUnit, payoutReceipt, cashTape, checkTape, cardTape, taxTape, vehicleSale, salesVoid, taxVoid);
+        return new EnteredRevenueDomain(location, date, processed, transactionCount, cashCount, checkCount, cardUnit, payoutReceipt, cashTape, checkTape, cardTape, taxTape, vehicleSale, salesVoid, taxVoid, memo);
     }
 }

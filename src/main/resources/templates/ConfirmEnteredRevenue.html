@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Confirm Entry</title>
+</head>
+<body>
+
+<th:block th:object="${enteredRevenue}">
+    <table>
+        <tbody>
+
+        <!-- Date -->
+        <tr>
+            <th>Date</th>
+            <td th:text="*{date}"></td>
+        </tr>
+
+        <!-- Location -->
+        <tr>
+            <th>Location</th>
+            <td th:text="*{locationId}"></td>
+        </tr>
+        <!-- transactionCount -->
+        <tr>
+            <th>Transaction Count</th>
+            <td th:text="*{transactionCount}"/></td>
+        </tr>
+        <!-- cashCount -->
+        <tr>
+            <th>Cash Count</th>
+            <td th:text="*{cashCount}"/></td>
+        </tr>
+        <!-- checkCount -->
+        <tr>
+            <th>Check Count</th>
+            <td th:text="*{checkCount}"/></td>
+        </tr>
+        <!-- cardUnit -->
+        <tr>
+            <th>Card Unit</th>
+            <td th:text="*{cardUnit}"/></td>
+        </tr>
+        <!-- payoutReceipt -->
+        <tr>
+            <th>Payout Receipt</th>
+            <td th:text="*{payoutReceipt}"/></td>
+        </tr>
+        <!-- cashTape -->
+        <tr>
+            <th>Cash Tape</th>
+            <td th:text="*{cashTape}"/></td>
+        </tr>
+        <!-- checkTape -->
+        <tr>
+            <th>Check Tape</th>
+            <td th:text="*{checkTape}"/></td>
+        </tr>
+        <!-- cardTape -->
+        <tr>
+            <th>Card Tape</th>
+            <td th:text="*{cardTape}"/></td>
+        </tr>
+        <!-- taxTape -->
+        <tr>
+            <th>Tax Tape</th>
+            <td th:text="*{taxTape}"/></td>
+        </tr>
+        <!-- vehicleSale -->
+        <tr>
+            <th>Vehicle Sale</th>
+            <td th:text="*{vehicleSale}"/></td>
+        </tr>
+        <!-- salesVoid -->
+        <tr>
+            <th>Sales Void</th>
+            <td th:text="*{salesVoid}"/></td>
+        </tr>
+        <!-- taxVoid -->
+        <tr>
+            <th>Tax Void</th>
+            <td th:text="*{taxVoid}"/></td>
+        </tr>
+        <!-- memo -->
+        <tr>
+            <th>Memo</th>
+            <td><p th:text="*{memo}"></p></td>
+        </tr>
+
+        <tr>
+            <td><a th:href="@{/revenue/entry}">Edit Data</a></td>
+            <form th:action="@{/revenue/confirm}" method="post">
+            <td><input type="submit" value="confirm"/></td>
+            </form>
+        </tr>
+
+
+
+        </tbody>
+    </table>
+
+</th:block>
+
+
+</body>
+</html>
