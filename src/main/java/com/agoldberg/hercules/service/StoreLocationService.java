@@ -81,4 +81,12 @@ public class StoreLocationService {
 
         return dtos;
     }
+
+    public String getStoreName(Long id){
+        StoreLocationDomain domain = storeLocationDAO.findByIdAndAndEnabledIsTrue(id);
+        if(domain == null){
+            throw new IllegalStateException("A store location that is enabled and with the ID provided could not be found.");
+        }
+        return domain.getName();
+    }
 }

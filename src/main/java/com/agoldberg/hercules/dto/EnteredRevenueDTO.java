@@ -10,6 +10,7 @@ public class EnteredRevenueDTO {
     @DateTimeFormat(pattern = "dd/mm/yyyy")
     private Date date;
     private Long locationId;
+    private String locationName;
     private long transactionCount;
     private double cashCount;
     private double checkCount;
@@ -25,6 +26,14 @@ public class EnteredRevenueDTO {
     private String memo;
 
     public EnteredRevenueDTO() {
+    }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
     }
 
     public String getMemo() {

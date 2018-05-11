@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Confirm Entry</title>
+</head>
+<body>
+
+<th:block th:object="${departmentRevenue}">
+    <table>
+        <tbody>
+
+        <!-- Date -->
+        <tr>
+            <th>Date</th>
+            <td th:text="*{date}"></td>
+        </tr>
+
+        <!-- Location -->
+        <tr>
+            <th>Department</th>
+            <td th:text="*{departmentName}"></td>
+        </tr>
+        <!-- transactionCount -->
+        <tr>
+            <th>Revenue</th>
+            <td th:text="*{revenue}"/></td>
+        </tr>
+        <tr>
+            <td><a th:href="@{/departmentrevenue/entry}">Edit Data</a></td>
+            <form th:action="@{/departmentrevenue/confirm}" method="post">
+                <td><input type="submit" value="confirm"/></td>
+            </form>
+        </tr>
+
+
+
+        </tbody>
+    </table>
+
+</th:block>
+
+
+</body>
+</html>

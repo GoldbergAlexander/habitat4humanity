@@ -6,12 +6,12 @@ import org.springframework.web.context.annotation.SessionScope;
 
 @Component
 @SessionScope
-public class EntryStaging {
+public class EnteredRevenueStaging {
     private EnteredRevenueDTO enteredRevenueDTO;
     private boolean staged;
     private boolean confirmed;
 
-    public EntryStaging() {
+    public EnteredRevenueStaging() {
         staged = false;
         confirmed = false;
     }

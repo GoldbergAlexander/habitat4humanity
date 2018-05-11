@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Department Revenue Entry</title>
+</head>
+<body>
+
+<form th:action="@{/departmentrevenue/entry}" th:object="${departmentRevenue}" method="post">
+    <table>
+        <tbody>
+
+        <!-- Date -->
+        <tr>
+            <th>Date</th>
+            <td><input type="date" th:field="*{date}"/></td>
+            <p th:each="error : ${#fields.errors('date')}"
+               th:text="${error}">Constraint error</p>
+        </tr>
+
+        <!-- Location -->
+        <tr>
+            <th>Department</th>
+            <td><select th:field="*{departmentId}">
+                <option th:each="department : ${departmentList}"
+                        th:value="${department.id}"
+                        th:text="${department.name}"
+                        th:selected="${departmentRevenue.departmentId == department.id}">
+                </option>
+            </select></td>
+            <p th:each="error : ${#fields.errors('departmentId')}"
+               th:text="${error}">Constraint error</p>
+        </tr>
+        <!-- transactionCount -->
+        <tr>
+            <th>Revenue</th>
+            <td><input type="text" th:field="*{revenue}"/></td>
+            <p th:each="error : ${#fields.errors('revenue')}"
+               th:text="${error}">Constraint error</p>
+        </tr>
+        <tr>
+            <th></th>
+            <td><input type="submit" value="submit"/></td>
+        </tr>
+
+        </tbody>
+    </table>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Saved Data</title>
+</head>
+<body>
+
+<th:block th:object="${departmentRevenue}">
+    <table>
+        <tbody>
+
+        <!-- Id -->
+        <tr>
+            <th>ID</th>
+            <td th:text="*{id}"></td>
+        </tr>
+
+        <!-- Date -->
+        <tr>
+            <th>Date</th>
+            <td th:text="*{date}"></td>
+        </tr>
+
+        <!-- Location -->
+        <tr>
+            <th>Location</th>
+            <td th:text="*{departmentName}"></td>
+        </tr>
+        <!-- transactionCount -->
+        <tr>
+            <th>Revenue</th>
+            <td th:text="*{revenue}"/></td>
+        </tr>
+        </tbody>
+    </table>
+
+</th:block>
+
+
+</body>
+</html>

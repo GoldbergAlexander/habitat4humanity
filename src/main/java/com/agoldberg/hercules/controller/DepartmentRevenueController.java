@@ -1,9 +1,9 @@
 package com.agoldberg.hercules.controller;
 
-import com.agoldberg.hercules.dto.EnteredRevenueDTO;
-import com.agoldberg.hercules.service.EnteredRevenueService;
-import com.agoldberg.hercules.service.StoreLocationService;
-import com.agoldberg.hercules.session.EnteredRevenueStaging;
+import com.agoldberg.hercules.dto.DepartmentRevenueDTO;
+import com.agoldberg.hercules.service.DepartmentRevenueService;
+import com.agoldberg.hercules.service.DepartmentService;
+import com.agoldberg.hercules.session.DepartmentRevenueStaging;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,19 +17,18 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/revenue")
-public class EnteredRevenueController {
+@RequestMapping("/departmentrevenue")
+public class DepartmentRevenueController {
+    @Autowired
+    private DepartmentRevenueService departmentRevenueService;
 
     @Autowired
-    private EnteredRevenueService enteredRevenueService;
+    private DepartmentService departmentService;
 
     @Autowired
-    private StoreLocationService storeLocationService;
+    private DepartmentRevenueStaging staging;
 
-    @Autowired
-    private EnteredRevenueStaging staging;
-
-    /*
+        /*
     Entry takes a certain set of steps and the system should only process the request if the occur in the correct order:
     1. System displays entry form
     2. User enters information into form
@@ -44,21 +43,21 @@ public class EnteredRevenueController {
     public ModelAndView displayRevenueEntryForm(Model model){
         //model.addAttribute("enteredRevenue", new EnteredRevenueDTO());
         //Add a list of locations to the model.
-        model.addAttribute("locationList", storeLocationService.getEnabledStoreLocations());
+        model.addAttribute("departmentList", departmentService.getEnabledDepartments());
 
-        return new ModelAndView("EnteredRevenueForm", "enteredRevenue", new EnteredRevenueDTO());
+        return new ModelAndView("DepartmentRevenueForm", "departmentRevenue", new DepartmentRevenueDTO());
 
     }
 
     @PostMapping("entry")
-    public ModelAndView saveEnteredRevenueToSession(Model model, @Valid @ModelAttribute("enteredRevenue") EnteredRevenueDTO dto, BindingResult bindingResult){
+    public ModelAndView saveEnteredRevenueToSession(Model model, @Valid @ModelAttribute("departmentRevenue") DepartmentRevenueDTO dto, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             //We still need the list
-            model.addAttribute("locationList", storeLocationService.getEnabledStoreLocations());
-            return new ModelAndView("EnteredRevenueForm", "enteredRevnue", dto);
+            model.addAttribute("departmentList", departmentService.getEnabledDepartments());
+            return new ModelAndView("DepartmentRevenueForm", "departmentRevenue", dto);
         }else{
-            dto.setLocationName(storeLocationService.getStoreName(dto.getLocationId()));
-            staging.setEnteredRevenueDTO(dto);
+            dto.setDepartmentName(departmentService.getDepartmentName(dto.getDepartmentId()));
+            staging.setDepartmentRevenueDTO(dto);
         }
         return new ModelAndView("redirect:confirm");
     }
@@ -66,7 +65,7 @@ public class EnteredRevenueController {
     @GetMapping("confirm")
     public ModelAndView displayEnteredRevenue(){
         if(staging.isStaged()){
-            return new ModelAndView("ConfirmEnteredRevenue", "enteredRevenue", staging.getEnteredRevenueDTO());
+            return new ModelAndView("ConfirmDepartmentRevenue", "departmentRevenue", staging.getDepartmentRevenueDTO());
         }else {
             throw new IllegalStateException("An entry has not been staged for confirmation.");
         }
@@ -74,17 +73,16 @@ public class EnteredRevenueController {
 
     @PostMapping("confirm")
     public ModelAndView confirmEnteredRevenue(){
-        EnteredRevenueDTO dto;
+        DepartmentRevenueDTO dto;
 
         if(staging.isStaged() && !staging.isConfirmed()){
             staging.setConfirmed(true);
-            dto = enteredRevenueService.createRevenueEntry(staging.getEnteredRevenueDTO());
+            dto = departmentRevenueService.createRevenueEntry(staging.getDepartmentRevenueDTO());
         }else{
             throw new IllegalStateException("An entry has either not be staged or has already been confirmed.");
         }
 
         staging.reset();
-        return new ModelAndView("SavedEnteredRevenue", "enteredRevenue", dto);
+        return new ModelAndView("SavedDepartmentRevenue", "departmentRevenue", dto);
     }
-
 }

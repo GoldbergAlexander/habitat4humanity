@@ -2,6 +2,7 @@ package com.agoldberg.hercules.service;
 
 import com.agoldberg.hercules.dao.DepartmentDAO;
 import com.agoldberg.hercules.domain.DepartmentDomain;
+import com.agoldberg.hercules.domain.DepartmentRevenueDomain;
 import com.agoldberg.hercules.domain.StoreLocationDomain;
 import com.agoldberg.hercules.dto.DepartmentDTO;
 import org.modelmapper.ModelMapper;
@@ -81,6 +82,18 @@ public class DepartmentService {
         }
 
         return dtos;
+    }
+
+    public String getDepartmentName(Long id){
+        return getDepartment(id).getName();
+    }
+
+    protected DepartmentDomain getDepartment(Long id){
+        DepartmentDomain domain = departmentDAO.findByIdAndEnabledIsTrue(id);
+        if(domain == null){
+            throw new IllegalStateException("A department that is enabled and with the ID provided could not be found.");
+        }
+        return domain;
     }
 
 }
