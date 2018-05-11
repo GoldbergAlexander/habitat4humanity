@@ -37,9 +37,6 @@ public class StoreLocationService {
         if(domain == null){
             throw new IllegalArgumentException("Could not map the store location dto to the domain object.");
         }
-        if(storeLocationDAO.findById(domain.getId()) == null){
-            throw new IllegalStateException("A store location with the ID provided could not be found.");
-        }
         storeLocationDAO.deleteById(domain.getId());
     }
 
@@ -55,7 +52,7 @@ public class StoreLocationService {
         storeLocationDAO.save(domain);
     }
 
-    public StoreLocationDomain getStoreLocation(Long id){
+    protected StoreLocationDomain getStoreLocation(Long id){
         StoreLocationDomain storeLocation = storeLocationDAO.findByIdAndAndEnabledIsTrue(id);
         if(storeLocation == null){
             throw new IllegalStateException("A store location that is enabled and with the ID provided could not be found.");

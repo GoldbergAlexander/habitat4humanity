@@ -43,9 +43,9 @@ public class StoreLocationController {
     }
 
     @PostMapping("delete")
-    public String deleteStoreLocation(StoreLocationDTO storeLocation){
+    public ModelAndView deleteStoreLocation(Model model, StoreLocationDTO storeLocation){
         storeLocationService.deleteStoreLocation(storeLocation);
-        return "redirect:/storelocation/";
+        return showStoreLocations(model);
     }
 
 }
