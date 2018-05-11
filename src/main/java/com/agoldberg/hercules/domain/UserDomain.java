@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import java.util.Collection;
 
 @Entity
-public class UserDomain implements UserDetails{
+public class UserDomain extends Auditable<String> implements UserDetails{
 
     @Id
     @GeneratedValue

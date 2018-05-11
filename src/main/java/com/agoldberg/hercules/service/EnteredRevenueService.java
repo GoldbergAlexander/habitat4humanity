@@ -4,8 +4,10 @@ import com.agoldberg.hercules.dao.EnteredRevenueDAO;
 import com.agoldberg.hercules.domain.EnteredRevenueDomain;
 import com.agoldberg.hercules.domain.StoreLocationDomain;
 import com.agoldberg.hercules.dto.EnteredRevenueDTO;
+import com.agoldberg.hercules.event.RevenueEnteredEvent;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,6 +18,9 @@ public class EnteredRevenueService {
 
     @Autowired
     private StoreLocationService storeLocationService;
+
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -34,6 +39,11 @@ public class EnteredRevenueService {
 
         //Return the saved info to get the details
         domain = enteredRevenueDAO.save(domain);
+
+        //Create event
+        RevenueEnteredEvent event = new RevenueEnteredEvent(this, domain);
+        eventPublisher.publishEvent(event);
+
         return modelMapper.map(domain, EnteredRevenueDTO.class);
     }
 }

@@ -3,8 +3,9 @@ package com.agoldberg.hercules.domain;
 import javax.persistence.*;
 
 @Entity
-public class ProcessedRevenueDomain {
+public class ProcessedRevenueDomain extends Auditable<String>{
     @Id
+    @GeneratedValue
     private Long id;
 
     @OneToOne(fetch = FetchType.EAGER)
@@ -18,12 +19,13 @@ public class ProcessedRevenueDomain {
     private double tapePreTaxIntake;
     private double tapeTaxableIntake;
     private double overUnder;
+    private double taxCount;
 
 
     public ProcessedRevenueDomain() {
     }
 
-    public ProcessedRevenueDomain(Long id, EnteredRevenueDomain enteredRevenue, double actualIntake, double actualPreTaxIntake, double actualTaxableIntake, double actualTaxIntake, double tapeIntake, double tapePreTaxIntake, double tapeTaxableIntake, double overUnder) {
+    public ProcessedRevenueDomain(Long id, EnteredRevenueDomain enteredRevenue, double actualIntake, double actualPreTaxIntake, double actualTaxableIntake, double actualTaxIntake, double tapeIntake, double tapePreTaxIntake, double tapeTaxableIntake, double overUnder, double taxCount) {
         this.id = id;
         this.enteredRevenue = enteredRevenue;
         this.actualIntake = actualIntake;
@@ -34,6 +36,7 @@ public class ProcessedRevenueDomain {
         this.tapePreTaxIntake = tapePreTaxIntake;
         this.tapeTaxableIntake = tapeTaxableIntake;
         this.overUnder = overUnder;
+        this.taxCount = taxCount;
     }
 
     public Long getId() {
@@ -106,6 +109,14 @@ public class ProcessedRevenueDomain {
 
     public void setTapeTaxableIntake(double tapeTaxableIntake) {
         this.tapeTaxableIntake = tapeTaxableIntake;
+    }
+
+    public double getTaxCount() {
+        return taxCount;
+    }
+
+    public void setTaxCount(double taxCount) {
+        this.taxCount = taxCount;
     }
 
     public double getOverUnder() {

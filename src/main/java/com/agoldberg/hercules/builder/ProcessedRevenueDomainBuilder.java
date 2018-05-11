@@ -14,6 +14,7 @@ public class ProcessedRevenueDomainBuilder {
     private double tapePreTaxIntake;
     private double tapeTaxableIntake;
     private double overUnder;
+    private double taxCount;
 
     public ProcessedRevenueDomainBuilder setId(Long id) {
         this.id = id;
@@ -65,7 +66,12 @@ public class ProcessedRevenueDomainBuilder {
         return this;
     }
 
+    public ProcessedRevenueDomainBuilder setTaxCount(double taxCount) {
+        this.taxCount = taxCount;
+        return this;
+    }
+
     public ProcessedRevenueDomain createProcessedRevenueDomain() {
-        return new ProcessedRevenueDomain(id, enteredRevenue, actualIntake, actualPreTaxIntake, actualTaxableIntake, actualTaxIntake, tapeIntake, tapePreTaxIntake, tapeTaxableIntake, overUnder);
+        return new ProcessedRevenueDomain(id, enteredRevenue, actualIntake, actualPreTaxIntake, actualTaxableIntake, actualTaxIntake, tapeIntake, tapePreTaxIntake, tapeTaxableIntake, overUnder, taxCount);
     }
 }

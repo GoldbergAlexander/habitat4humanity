@@ -5,7 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class StoreLocationDomain {
+public class StoreLocationDomain extends Auditable<String>{
     @Id
     @GeneratedValue
     private Long id;

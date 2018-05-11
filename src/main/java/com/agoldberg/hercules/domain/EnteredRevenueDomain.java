@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class EnteredRevenueDomain {
+public class EnteredRevenueDomain extends Auditable<String>{
 
     @Id
     @GeneratedValue
