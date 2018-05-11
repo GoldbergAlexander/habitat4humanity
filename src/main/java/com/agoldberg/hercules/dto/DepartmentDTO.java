@@ -4,12 +4,21 @@ import com.agoldberg.hercules.domain.StoreLocationDomain;
 
 public class DepartmentDTO {
 
+    private Long id;
     private String name;
     private Long locationId;
     private double size;
     private boolean enabled;
 
     public DepartmentDTO() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public boolean isEnabled() {

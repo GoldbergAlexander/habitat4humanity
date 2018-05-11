@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Department List</title>
+</head>
+<body>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Location</th>
+        <th>Size</th>
+        <th>Enabled</th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="department : ${departments}">
+        <form th:action="@{/department/modify}" th:object="${newDepartment}" method="post">
+            <input type="hidden" id="id" name="id" th:value="${department.id}"/>
+            <td>
+                <input id="name" name="name" th:value="${department.name}"/>
+                <p th:each="error : ${#fields.errors('name')}"
+                   th:text="${error}">Constraint error</p>
+            </td>
+            <td>
+                <select id="locationId" name="locationId">
+                    <option></option>
+                    <option th:each="location : ${locations}"
+                            th:value="${location.id}"
+                            th:text="${location.name}"
+                            th:selected="${location.id == department.locationId}">
+                    </option>
+                </select>
+                <p th:each="error : ${#fields.errors('locationId')}"
+                   th:text="${error}">Constraint error</p>
+            </td>
+            <td>
+                <input id="size" name="size" th:value="${department.size}"/>
+                <p th:each="error : ${#fields.errors('size')}"
+                   th:text="${error}">Constraint error</p>
+            </td>
+            <td><input type="checkbox" id="enabled" name="enabled" th:checked="${department.enabled}"/></td>
+            <td><input type="submit" value="modify"/></td>
+        </form>
+        <td>
+            <form th:action="@{/department/delete}" th:object="${newDepartment}" method="post">
+                <input type="hidden" id="id" name="id" th:value="${department.id}"/>
+                <input type="submit" value="delete"/>
+            </form>
+        <td>
+    </tr>
+    <tr>
+        <form th:action="@{/department/create}" th:object="${newDepartment}" method="post">
+            <td>
+                <input th:field="*{name}"/>
+                <p th:each="error : ${#fields.errors('name')}"
+                   th:text="${error}">Constraint error</p>
+            </td>
+            <td>
+                <select th:field="*{locationId}">
+                    <option th:each="location : ${locations}"
+                            th:value="${location.id}"
+                            th:text="${location.name}">
+                    </option>
+                </select>
+                <p th:each="error : ${#fields.errors('locationId')}"
+                   th:text="${error}">Constraint error</p>
+            </td>
+            <td>
+                <input th:field="*{size}"/>
+                <p th:each="error : ${#fields.errors('size')}"
+                   th:text="${error}">Constraint error</p>
+            </td>
+            <td><input type="checkbox" th:field="*{enabled}" checked></td>
+            <td><input type="submit" value="create"></td>
+        </form>
+    </tr>
+    </tbody>
+</table>
+
+
+</body>
+</html>

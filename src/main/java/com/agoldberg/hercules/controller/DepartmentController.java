@@ -6,10 +6,12 @@ import com.agoldberg.hercules.service.StoreLocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -29,21 +31,24 @@ public class DepartmentController {
     }
 
     @PostMapping("create")
-    public ModelAndView createDepartment(Model model, @Valid @ModelAttribute("newDepartment") DepartmentDTO departmentDTO){
+    public String createDepartment(Model model, @Valid @ModelAttribute("newDepartment") DepartmentDTO departmentDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes){
         departmentService.createDepartment(departmentDTO);
-        return showDepartments(model);
+        redirectAttributes.addFlashAttribute(model);
+        return "redirect:/department";
     }
 
 
     @PostMapping("modify")
-    public ModelAndView modifyDepartment(Model model, @Valid @ModelAttribute("newDepartment") DepartmentDTO departmentDTO){
+    public String modifyDepartment(Model model, @Valid @ModelAttribute("newDepartment") DepartmentDTO departmentDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes){
         departmentService.modifyDepartment(departmentDTO);
-        return showDepartments(model);
+        redirectAttributes.addFlashAttribute(model);
+        return "redirect:/department";
     }
 
     @PostMapping("delete")
-    public ModelAndView deleteDepartment(Model model, @Valid @ModelAttribute("newDepartment") DepartmentDTO departmentDTO){
+    public String deleteDepartment(Model model, @Valid @ModelAttribute("newDepartment") DepartmentDTO departmentDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes){
         departmentService.deleteDepartment(departmentDTO);
-        return showDepartments(model);
+        redirectAttributes.addFlashAttribute(model);
+        return "redirect:/department";
     }
 }

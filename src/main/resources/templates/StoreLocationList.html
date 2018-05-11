@@ -15,8 +15,8 @@
         <th>State</th>
         <th>Zip</th>
         <th>Enabled</th>
-        <th>Modify</th>
-        <th>Delete</th>
+        <th></th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
@@ -56,7 +56,6 @@
                     <input type="submit" value="delete"/>
                 </form>
             <td>
-            </form>
             </td>
         </tr>
         <form th:action="@{/storelocation/create}" th:object="${newLocation}" method="post">

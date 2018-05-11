@@ -31,6 +31,7 @@ public class DepartmentService {
 
         //Will throw an exception if its not found
         StoreLocationDomain storeDomain = storeLocationService.getStoreLocation(dto.getLocationId());
+        domain.setLocation(storeDomain);
         departmentDAO.save(domain);
     }
 
@@ -56,6 +57,7 @@ public class DepartmentService {
 
         //Will throw an exception if its not found
         StoreLocationDomain storeDomain = storeLocationService.getStoreLocation(dto.getLocationId());
+        domain.setLocation(storeDomain);
         departmentDAO.save(domain);
     }
 

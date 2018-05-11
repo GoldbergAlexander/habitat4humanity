@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -31,21 +32,24 @@ public class StoreLocationController {
     }
 
     @PostMapping("create")
-    public ModelAndView createStoreLocation(Model model, @Valid @ModelAttribute("newLocation") StoreLocationDTO storeLocation, BindingResult bindingResult){
+    public String createStoreLocation(Model model, @Valid @ModelAttribute("newLocation") StoreLocationDTO storeLocation, BindingResult bindingResult, RedirectAttributes redirectAttributes){
         storeLocationService.createStoreLocation(storeLocation);
-        return showStoreLocations(model);
+        redirectAttributes.addFlashAttribute(model);
+        return "redirect:/storelocation";
     }
 
     @PostMapping("modify")
-    public ModelAndView modifyStoreLocation(Model model, @Valid @ModelAttribute("newLocation") StoreLocationDTO storeLocation, BindingResult bindingResult){
+    public String modifyStoreLocation(Model model, @Valid @ModelAttribute("newLocation") StoreLocationDTO storeLocation, BindingResult bindingResult, RedirectAttributes redirectAttributes){
         storeLocationService.modifyStoreLocation(storeLocation);
-        return showStoreLocations(model);
+        redirectAttributes.addFlashAttribute(model);
+        return "redirect:/storelocation";
     }
 
     @PostMapping("delete")
-    public ModelAndView deleteStoreLocation(Model model, StoreLocationDTO storeLocation){
+    public String deleteStoreLocation(Model model, @Valid @ModelAttribute("newLocation,") StoreLocationDTO storeLocation, BindingResult bindingResult, RedirectAttributes redirectAttributes){
         storeLocationService.deleteStoreLocation(storeLocation);
-        return showStoreLocations(model);
+        redirectAttributes.addFlashAttribute(model);
+        return "redirect:/storelocation";
     }
 
 }
