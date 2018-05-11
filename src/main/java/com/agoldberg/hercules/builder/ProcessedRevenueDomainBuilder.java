@@ -4,7 +4,6 @@ import com.agoldberg.hercules.domain.EnteredRevenueDomain;
 import com.agoldberg.hercules.domain.ProcessedRevenueDomain;
 
 public class ProcessedRevenueDomainBuilder {
-    private Long id;
     private EnteredRevenueDomain enteredRevenue;
     private double actualIntake;
     private double actualPreTaxIntake;
@@ -16,10 +15,6 @@ public class ProcessedRevenueDomainBuilder {
     private double overUnder;
     private double taxCount;
 
-    public ProcessedRevenueDomainBuilder setId(Long id) {
-        this.id = id;
-        return this;
-    }
 
     public ProcessedRevenueDomainBuilder setEnteredRevenue(EnteredRevenueDomain enteredRevenue) {
         this.enteredRevenue = enteredRevenue;
@@ -72,6 +67,6 @@ public class ProcessedRevenueDomainBuilder {
     }
 
     public ProcessedRevenueDomain createProcessedRevenueDomain() {
-        return new ProcessedRevenueDomain(id, enteredRevenue, actualIntake, actualPreTaxIntake, actualTaxableIntake, actualTaxIntake, tapeIntake, tapePreTaxIntake, tapeTaxableIntake, overUnder, taxCount);
+        return new ProcessedRevenueDomain(enteredRevenue, enteredRevenue.getDate(), enteredRevenue.getLocation(), actualIntake, actualPreTaxIntake, actualTaxableIntake, actualTaxIntake, tapeIntake, tapePreTaxIntake, tapeTaxableIntake, overUnder, taxCount);
     }
 }

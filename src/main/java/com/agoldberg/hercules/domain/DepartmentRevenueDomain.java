@@ -1,7 +1,7 @@
 package com.agoldberg.hercules.domain;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 public class DepartmentRevenueDomain extends Auditable<String>{
@@ -12,7 +12,7 @@ public class DepartmentRevenueDomain extends Auditable<String>{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
     private DepartmentDomain department;
-    private Date date;
+    private LocalDate date;
     private double revenue;
 
     public DepartmentRevenueDomain() {
@@ -34,11 +34,11 @@ public class DepartmentRevenueDomain extends Auditable<String>{
         this.department = department;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

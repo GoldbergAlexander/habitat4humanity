@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Summary Statistics</title>
+</head>
+<body>
+
+<table th:object="${stats}">
+    <tbody>
+    <tr>
+    <th>Month to Date</th>
+    <td th:text="*{monthToDate}"></td>
+    </tr>
+
+    <tr>
+    <th>Prior Year Month To Date</th>
+    <td th:text="*{priorYearMonthToDate}"></td>
+    </tr>
+
+    <tr>
+    <th>Month over Month ($)</th>
+    <td th:text="*{monthOverMonthDollars}"></td>
+    </tr>
+
+    <tr>
+    <th>Month over Month (%)</th>
+    <td th:text="*{monthOverMonthPercent}"></td>
+    </tr>
+
+    <tr>
+    <th>Goal</th>
+    <td th:text="*{goal}"></td>
+    </tr>
+
+    <tr>
+    <th>Month to Date Goal</th>
+    <td th:text="*{monthToDateGoal}"></td>
+    </tr>
+
+    <tr>
+    <th>Month To Date Performance ($)</th>
+    <td th:text="*{monthToDatePerformanceDollars}"></td>
+    </tr>
+
+    <tr>
+    <th>Month To Date Performance (%)</th>
+    <td th:text="*{monthToDatePerformancePercent}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
