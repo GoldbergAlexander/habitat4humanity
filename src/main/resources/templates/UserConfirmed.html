@@ -4,6 +4,8 @@
     <meta charset="UTF-8"></meta>
     <title>User Confirmed</title>
 </head>
+<head th:include="fragment/bootstrap :: head"></head>
+<body th:include="fragment/bootstrap :: body"></body>
 <body>
 <div>
     <p>Thank you for confirming your account <span th:text="${user.firstName}">first name</span>

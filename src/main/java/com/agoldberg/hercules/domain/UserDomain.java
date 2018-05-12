@@ -96,7 +96,7 @@ public class UserDomain extends Auditable<String> implements UserDetails{
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return accountNonLocked;
     }
 
     @Override

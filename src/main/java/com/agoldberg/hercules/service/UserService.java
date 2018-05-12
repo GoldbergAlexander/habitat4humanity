@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,6 +28,13 @@ import java.util.List;
 public class UserService implements UserDetailsService{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
+
+    @Value("${admin.username:admin@admin.com}")
+    private String adminUsername;
+
+    @Value("${admin.password:admin}")
+    private String adminPassword;
+
 
     @Autowired
     private UserDAO userDAO;
@@ -149,6 +157,25 @@ public class UserService implements UserDetailsService{
         String encodedPassword = passwordEncoder.encode(newPassword);
         UserDomain userDomain = fetchActiveUser();
         userDomain.setPassword(encodedPassword);
+        userDAO.save(userDomain);
+    }
+
+    public void toggleLock(Long id){
+       UserDomain user = userDAO.getOne(id);
+       if(user == null){
+           throw new IllegalArgumentException("Could not get a user with the ID: " + id);
+       }
+       user.setAccountNonLocked(!user.isAccountNonLocked());
+       userDAO.save(user);
+       LOGGER.info("Toggled enable state of user ");
+    }
+
+    public void createAdmin(){
+        UserDomain userDomain = new UserDomain();
+        userDomain.setEnabled(true);
+        userDomain.setAccountNonLocked(true);
+        userDomain.setPassword(passwordEncoder.encode(adminPassword));
+        userDomain.setUsername(adminUsername);
         userDAO.save(userDomain);
     }
 }

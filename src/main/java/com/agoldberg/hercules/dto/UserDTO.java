@@ -2,6 +2,8 @@ package com.agoldberg.hercules.dto;
 
 public class UserDTO {
 
+    private Long id;
+
     private String username;
     private String password;
 
@@ -13,7 +15,17 @@ public class UserDTO {
 
     private boolean accountNonLocked;
 
+
+
     public UserDTO() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public boolean isAccountNonLocked() {

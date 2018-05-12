@@ -1,15 +1,37 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
 <head>
     <meta charset="UTF-8"></meta>
     <title>User List</title>
 </head>
+<head th:include="fragment/bootstrap :: head"></head>
+<body th:include="fragment/bootstrap :: body"></body>
 <body>
 
+
 <table class="table">
+    <thead>
+    <th>Email</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Location</th>
+    <th>Enabled</th>
+    <th>Lock/Unlock</th>
+    </thead>
     <tbody>
     <tr th:each="user : ${users}">
         <td th:text="${user.username}"></td>
+        <td th:text="${user.firstName}"></td>
+        <td th:text="${user.lastName}"></td>
+        <td th:text="${user.locationName}"></td>
+        <td th:text="${user.enabled == true ? 'Enabled' : 'Disabled'}"></td>
+        <td>
+            <form th:action="@{/user/admin/lock}" method="post">
+                <input type="hidden" id="id" name="id" th:value="${user.id}"/>
+                <input type="submit" th:value="${user.accountNonLocked == true ? 'Unlocked' : 'Locked'}">
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>

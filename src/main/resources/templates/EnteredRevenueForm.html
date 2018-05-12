@@ -4,6 +4,8 @@
     <meta charset="UTF-8"></meta>
     <title>Revenue Entry</title>
 </head>
+<head th:include="fragment/bootstrap :: head"></head>
+<body th:include="fragment/bootstrap :: body"></body>
 <body>
 
 <form th:action="@{/revenue/entry}" th:object="${enteredRevenue}" method="post">

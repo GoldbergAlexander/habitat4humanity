@@ -4,10 +4,8 @@ import com.agoldberg.hercules.dto.UserDTO;
 import com.agoldberg.hercules.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -19,11 +17,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping
-    public ModelAndView showUserList(){
-        List<UserDTO> users = userService.getUsers();
-        return new ModelAndView("UserList", "users", users);
-    }
 
     @GetMapping("forgot")
     public String showForgetForm(){
@@ -56,5 +49,7 @@ public class UserController {
         return "redirect:/user/changepassword";
 
     }
+
+
 
 }

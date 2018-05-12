@@ -24,10 +24,7 @@ public class AdminUserDataLoader implements ApplicationListener<ContextRefreshed
 
 
             if (!loaded) {
-                UserDTO admin = new UserDTO();
-                admin.setUsername("admin@admin.com");
-                admin.setPassword("admin");
-                userService.createUser(admin);
+                userService.createAdmin();
 
                 StoreLocationDTO location = new StoreLocationDTO();
                 location.setName("Test 1");
