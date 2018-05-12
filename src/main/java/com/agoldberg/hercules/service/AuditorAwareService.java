@@ -11,6 +11,12 @@ public class AuditorAwareService implements AuditorAware<String>{
 
     @Override
     public Optional<String> getCurrentAuditor() {
-        return Optional.of(SecurityContextHolder.getContext().getAuthentication().getName());
+        String username = "Not Found";
+        try {
+             username = SecurityContextHolder.getContext().getAuthentication().getName();
+        }catch (NullPointerException e){
+            System.out.println("Error getting current user");
+        }
+        return Optional.of(username);
     }
 }

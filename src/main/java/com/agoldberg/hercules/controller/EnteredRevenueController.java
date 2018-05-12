@@ -80,6 +80,7 @@ public class EnteredRevenueController {
             staging.setConfirmed(true);
             dto = enteredRevenueService.createRevenueEntry(staging.getEnteredRevenueDTO());
         }else{
+            staging.reset();
             throw new IllegalStateException("An entry has either not be staged or has already been confirmed.");
         }
 

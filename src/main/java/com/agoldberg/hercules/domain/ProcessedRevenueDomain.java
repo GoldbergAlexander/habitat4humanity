@@ -2,6 +2,7 @@ package com.agoldberg.hercules.domain;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 public class ProcessedRevenueDomain extends Auditable<String>{
@@ -10,12 +11,15 @@ public class ProcessedRevenueDomain extends Auditable<String>{
     private Long id;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "entered_id")
+    @JoinColumn(
+            name = "entered_id"
+    )
     private EnteredRevenueDomain enteredRevenue;
-    private Date date; //Already Included in enteredRevenue, but makes searching easier
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "location_id")
-    private StoreLocationDomain location; //Same as date
+
+    @ManyToOne
+    @JoinColumn(name="location_id")
+    private StoreLocationDomain locationDomain;
+    private Date date;
     private double actualIntake;
     private double actualPreTaxIntake;
     private double actualTaxableIntake;
@@ -31,9 +35,9 @@ public class ProcessedRevenueDomain extends Auditable<String>{
     }
 
     public ProcessedRevenueDomain(EnteredRevenueDomain enteredRevenue, Date date, StoreLocationDomain location, double actualIntake, double actualPreTaxIntake, double actualTaxableIntake, double actualTaxIntake, double tapeIntake, double tapePreTaxIntake, double tapeTaxableIntake, double overUnder, double taxCount) {
-        this.enteredRevenue = enteredRevenue;
+        this.locationDomain = location;
         this.date = date;
-        this.location = location;
+        this.enteredRevenue = enteredRevenue;
         this.actualIntake = actualIntake;
         this.actualPreTaxIntake = actualPreTaxIntake;
         this.actualTaxableIntake = actualTaxableIntake;
@@ -45,20 +49,20 @@ public class ProcessedRevenueDomain extends Auditable<String>{
         this.taxCount = taxCount;
     }
 
+    public StoreLocationDomain getLocationDomain() {
+        return locationDomain;
+    }
+
+    public void setLocationDomain(StoreLocationDomain locationDomain) {
+        this.locationDomain = locationDomain;
+    }
+
     public Date getDate() {
         return date;
     }
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public StoreLocationDomain getLocation() {
-        return location;
-    }
-
-    public void setLocation(StoreLocationDomain location) {
-        this.location = location;
     }
 
     public Long getId() {
@@ -147,5 +151,20 @@ public class ProcessedRevenueDomain extends Auditable<String>{
 
     public void setOverUnder(double overUnder) {
         this.overUnder = overUnder;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProcessedRevenueDomain that = (ProcessedRevenueDomain) o;
+        return Objects.equals(locationDomain, that.locationDomain) &&
+                Objects.equals(date, that.date);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(locationDomain, date);
     }
 }

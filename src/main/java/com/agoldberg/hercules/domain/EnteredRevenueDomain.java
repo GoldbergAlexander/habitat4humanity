@@ -2,6 +2,7 @@ package com.agoldberg.hercules.domain;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 public class EnteredRevenueDomain extends Auditable<String>{
@@ -14,6 +15,7 @@ public class EnteredRevenueDomain extends Auditable<String>{
     @JoinColumn(name = "location_id")
     private StoreLocationDomain location;
     private Date date;
+
     private boolean processed;
     private long transactionCount;
     private double cashCount;
@@ -33,8 +35,8 @@ public class EnteredRevenueDomain extends Auditable<String>{
     }
 
     public EnteredRevenueDomain(StoreLocationDomain location, Date date, boolean processed, long transactionCount, double cashCount, double checkCount, double cardUnit, double payoutReceipt, double cashTape, double checkTape, double cardTape, double taxTape, double vehicleSale, double salesVoid, double taxVoid, String memo) {
-        this.location = location;
         this.date = date;
+        this.location = location;
         this.processed = processed;
         this.transactionCount = transactionCount;
         this.cashCount = cashCount;
@@ -61,6 +63,10 @@ public class EnteredRevenueDomain extends Auditable<String>{
 
     public void setMemo(String memo) {
         this.memo = memo;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public StoreLocationDomain getLocation() {
@@ -181,5 +187,20 @@ public class EnteredRevenueDomain extends Auditable<String>{
 
     public void setTaxVoid(double taxVoid) {
         this.taxVoid = taxVoid;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EnteredRevenueDomain domain = (EnteredRevenueDomain) o;
+        return Objects.equals(location, domain.location) &&
+                Objects.equals(date, domain.date);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(location, date);
     }
 }

@@ -1,6 +1,7 @@
 package com.agoldberg.hercules.domain;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class DepartmentDomain extends Auditable<String>{
@@ -57,5 +58,21 @@ public class DepartmentDomain extends Auditable<String>{
 
     public void setSize(double size) {
         this.size = size;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DepartmentDomain domain = (DepartmentDomain) o;
+        return Double.compare(domain.size, size) == 0 &&
+                Objects.equals(name, domain.name) &&
+                Objects.equals(location, domain.location);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(name, location, size);
     }
 }

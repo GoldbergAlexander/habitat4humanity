@@ -79,6 +79,7 @@ public class DepartmentRevenueController {
             staging.setConfirmed(true);
             dto = departmentRevenueService.createRevenueEntry(staging.getDepartmentRevenueDTO());
         }else{
+            staging.reset();
             throw new IllegalStateException("An entry has either not be staged or has already been confirmed.");
         }
 

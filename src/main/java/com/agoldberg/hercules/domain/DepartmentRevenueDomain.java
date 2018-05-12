@@ -2,6 +2,7 @@ package com.agoldberg.hercules.domain;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 public class DepartmentRevenueDomain extends Auditable<String>{
@@ -48,5 +49,21 @@ public class DepartmentRevenueDomain extends Auditable<String>{
 
     public void setRevenue(double revenue) {
         this.revenue = revenue;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DepartmentRevenueDomain that = (DepartmentRevenueDomain) o;
+        return Double.compare(that.revenue, revenue) == 0 &&
+                Objects.equals(department, that.department) &&
+                Objects.equals(date, that.date);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(department, date, revenue);
     }
 }

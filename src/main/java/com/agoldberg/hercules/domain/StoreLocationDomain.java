@@ -3,9 +3,11 @@ package com.agoldberg.hercules.domain;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
-public class StoreLocationDomain extends Auditable<String>{
+public class StoreLocationDomain extends Auditable<String> implements Serializable{
     @Id
     @GeneratedValue
     private Long id;
@@ -89,5 +91,24 @@ public class StoreLocationDomain extends Auditable<String>{
 
     public void setZipcode(String zipcode) {
         this.zipcode = zipcode;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StoreLocationDomain that = (StoreLocationDomain) o;
+        return Objects.equals(name, that.name) &&
+                Objects.equals(lineOne, that.lineOne) &&
+                Objects.equals(lineTwo, that.lineTwo) &&
+                Objects.equals(city, that.city) &&
+                Objects.equals(state, that.state) &&
+                Objects.equals(zipcode, that.zipcode);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(name, lineOne, lineTwo, city, state, zipcode);
     }
 }

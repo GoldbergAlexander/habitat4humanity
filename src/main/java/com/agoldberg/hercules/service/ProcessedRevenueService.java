@@ -1,6 +1,7 @@
 package com.agoldberg.hercules.service;
 
 import com.agoldberg.hercules.builder.ProcessedRevenueDomainBuilder;
+import com.agoldberg.hercules.dao.EnteredRevenueDAO;
 import com.agoldberg.hercules.dao.ProcessedRevenueDAO;
 import com.agoldberg.hercules.domain.EnteredRevenueDomain;
 import com.agoldberg.hercules.domain.ProcessedRevenueDomain;
@@ -22,8 +23,6 @@ public class ProcessedRevenueService implements ApplicationListener<RevenueEnter
     @Autowired
     private ProcessedRevenueDAO processedRevenueDAO;
 
-    @Autowired
-    private UserService userService;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -31,10 +30,6 @@ public class ProcessedRevenueService implements ApplicationListener<RevenueEnter
     @Value("${taxrate:.07}")
     private double taxRate;
 
-    public List<ProcessedRevenueDTO> getProcessedRevenuesForActiveUser(){
-        UserDomain user = userService.fetchActiveUser();
-        return null;
-    }
 
     public List<ProcessedRevenueDTO> getProcessedRevenues() {
         List<ProcessedRevenueDomain> domains = processedRevenueDAO.findAll();
@@ -51,6 +46,11 @@ public class ProcessedRevenueService implements ApplicationListener<RevenueEnter
     }
 
     private void processRevenue(EnteredRevenueDomain er){
+        /**
+         * Check if the er already exists for the date and location
+         * If it does update our processing entry to relate to the new entry and not the old
+         */
+
         double actualIntake = er.getCashCount() +
                 er.getCheckCount() +
                 er.getCardUnit() +
@@ -117,6 +117,16 @@ public class ProcessedRevenueService implements ApplicationListener<RevenueEnter
                 .setEnteredRevenue(er)
                 .createProcessedRevenueDomain();
 
+
+
+        /**
+         * See if we already have a processed Revenue for this date and location,
+         * If so, update it with the new data by setting our new object's Id to the existing ID;
+         */
+        ProcessedRevenueDomain existing = processedRevenueDAO.findByLocationDomainAndDate(er.getLocation(), er.getDate());
+        if(existing != null){
+            processedRevenue.setId(existing.getId());
+        }
         processedRevenueDAO.save(processedRevenue);
     }
 
