@@ -39,9 +39,9 @@ public class TokenService {
         LOGGER.debug("Published Token Created Event");
     }
 
-    public UserDomain confirmAccountToken(String uuid){
+    public UserDomain validateToken(String uuid, TokenType type){
         LOGGER.debug("Searching for token: " + uuid);
-        TokenDomain token = tokenDAO.findByTokenAndTokenType(uuid, TokenType.CONFRIM);
+        TokenDomain token = tokenDAO.findByTokenAndTokenType(uuid, type);
         if(token != null){
             LOGGER.info("Confirmed token for user: " +token.getUser().getUsername());
             return token.getUser();

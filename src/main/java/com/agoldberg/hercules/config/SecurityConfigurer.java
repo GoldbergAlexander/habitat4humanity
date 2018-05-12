@@ -50,6 +50,9 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter{
     protected void configure(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.authorizeRequests()
                 .antMatchers("/register/**").permitAll()
+                .antMatchers("/user/forgot").permitAll()
+                .antMatchers("/user/reset").permitAll()
+                .antMatchers("/user/changepassword").hasAnyAuthority("PRIVILEGE_CHANGE_PASSWORD")
                 .anyRequest().authenticated()
                 .and().formLogin().permitAll()
                 .and().csrf().disable();

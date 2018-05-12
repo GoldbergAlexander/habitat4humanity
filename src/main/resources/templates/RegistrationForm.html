@@ -30,6 +30,17 @@
         </td>
     </tr>
     <tr>
+        <th>Location</th>
+        <td><select th:field="*{locationId}">
+            <option th:each="location : ${locations}"
+                    th:value="${location.id}"
+                    th:text="${location.name}">
+            </option>
+        </select></td>
+        <p th:each="error : ${#fields.errors('locationId')}"
+           th:text="${error}">Constraint error</p>
+    </tr>
+    <tr>
         <th>Password</th>
         <td><input type="password" th:field="*{password}"/>
             <p th:each="error : ${#fields.errors('password')}"

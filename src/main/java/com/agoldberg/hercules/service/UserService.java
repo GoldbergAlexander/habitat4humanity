@@ -9,7 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -101,7 +104,7 @@ public class UserService implements UserDetailsService{
     }
 
     public UserDTO confirmUser(String token){
-        UserDomain user = tokenService.confirmAccountToken(token);
+        UserDomain user = tokenService.validateToken(token, TokenType.CONFRIM);
         if(user == null){
             throw new IllegalArgumentException("The token provided is not valid.");
         }
@@ -110,5 +113,42 @@ public class UserService implements UserDetailsService{
         user = userDAO.save(user);
         LOGGER.info("Enabled User: " + user.getUsername());
         return modelMapper.map(user, UserDTO.class);
+    }
+
+    public void passwordResetSetup(String email){
+        LOGGER.info("Checking for user with email: " + email);
+        UserDomain user = userDAO.findByUsername(email);
+        if(user == null){
+            LOGGER.info("User not found");
+            return;
+        }
+        LOGGER.info("User Found, handing off to TokenService");
+        tokenService.createToken(user, TokenType.RESET);
+    }
+
+    public void resetPassword(String token){
+        LOGGER.info("Checking for user with token: " + token);
+        UserDomain user = tokenService.validateToken(token, TokenType.RESET);
+        if(user == null){
+            throw new IllegalArgumentException("The token provided is not valid.");
+        }
+
+        Authentication auth = new UsernamePasswordAuthenticationToken(
+                user, null, Arrays.asList(
+                //Add a chance password privilege
+                new SimpleGrantedAuthority("PRIVILEGE_CHANGE_PASSWORD")));
+
+
+        //Set the new user to the user context
+        SecurityContextHolder.getContext().setAuthentication(auth);
+        LOGGER.info("Rest User Password: " + user.getUsername());
+    }
+
+    public void changeCurrentUserPassword(String newPassword){
+        LOGGER.info("Changing password for logged in user");
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        UserDomain userDomain = fetchActiveUser();
+        userDomain.setPassword(encodedPassword);
+        userDAO.save(userDomain);
     }
 }
