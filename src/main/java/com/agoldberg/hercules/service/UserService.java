@@ -1,10 +1,15 @@
 package com.agoldberg.hercules.service;
 
 import com.agoldberg.hercules.dao.UserDAO;
+import com.agoldberg.hercules.domain.TokenType;
 import com.agoldberg.hercules.domain.UserDomain;
 import com.agoldberg.hercules.dto.UserDTO;
+import com.agoldberg.hercules.event.UserTokenEvent;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +25,8 @@ import java.util.List;
 @Service
 public class UserService implements UserDetailsService{
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
+
     @Autowired
     private UserDAO userDAO;
 
@@ -28,6 +35,9 @@ public class UserService implements UserDetailsService{
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private TokenService tokenService;
 
     public UserService() {
         super();
@@ -68,7 +78,7 @@ public class UserService implements UserDetailsService{
         return userDTOS;
     }
 
-    public void registerUser(UserDTO userDTO){
+    public void createUser(UserDTO userDTO){
         UserDomain userDomain = modelMapper.map(userDTO, UserDomain.class);
 
         if(userDomain == null){
@@ -84,5 +94,12 @@ public class UserService implements UserDetailsService{
         userDomain.setPassword(passwordEncoder.encode(userDomain.getPassword()));
 
         userDAO.save(userDomain);
+
+        LOGGER.info("Saved User: " + userDomain.getUsername());
+
+        LOGGER.debug("Handing off to token service");
+        tokenService.createToken(userDomain, TokenType.CONFRIM);
+
+
     }
 }

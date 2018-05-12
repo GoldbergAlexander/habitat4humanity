@@ -1,6 +1,5 @@
 package com.agoldberg.hercules.config;
 
-import com.agoldberg.hercules.domain.StoreLocationDomain;
 import com.agoldberg.hercules.dto.StoreLocationDTO;
 import com.agoldberg.hercules.dto.UserDTO;
 import com.agoldberg.hercules.service.StoreLocationService;
@@ -28,7 +27,7 @@ public class AdminUserDataLoader implements ApplicationListener<ContextRefreshed
                 UserDTO admin = new UserDTO();
                 admin.setUsername("admin@admin.com");
                 admin.setPassword("admin");
-                userService.registerUser(admin);
+                userService.createUser(admin);
 
                 StoreLocationDTO location = new StoreLocationDTO();
                 location.setName("Test 1");
