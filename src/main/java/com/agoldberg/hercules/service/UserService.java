@@ -4,12 +4,10 @@ import com.agoldberg.hercules.dao.UserDAO;
 import com.agoldberg.hercules.domain.TokenType;
 import com.agoldberg.hercules.domain.UserDomain;
 import com.agoldberg.hercules.dto.UserDTO;
-import com.agoldberg.hercules.event.UserTokenEvent;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -92,7 +90,7 @@ public class UserService implements UserDetailsService{
 
         //Secure the users password
         userDomain.setPassword(passwordEncoder.encode(userDomain.getPassword()));
-
+        userDomain.setEnabled(false);
         userDAO.save(userDomain);
 
         LOGGER.info("Saved User: " + userDomain.getUsername());
@@ -100,6 +98,17 @@ public class UserService implements UserDetailsService{
         LOGGER.debug("Handing off to token service");
         tokenService.createToken(userDomain, TokenType.CONFRIM);
 
+    }
 
+    public UserDTO confirmUser(String token){
+        UserDomain user = tokenService.confirmAccountToken(token);
+        if(user == null){
+            throw new IllegalArgumentException("The token provided is not valid.");
+        }
+
+        user.setEnabled(true);
+        user = userDAO.save(user);
+        LOGGER.info("Enabled User: " + user.getUsername());
+        return modelMapper.map(user, UserDTO.class);
     }
 }

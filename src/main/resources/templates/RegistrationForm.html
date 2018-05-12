@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Register</title>
+</head>
+<body>
+<table>
+    <form th:action="@{/register}" th:object="${register}" method="post">
+    <tbody>
+    <tr>
+        <th>Email</th>
+        <td><input th:field="*{username}"/>
+            <p th:each="error : ${#fields.errors('username')}"
+               th:text="${error}">Constraint error</p>
+        </td>
+    </tr>
+    <tr>
+        <th>First Name</th>
+        <td><input th:field="*{firstName}"/>
+            <p th:each="error : ${#fields.errors('firstName')}"
+               th:text="${error}">Constraint error</p>
+        </td>
+    </tr>
+    <tr>
+        <th>Last Name</th>
+        <td><input th:field="*{lastName}"/>
+            <p th:each="error : ${#fields.errors('lastName')}"
+               th:text="${error}">Constraint error</p>
+        </td>
+    </tr>
+    <tr>
+        <th>Password</th>
+        <td><input type="password" th:field="*{password}"/>
+            <p th:each="error : ${#fields.errors('password')}"
+               th:text="${error}">Constraint error</p>
+        </td>
+    </tr>
+    <tr>
+        <th>Confirm Password</th>
+        <td><input type="password" th:field="*{confirmPassword}"/>
+            <p th:each="error : ${#fields.errors('confirmPassword')}"
+               th:text="${error}">Constraint error</p>
+        </td>
+    </tr>
+    <tr>
+        <th></th>
+        <td><input type="submit" value="register"/>
+        </td>
+    </tr>
+    </tbody>
+    </form>
+</table>
+</body>
+</html>

@@ -5,12 +5,10 @@ import com.agoldberg.hercules.domain.TokenDomain;
 import com.agoldberg.hercules.domain.TokenType;
 import com.agoldberg.hercules.domain.UserDomain;
 import com.agoldberg.hercules.event.TokenCreatedEvent;
-import com.agoldberg.hercules.event.UserTokenEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -39,5 +37,16 @@ public class TokenService {
         TokenCreatedEvent event = new TokenCreatedEvent(this, token);
         eventPublisher.publishEvent(event);
         LOGGER.debug("Published Token Created Event");
+    }
+
+    public UserDomain confirmAccountToken(String uuid){
+        LOGGER.debug("Searching for token: " + uuid);
+        TokenDomain token = tokenDAO.findByTokenAndTokenType(uuid, TokenType.CONFRIM);
+        if(token != null){
+            LOGGER.info("Confirmed token for user: " +token.getUser().getUsername());
+            return token.getUser();
+        }else {
+            return null;
+        }
     }
 }

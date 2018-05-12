@@ -3,9 +3,7 @@ package com.agoldberg.hercules.domain;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
@@ -18,6 +16,47 @@ public class UserDomain extends Auditable<String> implements UserDetails{
     private String username;
     private String password;
 
+    private String firstName, lastName;
+
+    @ManyToOne
+    @JoinColumn(name = "location_id")
+    private StoreLocationDomain location;
+
+    private boolean enabled;
+
+    private boolean accountNonLocked;
+
+    public void setAccountNonLocked(boolean accountNonLocked) {
+        this.accountNonLocked = accountNonLocked;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public StoreLocationDomain getLocation() {
+        return location;
+    }
+
+    public void setLocation(StoreLocationDomain location) {
+        this.location = location;
+    }
 
     public void setUsername(String email) {
         this.username = email;
@@ -67,6 +106,6 @@ public class UserDomain extends Auditable<String> implements UserDetails{
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 }

@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
+@Async
 public class MailService implements ApplicationListener<TokenCreatedEvent> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MailService.class);
@@ -21,10 +23,10 @@ public class MailService implements ApplicationListener<TokenCreatedEvent> {
     @Value("${base.url:http://localhost:8080}")
     private String applicationURL;
 
-    @Value("${confirm.url:/confirm?token=}")
+    @Value("${confirm.url:/register/confirm?token=}")
     private String confirmURL;
 
-    @Value("${reset.url:/reset?token=}")
+    @Value("${reset.url:/user/reset?token=}")
     private String resetURL;
 
     @Value("${confirm.message:Account Created}")
