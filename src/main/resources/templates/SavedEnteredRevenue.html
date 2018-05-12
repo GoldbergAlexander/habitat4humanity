@@ -8,8 +8,9 @@
 <body th:include="fragment/bootstrap :: body"></body>
 <body>
 
+<div class="container">
 <th:block th:object="${enteredRevenue}">
-    <table>
+    <table class="table table-striped">
         <tbody>
 
         <!-- Id -->
@@ -99,7 +100,7 @@
     </table>
 
 </th:block>
-
+</div>
 
 </body>
 </html>

@@ -8,8 +8,9 @@
 <body th:include="fragment/bootstrap :: body"></body>
 <body>
 
+<div class="container">
 <form th:action="@{/revenue/entry}" th:object="${enteredRevenue}" method="post">
-    <table>
+    <table class="table">
         <tbody>
 
         <!-- Date -->
@@ -133,6 +134,6 @@
         </tbody>
     </table>
 </form>
-
+</div>
 </body>
 </html>

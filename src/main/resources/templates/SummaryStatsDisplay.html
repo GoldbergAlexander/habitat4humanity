@@ -8,7 +8,8 @@
 <body th:include="fragment/bootstrap :: body"></body>
 <body>
 
-<table th:object="${stats}">
+<div class="container">
+<table class="table table-striped" th:object="${stats}">
     <tbody>
     <tr>
     <th>Month to Date</th>
@@ -51,6 +52,7 @@
     </tr>
     </tbody>
 </table>
+</div>
 
 </body>
 </html>

@@ -7,88 +7,91 @@
 <head th:include="fragment/bootstrap :: head"></head>
 <body th:include="fragment/bootstrap :: body"></body>
 <body>
-<table>
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Street Line One</th>
-        <th>Street Line Two</th>
-        <th>City</th>
-        <th>State</th>
-        <th>Zip</th>
-        <th>Enabled</th>
-        <th></th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-        <tr th:each="location : ${locations}">
-            <form th:action="@{/storelocation/modify}" th:object="${newLocation}" method="post">
-                <input type="hidden" id="id" name="id" th:value="${location.id}"/>
-                <td><input id="name" name="name" th:value="${location.name}"/></td>
+
+<div class="container">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Street Line One</th>
+            <th>Street Line Two</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Zip</th>
+            <th>Enabled</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="location : ${locations}">
+                <form th:action="@{/storelocation/modify}" th:object="${newLocation}" method="post">
+                    <input type="hidden" id="id" name="id" th:value="${location.id}"/>
+                    <td><input id="name" name="name" th:value="${location.name}"/></td>
+                    <p th:each="error : ${#fields.errors('name')}"
+                       th:text="${error}">Constraint error</p>
+
+                    <td><input id="lineOne" name="lineOne" th:value="${location.lineOne}"/></td>
+                    <p th:each="error : ${#fields.errors('lineOne')}"
+                       th:text="${error}">Constraint error</p>
+
+                    <td><input id="lineTwo" name="lineTwo" th:value="${location.lineTwo}"/></td>
+                    <p th:each="error : ${#fields.errors('lineTwo')}"
+                       th:text="${error}">Constraint error</p>
+
+                    <td><input id="city" name="city" th:value="${location.city}"/></td>
+                    <p th:each="error : ${#fields.errors('city')}"
+                       th:text="${error}">Constraint error</p>
+
+                    <td><input id="state" name="state" th:value="${location.state}"/></td>
+                    <p th:each="error : ${#fields.errors('state')}"
+                       th:text="${error}">Constraint error</p>
+
+                    <td><input id="zipcode" name="zipcode" th:value="${location.zipcode}"/></td>
+                    <p th:each="error : ${#fields.errors('zipcode')}"
+                       th:text="${error}">Constraint error</p>
+
+                    <td><input type="checkbox" id="enabled" name="enabled" th:checked="${location.enabled}"/></td>
+                    <td><input type="submit" value="modify"/></td>
+                </form>
+                <td>
+                    <form th:action="@{/storelocation/delete}" th:object="${newLocation}" method="post">
+                        <input type="hidden" id="id" name="id" th:value="${location.id}"/>
+                        <input type="submit" value="delete"/>
+                    </form>
+                <td>
+                </td>
+            </tr>
+            <form th:action="@{/storelocation/create}" th:object="${newLocation}" method="post">
+                <td><input th:field="*{name}"/></td>
                 <p th:each="error : ${#fields.errors('name')}"
                    th:text="${error}">Constraint error</p>
 
-                <td><input id="lineOne" name="lineOne" th:value="${location.lineOne}"/></td>
+                <td><input th:field="*{lineOne}"/></td>
                 <p th:each="error : ${#fields.errors('lineOne')}"
                    th:text="${error}">Constraint error</p>
 
-                <td><input id="lineTwo" name="lineTwo" th:value="${location.lineTwo}"/></td>
+                <td><input th:field="*{lineTwo}"/></td>
                 <p th:each="error : ${#fields.errors('lineTwo')}"
                    th:text="${error}">Constraint error</p>
 
-                <td><input id="city" name="city" th:value="${location.city}"/></td>
+                <td><input th:field="*{city}"/></td>
                 <p th:each="error : ${#fields.errors('city')}"
                    th:text="${error}">Constraint error</p>
 
-                <td><input id="state" name="state" th:value="${location.state}"/></td>
+                <td><input th:field="*{state}"/></td>
                 <p th:each="error : ${#fields.errors('state')}"
                    th:text="${error}">Constraint error</p>
 
-                <td><input id="zipcode" name="zipcode" th:value="${location.zipcode}"/></td>
+                <td><input th:field="*{zipcode}"/></td>
                 <p th:each="error : ${#fields.errors('zipcode')}"
                    th:text="${error}">Constraint error</p>
 
-                <td><input type="checkbox" id="enabled" name="enabled" th:checked="${location.enabled}"/></td>
-                <td><input type="submit" value="modify"/></td>
+                <td><input type="checkbox" th:field="*{enabled}" checked/></td>
+                <td><input type="submit" value="create"/></td>
             </form>
-            <td>
-                <form th:action="@{/storelocation/delete}" th:object="${newLocation}" method="post">
-                    <input type="hidden" id="id" name="id" th:value="${location.id}"/>
-                    <input type="submit" value="delete"/>
-                </form>
-            <td>
-            </td>
-        </tr>
-        <form th:action="@{/storelocation/create}" th:object="${newLocation}" method="post">
-            <td><input th:field="*{name}"/></td>
-            <p th:each="error : ${#fields.errors('name')}"
-               th:text="${error}">Constraint error</p>
-
-            <td><input th:field="*{lineOne}"/></td>
-            <p th:each="error : ${#fields.errors('lineOne')}"
-               th:text="${error}">Constraint error</p>
-
-            <td><input th:field="*{lineTwo}"/></td>
-            <p th:each="error : ${#fields.errors('lineTwo')}"
-               th:text="${error}">Constraint error</p>
-
-            <td><input th:field="*{city}"/></td>
-            <p th:each="error : ${#fields.errors('city')}"
-               th:text="${error}">Constraint error</p>
-
-            <td><input th:field="*{state}"/></td>
-            <p th:each="error : ${#fields.errors('state')}"
-               th:text="${error}">Constraint error</p>
-
-            <td><input th:field="*{zipcode}"/></td>
-            <p th:each="error : ${#fields.errors('zipcode')}"
-               th:text="${error}">Constraint error</p>
-
-            <td><input type="checkbox" th:field="*{enabled}" checked/></td>
-            <td><input type="submit" value="create"/></td>
-        </form>
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
