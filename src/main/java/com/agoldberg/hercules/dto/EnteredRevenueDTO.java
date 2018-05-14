@@ -2,6 +2,9 @@ package com.agoldberg.hercules.dto;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,21 +13,36 @@ public class EnteredRevenueDTO {
 
     private Long id;
     /** This is a bit of an issues -- @DateTimeFormat didn't work with time zones, etc **/
+    @NotEmpty
     private String stringDate;
+    @NotNull
     private Date date;
+    @NotNull
     private Long locationId;
     private String locationName;
+    @Min(0)
     private long transactionCount;
+    @Min(0)
     private double cashCount;
+    @Min(0)
     private double checkCount;
+    @Min(0)
     private double cardUnit;
+    @Min(0)
     private double payoutReceipt;
+    @Min(0)
     private double cashTape;
+    @Min(0)
     private double checkTape;
+    @Min(0)
     private double cardTape;
+    @Min(0)
     private double taxTape;
+    @Min(0)
     private double vehicleSale;
+    @Min(0)
     private double salesVoid;
+    @Min(0)
     private double taxVoid;
     private String memo;
 

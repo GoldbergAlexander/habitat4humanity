@@ -1,7 +1,10 @@
 package com.agoldberg.hercules.dto;
 
+import com.sun.istack.internal.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,11 +12,15 @@ import java.util.Date;
 public class DepartmentRevenueDTO {
 
     private Long id;
+    @NotNull
     private Long departmentId;
     private String departmentName;
     /** This is a bit of an issues -- @DateTimeFormat didn't work with time zones, etc **/
+    @NotEmpty
     private String stringDate;
+    @NotNull
     private Date date;
+    @Min(0)
     private double revenue;
 
     public DepartmentRevenueDTO() {

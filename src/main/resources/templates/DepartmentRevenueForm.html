@@ -22,9 +22,10 @@
         <!-- Date -->
         <tr>
             <th>Date</th>
-            <td><input class="form-control" type="date" th:field="*{stringDate}"/></td>
+            <td><input class="form-control" type="date" th:field="*{stringDate}"/>
             <p th:each="error : ${#fields.errors('date')}"
                th:text="${error}">Constraint error</p>
+            </td>
         </tr>
 
         <!-- Location -->
@@ -36,16 +37,18 @@
                         th:text="${department.name}"
                         th:selected="${departmentRevenue.departmentId == department.id}">
                 </option>
-            </select></td>
+            </select>
             <p th:each="error : ${#fields.errors('departmentId')}"
                th:text="${error}">Constraint error</p>
+            </td>
         </tr>
         <!-- transactionCount -->
         <tr>
             <th>Revenue</th>
-            <td><input  class="form-control" type="text" th:field="*{revenue}"/></td>
+            <td><input  class="form-control" type="text" th:field="*{revenue}"/>
             <p th:each="error : ${#fields.errors('revenue')}"
                th:text="${error}">Constraint error</p>
+            </td>
         </tr>
         <tr>
             <th></th>
