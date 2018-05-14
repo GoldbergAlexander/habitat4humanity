@@ -7,9 +7,10 @@
 <head th:include="fragment/bootstrap :: head"></head>
 <body th:include="fragment/bootstrap :: body"></body>
 <body>
+<div th:replace="fragment/navigation :: nav"></div>
 
 <div class="container">
-    <h1>Summary Statistics</h1>
+    <h2>Summary Statistics</h2>
 <table class="table table-striped" th:object="${stats}">
     <tbody>
     <tr>

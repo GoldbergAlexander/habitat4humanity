@@ -7,8 +7,9 @@
 <head th:include="fragment/bootstrap :: head"></head>
 <body th:include="fragment/bootstrap :: body"></body>
 <body>
+<div th:replace="fragment/navigation :: nav"></div>
 <div class="container">
-    <h1>Account Registered</h1>
+    <h2>Account Registered</h2>
     <p>Thank you for your registration.
         A confirmation has been sent to
         <span th:text="${register.username}">Email</span>.</p>

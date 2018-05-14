@@ -7,9 +7,10 @@
 <head th:include="fragment/bootstrap :: head"></head>
 <body th:include="fragment/bootstrap :: body"></body>
 <body>
+<div th:replace="fragment/navigation :: nav"></div>
 
 <div class="container">
-    <h1>Confirm Revenue Entry</h1>
+    <h2>Confirm Revenue Entry</h2>
 <th:block th:object="${enteredRevenue}">
     <table class="table table-striped">
         <tbody>

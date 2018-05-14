@@ -33,9 +33,9 @@ public class RegistrationController {
     public ModelAndView handleRegistration(Model model, @Valid @ModelAttribute("register") RegistrationDTO registration, BindingResult bindingResult){
         if(!bindingResult.hasErrors()){
             userService.createUser(registration);
-            model.addAttribute("locations", storeLocationService.getEnabledStoreLocations());
             return new ModelAndView("RegistrationSuccess", "register", registration);
         }else{
+            model.addAttribute("locations", storeLocationService.getEnabledStoreLocations());
             return new ModelAndView("RegistrationForm", "register", registration);
         }
     }

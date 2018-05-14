@@ -1,0 +1,14 @@
+package com.agoldberg.hercules.constraint;
+
+import com.agoldberg.hercules.dto.RegistrationDTO;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+
+public class PasswordMatchingValidator implements ConstraintValidator<PasswordMatching, RegistrationDTO> {
+   public void initialize(PasswordMatching constraint) {
+   }
+
+   public boolean isValid(RegistrationDTO obj, ConstraintValidatorContext context) {
+      return obj.getPassword().equals(obj.getConfirmPassword());
+   }
+}

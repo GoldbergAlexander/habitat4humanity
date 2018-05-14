@@ -1,12 +1,21 @@
 package com.agoldberg.hercules.dto;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+
 public class UserDTO {
 
     private Long id;
 
+    @Email
+    @NotEmpty
     private String username;
+
+
+    @NotEmpty
     private String password;
 
+    @NotEmpty
     private String firstName, lastName;
     private Long locationId;
     private String locationName;

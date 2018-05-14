@@ -7,11 +7,12 @@
 <head th:include="fragment/bootstrap :: head"></head>
 <body th:include="fragment/bootstrap :: body"></body>
 <body>
+<div th:replace="fragment/navigation :: nav"></div>
 
 <div class="container">
     <div class="row">
         <div class="col-3">
-    <h1>Revenue Entry</h1>
+    <h2>Revenue Entry</h2>
 <form th:action="@{/revenue/entry}" th:object="${enteredRevenue}" method="post">
     <table class="table table-striped">
         <colgroup>

@@ -7,8 +7,9 @@
 <head th:include="fragment/bootstrap :: head"></head>
 <body th:include="fragment/bootstrap :: body"></body>
 <body>
+<div th:replace="fragment/navigation :: nav"></div>
 <div class="container">
-    <h1>Account Confirmed</h1>
+    <h2>Account Confirmed</h2>
     <p>Thank you for confirming your account <span th:text="${user.firstName}">first name</span>
         You will be unable to log in until your account is confirmed by the administrator.
     </p>

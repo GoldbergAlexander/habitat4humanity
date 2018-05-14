@@ -7,29 +7,31 @@
 <head th:include="fragment/bootstrap :: head"></head>
 <body th:include="fragment/bootstrap :: body"></body>
 <body>
+<div th:replace="fragment/navigation :: nav"></div>
 <div class="container">
-    <h1>Register</h1>
+    <h2>Register</h2>
+
 <table class="table table-striped">
-    <form th:action="@{/register}" th:object="${register}" method="post">
+    <form th:action="@{/register}" th:object="${register}" method="post" class="was-validated">
     <tbody>
-    <tr>
+    <tr class="form-group">
         <th>Email</th>
-        <td><input class="form-control" th:field="*{username}"/>
-            <p th:each="error : ${#fields.errors('username')}"
-               th:text="${error}">Constraint error</p>
+        <td><input type="email" class="form-control is-invalid" th:field="*{username}"/>
+            <div class="invalid-feedback" th:each="error : ${#fields.errors('username')}"
+               th:text="${error}">Constraint error</div>
         </td>
     </tr>
     <tr>
         <th>First Name</th>
         <td><input class="form-control" th:field="*{firstName}"/>
-            <p th:each="error : ${#fields.errors('firstName')}"
+            <p class="invalid-feedback" th:each="error : ${#fields.errors('firstName')}"
                th:text="${error}">Constraint error</p>
         </td>
     </tr>
     <tr>
         <th>Last Name</th>
         <td><input class="form-control" th:field="*{lastName}"/>
-            <p th:each="error : ${#fields.errors('lastName')}"
+            <p class="invalid-feedback" th:each="error : ${#fields.errors('lastName')}"
                th:text="${error}">Constraint error</p>
         </td>
     </tr>
@@ -41,13 +43,13 @@
                     th:text="${location.name}">
             </option>
         </select></td>
-        <p th:each="error : ${#fields.errors('locationId')}"
+        <p class="invalid-feedback" th:each="error : ${#fields.errors('locationId')}"
            th:text="${error}">Constraint error</p>
     </tr>
     <tr>
         <th>Password</th>
         <td><input class="form-control" type="password" th:field="*{password}"/>
-            <p th:each="error : ${#fields.errors('password')}"
+            <p class="invalid-feedback" th:each="error : ${#fields.errors('password')}"
                th:text="${error}">Constraint error</p>
         </td>
     </tr>
@@ -56,6 +58,9 @@
         <td><input class="form-control" type="password" th:field="*{confirmPassword}"/>
             <p th:each="error : ${#fields.errors('confirmPassword')}"
                th:text="${error}">Constraint error</p>
+            <div class="invalid-feedback" th:if="${#fields.hasGlobalErrors()}">
+                <p th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+            </div>
         </td>
     </tr>
     <tr>
