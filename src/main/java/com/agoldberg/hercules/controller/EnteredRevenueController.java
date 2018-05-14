@@ -46,7 +46,12 @@ public class EnteredRevenueController {
         //Add a list of locations to the model.
         model.addAttribute("locationList", storeLocationService.getEnabledStoreLocations());
 
-        return new ModelAndView("EnteredRevenueForm", "enteredRevenue", new EnteredRevenueDTO());
+        /** Display Existing data if its there **/
+        EnteredRevenueDTO dto;
+        if((dto = staging.getEnteredRevenueDTO()) == null){
+            dto = new EnteredRevenueDTO();
+        }
+        return new ModelAndView("EnteredRevenueForm", "enteredRevenue", dto);
 
     }
 
@@ -55,7 +60,7 @@ public class EnteredRevenueController {
         if(bindingResult.hasErrors()){
             //We still need the list
             model.addAttribute("locationList", storeLocationService.getEnabledStoreLocations());
-            return new ModelAndView("EnteredRevenueForm", "enteredRevnue", dto);
+            return new ModelAndView("EnteredRevenueForm", "enteredRevenue", dto);
         }else{
             dto.setLocationName(storeLocationService.getStoreName(dto.getLocationId()));
             staging.setEnteredRevenueDTO(dto);

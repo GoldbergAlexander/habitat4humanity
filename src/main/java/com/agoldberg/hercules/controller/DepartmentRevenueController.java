@@ -1,6 +1,7 @@
 package com.agoldberg.hercules.controller;
 
 import com.agoldberg.hercules.dto.DepartmentRevenueDTO;
+import com.agoldberg.hercules.dto.EnteredRevenueDTO;
 import com.agoldberg.hercules.service.DepartmentRevenueService;
 import com.agoldberg.hercules.service.DepartmentService;
 import com.agoldberg.hercules.session.DepartmentRevenueStaging;
@@ -44,6 +45,12 @@ public class DepartmentRevenueController {
         //model.addAttribute("enteredRevenue", new EnteredRevenueDTO());
         //Add a list of locations to the model.
         model.addAttribute("departmentList", departmentService.getEnabledDepartments());
+
+        /** Display Existing data if its there **/
+        DepartmentRevenueDTO dto;
+        if((dto = staging.getDepartmentRevenueDTO()) == null){
+            dto = new DepartmentRevenueDTO();
+        }
 
         return new ModelAndView("DepartmentRevenueForm", "departmentRevenue", new DepartmentRevenueDTO());
 

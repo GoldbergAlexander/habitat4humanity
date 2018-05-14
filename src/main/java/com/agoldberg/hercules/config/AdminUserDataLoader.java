@@ -1,5 +1,7 @@
 package com.agoldberg.hercules.config;
 
+import com.agoldberg.hercules.dao.RoleDAO;
+import com.agoldberg.hercules.domain.RoleDomain;
 import com.agoldberg.hercules.dto.StoreLocationDTO;
 import com.agoldberg.hercules.dto.UserDTO;
 import com.agoldberg.hercules.service.StoreLocationService;
@@ -17,6 +19,9 @@ public class AdminUserDataLoader implements ApplicationListener<ContextRefreshed
     private UserService userService;
 
     @Autowired
+    private RoleDAO roleDAO;
+
+    @Autowired
     private StoreLocationService storeLocationService;
 
     @Override
@@ -24,6 +29,16 @@ public class AdminUserDataLoader implements ApplicationListener<ContextRefreshed
 
 
             if (!loaded) {
+                /** Create Roles **/
+                RoleDomain adminRole = new RoleDomain("ROLE_ADMIN");
+                roleDAO.save(adminRole);
+
+                RoleDomain managerRole = new RoleDomain("ROLE_MANAGER");
+                roleDAO.save(managerRole);
+
+                RoleDomain executiveRole = new RoleDomain("ROLE_EXECUTIVE");
+                roleDAO.save(executiveRole);
+
                 userService.createAdmin();
 
                 StoreLocationDTO location = new StoreLocationDTO();

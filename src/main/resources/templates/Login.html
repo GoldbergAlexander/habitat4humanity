@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Login</title>
+</head>
+<head th:include="fragment/bootstrap :: head"></head>
+<body th:include="fragment/bootstrap :: body"></body>
+<body>
+
+<div class="container">
+    <h1>Login</h1>
+    <form name="f" action="/login" method="POST">
+        <table class="table table-borderless">
+            <tbody>
+            <tr class="borderless"><th>User:</th><td><input class="form-control" type="text" name="username" value=""></td></tr>
+            <tr class="borderless"><th>Password:</th><td><input class="form-control" type="password" name="password"></td></tr>
+            <tr class="borderless"></td><td><button class="btn btn-primary" name="submit" type="submit" value="Login">Login</button></td><td></td></td></tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+</body>
+</html>

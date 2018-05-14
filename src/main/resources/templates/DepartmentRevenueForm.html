@@ -9,14 +9,19 @@
 <body>
 
 <div class="container">
+    <h1>Department Revenue Entry</h1>
 <form th:action="@{/departmentrevenue/entry}" th:object="${departmentRevenue}" method="post">
-    <table class="table">
+    <table class="table table-striped">
+        <colgroup>
+            <col style="width: 70%">
+            <col style="width: 30%">
+        </colgroup>
         <tbody>
 
         <!-- Date -->
         <tr>
             <th>Date</th>
-            <td><input type="date" th:field="*{date}"/></td>
+            <td><input class="form-control" type="date" th:field="*{stringDate}"/></td>
             <p th:each="error : ${#fields.errors('date')}"
                th:text="${error}">Constraint error</p>
         </tr>
@@ -24,7 +29,7 @@
         <!-- Location -->
         <tr>
             <th>Department</th>
-            <td><select th:field="*{departmentId}">
+            <td><select class="form-control" th:field="*{departmentId}">
                 <option th:each="department : ${departmentList}"
                         th:value="${department.id}"
                         th:text="${department.name}"
@@ -37,13 +42,13 @@
         <!-- transactionCount -->
         <tr>
             <th>Revenue</th>
-            <td><input type="text" th:field="*{revenue}"/></td>
+            <td><input  class="form-control" type="text" th:field="*{revenue}"/></td>
             <p th:each="error : ${#fields.errors('revenue')}"
                th:text="${error}">Constraint error</p>
         </tr>
         <tr>
             <th></th>
-            <td><input type="submit" value="submit"/></td>
+            <td><button class="btn btn-primary" type="submit" value="submit">Submit</button></td>
         </tr>
 
         </tbody>

@@ -10,26 +10,64 @@
 <body>
 
 <div class="container">
-<table class="table">
+    <h1>Users</h1>
+<table class="table table-striped">
     <thead>
     <th>Email</th>
     <th>First Name</th>
     <th>Last Name</th>
     <th>Location</th>
+    <th>Role</th>
     <th>Enabled</th>
-    <th>Lock/Unlock</th>
+    <th></th>
+    <th></th>
     </thead>
     <tbody>
     <tr th:each="user : ${users}">
-        <td th:text="${user.username}"></td>
-        <td th:text="${user.firstName}"></td>
-        <td th:text="${user.lastName}"></td>
-        <td th:text="${user.locationName}"></td>
-        <td th:text="${user.enabled == true ? 'Enabled' : 'Disabled'}"></td>
+        <form th:action="@{/user/admin/modify}" th:object="${changeUser}" method="post">
+            <input class="form-control" type="hidden" id="id" name="id" th:value="${user.id}"/>
+            <td>
+                <input class="form-control" id="username" name="username" th:value="${user.username}"/>
+                <p th:each="error : ${#fields.errors('username')}"
+                   th:text="${error}">Constraint error</p>
+            </td>
+            <td>
+                <input class="form-control" id="firstName" name="firstName" th:value="${user.firstName}"/>
+                <p th:each="error : ${#fields.errors('firstName')}"
+                   th:text="${error}">Constraint error</p>
+            </td>
+            <td>
+                <input class="form-control" id="lastName" name="lastName" th:value="${user.lastName}"/>
+                <p th:each="error : ${#fields.errors('lastName')}"
+                   th:text="${error}">Constraint error</p>
+            </td>
+            <td>
+                <select class="form-control custom-select" id="locationId" name="locationId">
+                <option th:each="location : ${locations}"
+                        th:value="${location.id}"
+                        th:text="${location.name}"
+                        th:selected="${location.id == user.locationId}">
+                </option>
+                </select>
+            </td>
+            <td>
+                <select class="form-control custom-select" id="rolesId" name="rolesId">
+                    <option th:each="role : ${roles}"
+                            th:value="${role.id}"
+                            th:text="${role.name}"
+                            th:selected="${role.id == user.rolesId}">
+                    </option>
+                </select>
+            </td>
+            <td><input class="form-control" type="checkbox" th:checked="${user.enabled}" disabled/></td>
+            <td>
+                <button class="btn btn-warning" type="submit">Modify</button>
+            </td>
+        </form>
         <td>
             <form th:action="@{/user/admin/lock}" method="post">
                 <input type="hidden" id="id" name="id" th:value="${user.id}"/>
-                <input type="submit" th:value="${user.accountNonLocked == true ? 'Unlocked' : 'Locked'}">
+                <button style="width:90px" class="btn btn-danger" type="submit" th:text="${user.accountNonLocked == true ? 'Unlocked' : ' Locked '}"></button>
             </form>
         </td>
     </tr>

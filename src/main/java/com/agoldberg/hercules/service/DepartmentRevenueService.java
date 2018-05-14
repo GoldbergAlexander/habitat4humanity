@@ -28,7 +28,6 @@ public class DepartmentRevenueService {
 
         DepartmentDomain departmentDomain = departmentService.getDepartment(dto.getDepartmentId());
         domain.setDepartment(departmentDomain);
-
         domain = departmentRevenueDAO.save(domain);
 
         return modelMapper.map(domain, DepartmentRevenueDTO.class);

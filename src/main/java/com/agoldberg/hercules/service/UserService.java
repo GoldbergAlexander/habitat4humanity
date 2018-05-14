@@ -1,8 +1,13 @@
 package com.agoldberg.hercules.service;
 
+import com.agoldberg.hercules.dao.RoleDAO;
+import com.agoldberg.hercules.dao.StoreLocationDAO;
 import com.agoldberg.hercules.dao.UserDAO;
+import com.agoldberg.hercules.domain.RoleDomain;
+import com.agoldberg.hercules.domain.StoreLocationDomain;
 import com.agoldberg.hercules.domain.TokenType;
 import com.agoldberg.hercules.domain.UserDomain;
+import com.agoldberg.hercules.dto.RoleDTO;
 import com.agoldberg.hercules.dto.UserDTO;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -40,6 +45,12 @@ public class UserService implements UserDetailsService{
     private UserDAO userDAO;
 
     @Autowired
+    private RoleDAO roleDAO;
+
+    @Autowired
+    private StoreLocationService storeLocationService;
+
+    @Autowired
     private ModelMapper modelMapper;
 
     @Autowired
@@ -47,6 +58,8 @@ public class UserService implements UserDetailsService{
 
     @Autowired
     private TokenService tokenService;
+
+
 
     public UserService() {
         super();
@@ -61,6 +74,16 @@ public class UserService implements UserDetailsService{
         }
         return user;
     }
+
+    public List<RoleDTO> getRoleList(){
+        List<RoleDomain> domains = roleDAO.findAll();
+        List<RoleDTO> dtos = new ArrayList<>();
+        for(RoleDomain domain: domains){
+            dtos.add(modelMapper.map(domain, RoleDTO.class));
+        }
+        return dtos;
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(final String s) throws UsernameNotFoundException {
@@ -160,6 +183,38 @@ public class UserService implements UserDetailsService{
         userDAO.save(userDomain);
     }
 
+    public void userUpdateUser(UserDTO dto){
+        LOGGER.info("Updating user info for user: " + dto.getUsername());
+        /** Not using model mapper to avoid setting protected values **/
+        UserDomain existingUserDomain = userDAO.getOne(dto.getId());
+        if(existingUserDomain == null){
+            throw new IllegalArgumentException("Could not get a user with the ID: " + dto.getId());
+        }
+        existingUserDomain.setFirstName(dto.getFirstName());
+        existingUserDomain.setLastName(dto.getLastName());
+
+        StoreLocationDomain storeLocationDomain = storeLocationService.getStoreLocation(dto.getLocationId());
+        existingUserDomain.setLocation(storeLocationDomain);
+
+        userDAO.save(existingUserDomain);
+    }
+
+    public void adminUpdateUser(UserDTO dto){
+        //Do everything the user can do
+        userUpdateUser(dto);
+        UserDomain existingUserDomain = userDAO.getOne(dto.getId());
+        existingUserDomain.setUsername(dto.getUsername());
+
+        if(dto.getRolesId() != null) {
+            RoleDomain roleDomain = roleDAO.getOne(dto.getRolesId());
+            if (roleDomain == null) {
+                throw new IllegalArgumentException("Could not get a role with the ID: " + dto.getRolesId());
+            }
+            existingUserDomain.setRoles(roleDomain);
+        }
+        userDAO.save(existingUserDomain);
+    }
+
     public void toggleLock(Long id){
        UserDomain user = userDAO.getOne(id);
        if(user == null){
@@ -176,6 +231,11 @@ public class UserService implements UserDetailsService{
         userDomain.setAccountNonLocked(true);
         userDomain.setPassword(passwordEncoder.encode(adminPassword));
         userDomain.setUsername(adminUsername);
+
+        /** Find Admin Role **/
+        RoleDomain adminRole = roleDAO.findByName("ROLE_ADMIN");
+        userDomain.setRoles(adminRole);
+
         userDAO.save(userDomain);
     }
 }

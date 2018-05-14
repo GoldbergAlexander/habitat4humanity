@@ -54,7 +54,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter{
                 .antMatchers("/user/reset").permitAll()
                 .antMatchers("/user/changepassword").hasAnyAuthority("PRIVILEGE_CHANGE_PASSWORD")
                 .anyRequest().authenticated()
-                .and().formLogin().permitAll()
+                .and().formLogin().loginPage("/login").permitAll()
                 .and().csrf().disable();
     }
 

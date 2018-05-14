@@ -8,33 +8,34 @@
 <body th:include="fragment/bootstrap :: body"></body>
 <body>
 <div class="container">
-<table class="table">
+    <h1>Register</h1>
+<table class="table table-striped">
     <form th:action="@{/register}" th:object="${register}" method="post">
     <tbody>
     <tr>
         <th>Email</th>
-        <td><input th:field="*{username}"/>
+        <td><input class="form-control" th:field="*{username}"/>
             <p th:each="error : ${#fields.errors('username')}"
                th:text="${error}">Constraint error</p>
         </td>
     </tr>
     <tr>
         <th>First Name</th>
-        <td><input th:field="*{firstName}"/>
+        <td><input class="form-control" th:field="*{firstName}"/>
             <p th:each="error : ${#fields.errors('firstName')}"
                th:text="${error}">Constraint error</p>
         </td>
     </tr>
     <tr>
         <th>Last Name</th>
-        <td><input th:field="*{lastName}"/>
+        <td><input class="form-control" th:field="*{lastName}"/>
             <p th:each="error : ${#fields.errors('lastName')}"
                th:text="${error}">Constraint error</p>
         </td>
     </tr>
     <tr>
         <th>Location</th>
-        <td><select th:field="*{locationId}">
+        <td><select class="form-control" th:field="*{locationId}">
             <option th:each="location : ${locations}"
                     th:value="${location.id}"
                     th:text="${location.name}">
@@ -45,21 +46,21 @@
     </tr>
     <tr>
         <th>Password</th>
-        <td><input type="password" th:field="*{password}"/>
+        <td><input class="form-control" type="password" th:field="*{password}"/>
             <p th:each="error : ${#fields.errors('password')}"
                th:text="${error}">Constraint error</p>
         </td>
     </tr>
     <tr>
         <th>Confirm Password</th>
-        <td><input type="password" th:field="*{confirmPassword}"/>
+        <td><input class="form-control" type="password" th:field="*{confirmPassword}"/>
             <p th:each="error : ${#fields.errors('confirmPassword')}"
                th:text="${error}">Constraint error</p>
         </td>
     </tr>
     <tr>
         <th></th>
-        <td><input type="submit" value="register"/>
+        <td><button class="btn btn-primary" type="submit" value="register">Register</button>
         </td>
     </tr>
     </tbody>

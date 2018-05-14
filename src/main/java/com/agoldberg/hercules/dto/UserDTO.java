@@ -13,11 +13,29 @@ public class UserDTO {
 
     private boolean enabled;
 
+    private Long rolesId;
+    private String rolesName;
+
     private boolean accountNonLocked;
 
 
-
     public UserDTO() {
+    }
+
+    public Long getRolesId() {
+        return rolesId;
+    }
+
+    public void setRolesId(Long rolesId) {
+        this.rolesId = rolesId;
+    }
+
+    public String getRolesName() {
+        return rolesName;
+    }
+
+    public void setRolesName(String rolesName) {
+        this.rolesName = rolesName;
     }
 
     public Long getId() {

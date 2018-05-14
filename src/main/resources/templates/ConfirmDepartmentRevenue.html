@@ -9,8 +9,9 @@
 <body>
 
 <div class="container">
+    <h1>Confirm Department Revenue Entry</h1>
 <th:block th:object="${departmentRevenue}">
-    <table class="table">
+    <table class="table table-striped">
         <tbody>
 
         <!-- Date -->
@@ -30,13 +31,11 @@
             <td th:text="*{revenue}"/></td>
         </tr>
         <tr>
-            <td><a th:href="@{/departmentrevenue/entry}">Edit Data</a></td>
+            <td><a class="btn btn-primary" th:href="@{/departmentrevenue/entry}">Edit Data</a></td>
             <form th:action="@{/departmentrevenue/confirm}" method="post">
-                <td><input type="submit" value="confirm"/></td>
+                <td><button class="btn btn-warning" type="submit" value="confirm">Confirm</button></td>
             </form>
         </tr>
-
-
 
         </tbody>
     </table>

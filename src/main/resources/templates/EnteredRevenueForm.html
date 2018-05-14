@@ -9,14 +9,23 @@
 <body>
 
 <div class="container">
+    <div class="row">
+        <div class="col-3">
+    <h1>Revenue Entry</h1>
 <form th:action="@{/revenue/entry}" th:object="${enteredRevenue}" method="post">
-    <table class="table">
+    <table class="table table-striped">
+        <colgroup>
+            <col style="width: 70%">
+            <col style="width: 30%">
+        </colgroup>
         <tbody>
+
+
 
         <!-- Date -->
         <tr>
         <th>Date</th>
-        <td><input type="date" th:field="*{date}"/></td>
+        <td><input class="form-control form-date" type="date" th:field="*{stringDate}"/></td>
             <p th:each="error : ${#fields.errors('date')}"
                th:text="${error}">Constraint error</p>
         </tr>
@@ -24,7 +33,7 @@
         <!-- Location -->
         <tr>
             <th>Location</th>
-            <td><select th:field="*{locationId}">
+            <td><select class="form-control" th:field="*{locationId}">
                 <option th:each="location : ${locationList}"
                         th:value="${location.id}"
                         th:text="${location.name}"
@@ -37,103 +46,105 @@
         <!-- transactionCount -->
         <tr>
             <th>Transaction Count</th>
-            <td><input type="text" th:field="*{transactionCount}"/></td>
+            <td><input class="form-control" type="text" th:field="*{transactionCount}"/></td>
             <p th:each="error : ${#fields.errors('transactionCount')}"
                th:text="${error}">Constraint error</p>
         </tr>
         <!-- cashCount -->
         <tr>
             <th>Cash Count</th>
-            <td><input type="text" th:field="*{cashCount}"/></td>
+            <td><input class="form-control" type="text" th:field="*{cashCount}"/></td>
             <p th:each="error : ${#fields.errors('cashCount')}"
                th:text="${error}">Constraint error</p>
         </tr>
         <!-- checkCount -->
         <tr>
             <th>Check Count</th>
-            <td><input type="text" th:field="*{checkCount}"/></td>
+            <td><input class="form-control" type="text" th:field="*{checkCount}"/></td>
             <p th:each="error : ${#fields.errors('checkCount')}"
                th:text="${error}">Constraint error</p>
         </tr>
         <!-- cardUnit -->
         <tr>
             <th>Card Unit</th>
-            <td><input type="text" th:field="*{cardUnit}"/></td>
+            <td><input class="form-control" type="text" th:field="*{cardUnit}"/></td>
             <p th:each="error : ${#fields.errors('cardUnit')}"
                th:text="${error}">Constraint error</p>
         </tr>
         <!-- payoutReceipt -->
         <tr>
             <th>Payout Receipt</th>
-            <td><input type="text" th:field="*{payoutReceipt}"/></td>
+            <td><input class="form-control" type="text" th:field="*{payoutReceipt}"/></td>
             <p th:each="error : ${#fields.errors('payoutReceipt')}"
                th:text="${error}">Constraint error</p>
         </tr>
         <!-- cashTape -->
         <tr>
             <th>Cash Tape</th>
-            <td><input type="text" th:field="*{cashTape}"/></td>
+            <td><input class="form-control" type="text" th:field="*{cashTape}"/></td>
             <p th:each="error : ${#fields.errors('cashTape')}"
                th:text="${error}">Constraint error</p>
         </tr>
         <!-- checkTape -->
         <tr>
             <th>Check Tape</th>
-            <td><input type="text" th:field="*{checkTape}"/></td>
+            <td><input class="form-control" type="text" th:field="*{checkTape}"/></td>
             <p th:each="error : ${#fields.errors('checkTape')}"
                th:text="${error}">Constraint error</p>
         </tr>
         <!-- cardTape -->
         <tr>
             <th>Card Tape</th>
-            <td><input type="text" th:field="*{cardTape}"/></td>
+            <td><input class="form-control" type="text" th:field="*{cardTape}"/></td>
             <p th:each="error : ${#fields.errors('cardTape')}"
                th:text="${error}">Constraint error</p>
         </tr>
         <!-- taxTape -->
         <tr>
             <th>Tax Tape</th>
-            <td><input type="text" th:field="*{taxTape}"/></td>
+            <td><input class="form-control" type="text" th:field="*{taxTape}"/></td>
             <p th:each="error : ${#fields.errors('taxTape')}"
                th:text="${error}">Constraint error</p>
         </tr>
         <!-- vehicleSale -->
         <tr>
             <th>Vehicle Sale</th>
-            <td><input type="text" th:field="*{vehicleSale}"/></td>
+            <td><input class="form-control" type="text" th:field="*{vehicleSale}"/></td>
             <p th:each="error : ${#fields.errors('vehicleSale')}"
                th:text="${error}">Constraint error</p>
         </tr>
         <!-- salesVoid -->
         <tr>
             <th>Sales Void</th>
-            <td><input type="text" th:field="*{salesVoid}"/></td>
+            <td><input class="form-control" type="text" th:field="*{salesVoid}"/></td>
             <p th:each="error : ${#fields.errors('salesVoid')}"
                th:text="${error}">Constraint error</p>
         </tr>
         <!-- taxVoid -->
         <tr>
             <th>Tax Void</th>
-            <td><input type="text" th:field="*{taxVoid}"/></td>
+            <td><input class="form-control" type="text" th:field="*{taxVoid}"/></td>
             <p th:each="error : ${#fields.errors('taxVoid')}"
                th:text="${error}">Constraint error</p>
         </tr>
         <!-- memo -->
         <tr>
             <th>Memo</th>
-            <td><textarea type="" th:field="*{memo}"></textarea></td>
+            <td><textarea class="form-control"  th:field="*{memo}"></textarea></td>
             <p th:each="error : ${#fields.errors('memo')}"
                th:text="${error}">Constraint error</p>
         </tr>
 
         <tr>
             <th></th>
-            <td><input type="submit" value="submit"/></td>
+            <td><button class="btn btn-primary" type="submit" value="submit">Submit</button></td>
         </tr>
 
         </tbody>
     </table>
 </form>
+        </div>
+    </div>
 </div>
 </body>
 </html>

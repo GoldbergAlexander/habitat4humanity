@@ -47,8 +47,8 @@ public class UserController {
             return "redirect:/";
         }
         return "redirect:/user/changepassword";
-
     }
+
 
 
 

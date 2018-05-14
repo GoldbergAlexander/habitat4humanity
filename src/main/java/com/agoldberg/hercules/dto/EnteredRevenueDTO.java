@@ -2,12 +2,15 @@ package com.agoldberg.hercules.dto;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class EnteredRevenueDTO {
 
     private Long id;
-    @DateTimeFormat(pattern = "dd/mm/yyyy")
+    /** This is a bit of an issues -- @DateTimeFormat didn't work with time zones, etc **/
+    private String stringDate;
     private Date date;
     private Long locationId;
     private String locationName;
@@ -26,6 +29,20 @@ public class EnteredRevenueDTO {
     private String memo;
 
     public EnteredRevenueDTO() {
+    }
+
+    public String getStringDate() {
+        return stringDate;
+    }
+
+    public void setStringDate(String stringDate) {
+        try {
+            this.date = new SimpleDateFormat("yyyy-MM-dd").parse(stringDate);
+            this.stringDate = stringDate;
+        }catch (ParseException e){
+            this.stringDate = "Could Not Parse Date: " + stringDate;
+        }
+
     }
 
     public String getLocationName() {
