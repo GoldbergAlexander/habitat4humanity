@@ -1,10 +1,16 @@
 package com.agoldberg.hercules.dto;
 
+import javax.validation.constraints.NotEmpty;
+
 public class StoreLocationDTO {
 
     private Long id;
+    @NotEmpty
     private String name;
-    private String lineOne, lineTwo;
+    @NotEmpty
+    private String lineOne;
+    private String lineTwo;
+    @NotEmpty
     private String city, state, zipcode;
     private boolean enabled;
 

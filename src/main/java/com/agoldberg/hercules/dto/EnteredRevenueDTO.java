@@ -58,7 +58,7 @@ public class EnteredRevenueDTO {
             this.date = new SimpleDateFormat("yyyy-MM-dd").parse(stringDate);
             this.stringDate = stringDate;
         }catch (ParseException e){
-            this.stringDate = "Could Not Parse Date: " + stringDate;
+            this.stringDate = "Could Not Parse Date";
         }
 
     }

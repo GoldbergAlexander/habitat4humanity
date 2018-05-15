@@ -1,7 +1,6 @@
 package com.agoldberg.hercules.controller;
 
 import com.agoldberg.hercules.dto.DepartmentRevenueDTO;
-import com.agoldberg.hercules.dto.EnteredRevenueDTO;
 import com.agoldberg.hercules.service.DepartmentRevenueService;
 import com.agoldberg.hercules.service.DepartmentService;
 import com.agoldberg.hercules.session.DepartmentRevenueStaging;
@@ -18,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/departmentrevenue")
+@RequestMapping("/revenue/department")
 public class DepartmentRevenueController {
     @Autowired
     private DepartmentRevenueService departmentRevenueService;
@@ -52,7 +51,7 @@ public class DepartmentRevenueController {
             dto = new DepartmentRevenueDTO();
         }
 
-        return new ModelAndView("DepartmentRevenueForm", "departmentRevenue", new DepartmentRevenueDTO());
+        return new ModelAndView("departmentrevenue/DepartmentRevenueForm", "departmentRevenue", dto);
 
     }
 
@@ -61,7 +60,7 @@ public class DepartmentRevenueController {
         if(bindingResult.hasErrors()){
             //We still need the list
             model.addAttribute("departmentList", departmentService.getEnabledDepartments());
-            return new ModelAndView("DepartmentRevenueForm", "departmentRevenue", dto);
+            return new ModelAndView("departmentrevenue/DepartmentRevenueForm", "departmentRevenue", dto);
         }else{
             dto.setDepartmentName(departmentService.getDepartmentName(dto.getDepartmentId()));
             staging.setDepartmentRevenueDTO(dto);
@@ -72,7 +71,7 @@ public class DepartmentRevenueController {
     @GetMapping("confirm")
     public ModelAndView displayEnteredRevenue(){
         if(staging.isStaged()){
-            return new ModelAndView("ConfirmDepartmentRevenue", "departmentRevenue", staging.getDepartmentRevenueDTO());
+            return new ModelAndView("departmentrevenue/ConfirmDepartmentRevenue", "departmentRevenue", staging.getDepartmentRevenueDTO());
         }else {
             throw new IllegalStateException("An entry has not been staged for confirmation.");
         }
@@ -91,6 +90,6 @@ public class DepartmentRevenueController {
         }
 
         staging.reset();
-        return new ModelAndView("SavedDepartmentRevenue", "departmentRevenue", dto);
+        return new ModelAndView("departmentrevenue/SavedDepartmentRevenue", "departmentRevenue", dto);
     }
 }

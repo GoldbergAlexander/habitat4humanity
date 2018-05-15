@@ -49,10 +49,15 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.authorizeRequests()
+                .antMatchers("/").permitAll()
                 .antMatchers("/register/**").permitAll()
                 .antMatchers("/user/forgot").permitAll()
                 .antMatchers("/user/reset").permitAll()
                 .antMatchers("/user/changepassword").hasAnyAuthority("PRIVILEGE_CHANGE_PASSWORD")
+                .antMatchers("/department/**").hasRole("ADMIN")
+                .antMatchers("/storelocation/**").hasRole("ADMIN")
+                .antMatchers("/revenue/daily/entry").hasAnyRole("ADMIN", "MANAGER")
+                .antMatchers("/revenue/department/entry").hasAnyRole("ADMIN", "MANAGER")
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").permitAll()
                 .and().csrf().disable();

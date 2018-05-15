@@ -1,14 +1,10 @@
 package com.agoldberg.hercules.controller;
 
-import com.agoldberg.hercules.dto.UserDTO;
 import com.agoldberg.hercules.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/user")
@@ -17,16 +13,21 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @GetMapping
+    public ModelAndView showUser(){
+        return new ModelAndView("user/UserInfo", "user", userService.getCurrentUser());
+    }
+
 
     @GetMapping("forgot")
     public String showForgetForm(){
-        return "ForgotPasswordForm";
+        return "user/ForgotPasswordForm";
     }
 
     @PostMapping("forgot")
     public String handleForgotPassword(@RequestParam("email") String email){
         userService.passwordResetSetup(email);
-        return "ForgotPasswordSuccess";
+        return "user/ForgotPasswordSuccess";
     }
 
     @GetMapping("reset")
@@ -37,7 +38,7 @@ public class UserController {
 
     @GetMapping("changepassword")
     public String showPasswordResetForm(){
-        return "PasswordResetForm";
+        return "user/PasswordResetForm";
     }
 
     @PostMapping("changepassword")

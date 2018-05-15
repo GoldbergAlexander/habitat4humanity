@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>User List</title>
+</head>
+<head th:include="fragment/bootstrap :: head"></head>
+<body th:include="fragment/bootstrap :: body"></body>
+<body>
+<div th:replace="fragment/navigation :: nav"></div>
+
+<div class="container">
+    <h2>Users</h2>
+<table class="table table-striped">
+    <thead>
+    <th>Email</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Location</th>
+    <th>Role</th>
+    <th>Enabled</th>
+    <th></th>
+    <th></th>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+            <td th:text="${user.username}">
+            </td>
+            <td th:text="${user.firstName}">
+            </td>
+            <td th:text="${user.lastName}">
+            </td>
+            <td th:text="${user.locationName}">
+            </td>
+            <td th:text="${user.rolesName}">
+            </td>
+            <td><input class="form-control" type="checkbox" th:checked="${user.enabled}" disabled/></td>
+        <td>
+            <a class="btn btn-warning" th:href="@{/user/admin/{user_id}(user_id=${user.id})}">Modify</a>
+        </td>
+        <td>
+            <form th:action="@{/user/admin/lock}" method="post">
+                <input type="hidden" id="id" name="id" th:value="${user.id}"/>
+                <button style="width:90px" class="btn btn-danger" type="submit" th:text="${user.accountNonLocked == true ? 'Unlocked' : ' Locked '}"></button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</div>
+</body>
+</html>

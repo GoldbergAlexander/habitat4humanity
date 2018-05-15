@@ -22,7 +22,7 @@ public class SummaryStatsController {
         if(date == null){
             date = new Date();
         }
-        return new ModelAndView("SummaryStatsDisplay", "stats", summaryStatisticsService.getSummaryStats(date));
+        return new ModelAndView("reporting/SummaryStatsDisplay", "stats", summaryStatisticsService.getSummaryStats(date));
     }
 
 }

@@ -17,46 +17,31 @@
         <th>Name</th>
         <th>Location</th>
         <th>Size</th>
-        <th>Enabled</th>
+        <th></th>
         <th></th>
         <th></th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="department : ${departments}">
-        <form th:action="@{/department/modify}" th:object="${newDepartment}" method="post">
-            <input type="hidden" id="id" name="id" th:value="${department.id}"/>
-            <td>
-                <input class="form-control" id="name" name="name" th:value="${department.name}"/>
-                <p th:each="error : ${#fields.errors('name')}"
-                   th:text="${error}">Constraint error</p>
-            </td>
-            <td>
-                <select class="form-control custom-select" id="locationId" name="locationId">
-                    <option></option>
-                    <option th:each="location : ${locations}"
-                            th:value="${location.id}"
-                            th:text="${location.name}"
-                            th:selected="${location.id == department.locationId}">
-                    </option>
-                </select>
-                <p th:each="error : ${#fields.errors('locationId')}"
-                   th:text="${error}">Constraint error</p>
-            </td>
-            <td>
-                <input class="form-control" id="size" name="size" th:value="${department.size}"/>
-                <p th:each="error : ${#fields.errors('size')}"
-                   th:text="${error}">Constraint error</p>
-            </td>
-            <td><input class="custom-control-input" type="checkbox" id="enabled" name="enabled" th:checked="${department.enabled}"/></td>
-            <td><button class="btn btn-warning" type="submit" value="modify">Modify</button></td>
-        </form>
+        <td th:text="${department.name}"></td>
+        <td th:text="${department.locationName}"></td>
+        <td th:text="${department.size}"></td>
         <td>
-            <form th:action="@{/department/delete}" th:object="${newDepartment}" method="post">
+            <form th:action="@{/department/enable}" method="post">
                 <input type="hidden" id="id" name="id" th:value="${department.id}"/>
-                <button class="btn btn-danger" type="submit" value="delete">Delete</button>
+                <button style="width:90px" class="btn btn-danger" type="submit" th:text="${department.enabled == true ? 'Enabled' : ' Disabled '}"></button>
             </form>
+        </td>
         <td>
+            <a class="btn btn-warning" th:href="@{/department/{department_id}(department_id=${department.id})}">Modify</a>
+        </td>
+        <td>
+            <form th:action="@{/department/delete}" method="post">
+                <input type="hidden" id="id" name="id" th:value="${department.id}"/>
+                <button class="btn btn-danger" type="submit">Delete</button>
+            </form>
+        </td>
     </tr>
     <tr>
         <form th:action="@{/department/create}" th:object="${newDepartment}" method="post">
@@ -80,7 +65,6 @@
                 <p th:each="error : ${#fields.errors('size')}"
                    th:text="${error}">Constraint error</p>
             </td>
-            <td><input class="custom-control-input" type="checkbox" th:field="*{enabled}" checked></td>
             <td><button class="btn btn-primary" type="submit" value="create">Create</button></td>
             <td></td>
         </form>

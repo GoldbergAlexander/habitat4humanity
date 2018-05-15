@@ -25,6 +25,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -75,15 +76,6 @@ public class UserService implements UserDetailsService{
         return user;
     }
 
-    public List<RoleDTO> getRoleList(){
-        List<RoleDomain> domains = roleDAO.findAll();
-        List<RoleDTO> dtos = new ArrayList<>();
-        for(RoleDomain domain: domains){
-            dtos.add(modelMapper.map(domain, RoleDTO.class));
-        }
-        return dtos;
-    }
-
 
     @Override
     public UserDetails loadUserByUsername(final String s) throws UsernameNotFoundException {
@@ -95,6 +87,21 @@ public class UserService implements UserDetailsService{
         return userDomain;
     }
 
+    public UserDTO getCurrentUser(){
+        return modelMapper.map(fetchActiveUser(), UserDTO.class);
+    }
+
+    @RolesAllowed({"ROLE_ADMIN"})
+    public List<RoleDTO> getRoleList(){
+        List<RoleDomain> domains = roleDAO.findAll();
+        List<RoleDTO> dtos = new ArrayList<>();
+        for(RoleDomain domain: domains){
+            dtos.add(modelMapper.map(domain, RoleDTO.class));
+        }
+        return dtos;
+    }
+
+    @RolesAllowed({"ROLE_ADMIN"})
     public List<UserDTO> getUsers(){
         List<UserDomain> userDomains = userDAO.findAll();
 
@@ -109,6 +116,13 @@ public class UserService implements UserDetailsService{
 
         return userDTOS;
     }
+
+    @RolesAllowed({"ROLE_ADMIN"})
+    public UserDTO getUser(Long id){
+        UserDomain domain = userDAO.getOne(id);
+        return modelMapper.map(domain, UserDTO.class);
+    }
+
 
     public void createUser(UserDTO userDTO){
         UserDomain userDomain = modelMapper.map(userDTO, UserDomain.class);
@@ -184,12 +198,10 @@ public class UserService implements UserDetailsService{
     }
 
     public void userUpdateUser(UserDTO dto){
-        LOGGER.info("Updating user info for user: " + dto.getUsername());
+        LOGGER.info("Updating user as user: " + dto.getUsername());
         /** Not using model mapper to avoid setting protected values **/
         UserDomain existingUserDomain = userDAO.getOne(dto.getId());
-        if(existingUserDomain == null){
-            throw new IllegalArgumentException("Could not get a user with the ID: " + dto.getId());
-        }
+
         existingUserDomain.setFirstName(dto.getFirstName());
         existingUserDomain.setLastName(dto.getLastName());
 
@@ -199,7 +211,9 @@ public class UserService implements UserDetailsService{
         userDAO.save(existingUserDomain);
     }
 
+    @RolesAllowed({"ROLE_ADMIN"})
     public void adminUpdateUser(UserDTO dto){
+        LOGGER.info("Updating user as admin: " + dto.getUsername());
         //Do everything the user can do
         userUpdateUser(dto);
         UserDomain existingUserDomain = userDAO.getOne(dto.getId());
@@ -207,19 +221,14 @@ public class UserService implements UserDetailsService{
 
         if(dto.getRolesId() != null) {
             RoleDomain roleDomain = roleDAO.getOne(dto.getRolesId());
-            if (roleDomain == null) {
-                throw new IllegalArgumentException("Could not get a role with the ID: " + dto.getRolesId());
-            }
             existingUserDomain.setRoles(roleDomain);
         }
         userDAO.save(existingUserDomain);
     }
 
+    @RolesAllowed({"ROLE_ADMIN"})
     public void toggleLock(Long id){
        UserDomain user = userDAO.getOne(id);
-       if(user == null){
-           throw new IllegalArgumentException("Could not get a user with the ID: " + id);
-       }
        user.setAccountNonLocked(!user.isAccountNonLocked());
        userDAO.save(user);
        LOGGER.info("Toggled enable state of user ");
@@ -237,5 +246,7 @@ public class UserService implements UserDetailsService{
         userDomain.setRoles(adminRole);
 
         userDAO.save(userDomain);
+
+        LOGGER.info("Created Admin User");
     }
 }

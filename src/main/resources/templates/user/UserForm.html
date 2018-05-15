@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>User List</title>
+</head>
+<head th:include="fragment/bootstrap :: head"></head>
+<body th:include="fragment/bootstrap :: body"></body>
+<body>
+<div th:replace="fragment/navigation :: nav"></div>
+
+<div class="container">
+    <form th:action="@{/user/admin/{user_id}(user_id=${user.id})}" th:object="${user}" method="post">
+    <h2 th:text="${user.username}"></h2>
+    <table class="table table-striped">
+        <input type="hidden" th:field="*{id}"/>
+        <tr>
+            <th>Email</th>
+            <td><input class="form-control" th:field="*{username}"/>
+                <p th:each="error : ${#fields.errors('username')}"
+                   th:text="${error}">Constraint error</p>
+            </td>
+        </tr>
+        <tr>
+            <th>First Name</th>
+            <td><input class="form-control" th:field="*{firstName}"/>
+                <p th:each="error : ${#fields.errors('firstName')}"
+                   th:text="${error}">Constraint error</p>
+            </td>
+        </tr>
+        <tr>
+            <th>Last Name</th>
+            <td><input class="form-control" th:field="*{lastName}"/>
+                <p th:each="error : ${#fields.errors('lastName')}"
+                   th:text="${error}">Constraint error</p>
+            </td>
+        </tr>
+        <tr>
+            <th>Location</th>
+            <td>
+                <select class="form-control custom-select" th:field="*{locationId}">
+                    <option th:each="location : ${locations}"
+                            th:value="${location.id}"
+                            th:text="${location.name}"
+                            th:selected="${location.id == user.locationId}">
+                    </option>
+                </select>
+                <p th:each="error : ${#fields.errors('locationId')}"
+                   th:text="${error}">Constraint error</p>
+            </td>
+        </tr>
+        <tr>
+            <th>Role</th>
+            <td>
+                <select class="form-control custom-select" th:field="*{rolesId}">
+                    <option th:each="role : ${roles}"
+                            th:value="${role.id}"
+                            th:text="${role.name}"
+                            th:selected="${role.id == user.rolesId}">
+                    </option>
+                </select>
+                <p th:each="error : ${#fields.errors('rolesId')}"
+                   th:text="${error}">Constraint error</p>
+            </td>
+        </tr>
+        <tr>
+            <th></th>
+            <td class="text-right">
+                <button class="btn btn-primary" name="submit" type="submit" value="Modify">Modify</button>
+            </td>
+        </tr>
+    </table>
+    </form>
+</div>
+</body>
+</html>

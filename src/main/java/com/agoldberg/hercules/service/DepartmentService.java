@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,32 @@ public class DepartmentService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @RolesAllowed("ROLE_ADMIN")
     public void createDepartment(DepartmentDTO dto){
+        DepartmentDomain domain = modelMapper.map(dto, DepartmentDomain.class);
+
+        if(domain == null){
+            throw new IllegalArgumentException("Could not map the department dto to the domain object.");
+        }
+
+        //Will throw an exception if its not found
+        StoreLocationDomain storeDomain = storeLocationService.getStoreLocation(dto.getLocationId());
+        domain.setLocation(storeDomain);
+        domain.setEnabled(true);
+        departmentDAO.save(domain);
+    }
+
+    @RolesAllowed("ROLE_ADMIN")
+    public void deleteDepartment(DepartmentDTO dto){
+        DepartmentDomain domain = modelMapper.map(dto, DepartmentDomain.class);
+        if(domain == null){
+            throw new IllegalArgumentException("Could not map the department dto to the domain object.");
+        }
+        departmentDAO.deleteById(domain.getId());
+    }
+
+    @RolesAllowed("ROLE_ADMIN")
+    public void modifyDepartment(DepartmentDTO dto){
         DepartmentDomain domain = modelMapper.map(dto, DepartmentDomain.class);
 
         if(domain == null){
@@ -36,29 +62,10 @@ public class DepartmentService {
         departmentDAO.save(domain);
     }
 
-    public void deleteDepartment(DepartmentDTO dto){
-        DepartmentDomain domain = modelMapper.map(dto, DepartmentDomain.class);
-
-        if(domain == null){
-            throw new IllegalArgumentException("Could not map the department dto to the domain object.");
-        }
-        departmentDAO.deleteById(domain.getId());
-    }
-
-    public void modifyDepartment(DepartmentDTO dto){
-        DepartmentDomain domain = modelMapper.map(dto, DepartmentDomain.class);
-
-        if(domain == null){
-            throw new IllegalArgumentException("Could not map the department dto to the domain object.");
-        }
-
-        if(departmentDAO.findById(domain.getId()) == null){
-            throw new IllegalStateException("A department with the ID provided could not be found.");
-        }
-
-        //Will throw an exception if its not found
-        StoreLocationDomain storeDomain = storeLocationService.getStoreLocation(dto.getLocationId());
-        domain.setLocation(storeDomain);
+    @RolesAllowed("ROLE_ADMIN")
+    public void toggleDepartmentEnabled(Long id){
+        DepartmentDomain domain = departmentDAO.getOne(id);
+        domain.setEnabled(!domain.isEnabled());
         departmentDAO.save(domain);
     }
 
@@ -86,6 +93,10 @@ public class DepartmentService {
 
     public String getDepartmentName(Long id){
         return getDepartment(id).getName();
+    }
+
+    public DepartmentDTO getDepartmentDTO(Long id){
+        return modelMapper.map(departmentDAO.getOne(id), DepartmentDTO.class);
     }
 
     protected DepartmentDomain getDepartment(Long id){

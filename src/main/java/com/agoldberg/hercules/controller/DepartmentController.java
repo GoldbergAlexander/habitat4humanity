@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -27,21 +25,42 @@ public class DepartmentController {
     public ModelAndView showDepartments(Model model){
         model.addAttribute("newDepartment", new DepartmentDTO());
         model.addAttribute("locations", storeLocationService.getEnabledStoreLocations());
-        return new ModelAndView("DepartmentList", "departments", departmentService.getDepartments());
+        return new ModelAndView("department/DepartmentList", "departments", departmentService.getDepartments());
+    }
+
+    @GetMapping("{department_id}")
+    public ModelAndView showDepartmentForm(@PathVariable("department_id") Long departmentId, Model model){
+        model.addAttribute("locations", storeLocationService.getEnabledStoreLocations());
+        return new ModelAndView("department/DepartmentForm","department", departmentService.getDepartmentDTO(departmentId));
+
+    }
+
+    @PostMapping("{department_id}")
+    public ModelAndView modifyDepartment(@PathVariable("department_id") Long departmentId, Model model, @Valid @ModelAttribute("department") DepartmentDTO department, BindingResult bindingResult){
+        if(!bindingResult.hasErrors()){
+            departmentService.modifyDepartment(department);
+            return new ModelAndView("redirect:/department");
+        }else{
+            model.addAttribute("locations", storeLocationService.getEnabledStoreLocations());
+            return new ModelAndView("department/DepartmentForm", "department", department);
+        }
     }
 
     @PostMapping("create")
-    public String createDepartment(Model model, @Valid @ModelAttribute("newDepartment") DepartmentDTO departmentDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes){
-        departmentService.createDepartment(departmentDTO);
-        redirectAttributes.addFlashAttribute(model);
-        return "redirect:/department";
+    public ModelAndView createDepartment(Model model, @Valid @ModelAttribute("newDepartment") DepartmentDTO departmentDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+        if(!bindingResult.hasErrors()) {
+            departmentService.createDepartment(departmentDTO);
+            return new ModelAndView("redirect:/department");
+
+        }else {
+            model.addAttribute("locations", storeLocationService.getEnabledStoreLocations());
+            return new ModelAndView("department/DepartmentList", "newDepartment", departmentDTO);
+        }
     }
 
-
-    @PostMapping("modify")
-    public String modifyDepartment(Model model, @Valid @ModelAttribute("newDepartment") DepartmentDTO departmentDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes){
-        departmentService.modifyDepartment(departmentDTO);
-        redirectAttributes.addFlashAttribute(model);
+    @PostMapping("enable")
+    public String toggleEnable(@ModelAttribute("newDepartment") DepartmentDTO dto){
+        departmentService.toggleDepartmentEnabled(dto.getId());
         return "redirect:/department";
     }
 

@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.security.RolesAllowed;
+
 @Service
 public class EnteredRevenueService {
 
@@ -25,6 +27,7 @@ public class EnteredRevenueService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @RolesAllowed({"ROLE_MANAGER", "ROLE_ADMIN"})
     public EnteredRevenueDTO createRevenueEntry(EnteredRevenueDTO dto){
         EnteredRevenueDomain domain = modelMapper.map(dto, EnteredRevenueDomain.class);
         if(domain == null){

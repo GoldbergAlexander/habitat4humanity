@@ -9,12 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -36,13 +35,31 @@ public class UserAdminController {
         model.addAttribute("locations", locations);
         model.addAttribute("roles", roles);
         model.addAttribute("changeUser", new UserDTO());
-        return new ModelAndView("UserList", "users", users);
+        return new ModelAndView("user/UserList", "users", users);
     }
 
-    @PostMapping("modify")
-    public String modifyUser(@Valid @ModelAttribute("changeUser") UserDTO user, BindingResult bindingResult, RedirectAttributes redirectAttributes){
-        userService.adminUpdateUser(user);
-        return "redirect:/user/admin";
+    @GetMapping("{user_id}")
+    public ModelAndView showUserForm(Model model, @PathVariable("user_id") Long userId){
+        List<RoleDTO> roles = userService.getRoleList();
+        List<StoreLocationDTO> locations = storeLocationService.getEnabledStoreLocations();
+        model.addAttribute("locations", locations);
+        model.addAttribute("roles", roles);
+        UserDTO user = userService.getUser(userId);
+        return new ModelAndView("user/UserForm", "user", user);
+    }
+
+    @PostMapping("{user_id}")
+    public ModelAndView modifyUser(Model model,@PathVariable("user_id") Long userId, @Valid @ModelAttribute("user") UserDTO user, BindingResult bindingResult){
+        List<RoleDTO> roles = userService.getRoleList();
+        List<StoreLocationDTO> locations = storeLocationService.getEnabledStoreLocations();
+        model.addAttribute("locations", locations);
+        model.addAttribute("roles", roles);
+        if(!bindingResult.hasErrors()){
+            userService.adminUpdateUser(user);
+            return new ModelAndView("redirect:/user/admin");
+        }else{
+            return new ModelAndView("user/UserForm", "user", user);
+        }
     }
 
     @PostMapping("lock")

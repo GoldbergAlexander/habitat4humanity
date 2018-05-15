@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>User List</title>
+</head>
+<head th:include="fragment/bootstrap :: head"></head>
+<body th:include="fragment/bootstrap :: body"></body>
+<body>
+<div th:replace="fragment/navigation :: nav"></div>
+
+<div class="container">
+    <h2 th:text="${user.username}"></h2>
+    <table class="table table-striped">
+        <tr>
+            <th>Email</th>
+            <td th:text="${user.username}"></td>
+        </tr>
+        <tr>
+            <th>First Name</th>
+            <td th:text="${user.firstName}"></td>
+        </tr>
+        <tr>
+            <th>Last Name</th>
+            <td th:text="${user.lastName}"></td>
+        </tr>
+        <tr>
+            <th>Location</th>
+            <td th:text="${user.locationName}"></td>
+        </tr>
+        <tr>
+            <th>Role</th>
+            <td th:text="${user.rolesName}"></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

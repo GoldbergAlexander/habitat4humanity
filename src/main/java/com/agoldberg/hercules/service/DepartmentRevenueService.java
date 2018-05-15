@@ -8,6 +8,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.security.RolesAllowed;
+
 @Service
 public class DepartmentRevenueService {
 
@@ -20,6 +22,7 @@ public class DepartmentRevenueService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @RolesAllowed({"ROLE_MANAGER", "ROLE_ADMIN"})
     public DepartmentRevenueDTO createRevenueEntry(DepartmentRevenueDTO dto){
         DepartmentRevenueDomain domain = modelMapper.map(dto, DepartmentRevenueDomain.class);
         if(domain == null){

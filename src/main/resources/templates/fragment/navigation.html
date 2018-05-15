@@ -20,14 +20,50 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav mr-auto">
-                        <li  class="nav-item" ><a href="/">Home</a></li>
-                        <li  class="nav-item" ><a href="/revenue/entry">Daily Revenue Entry</a></li>
-                        <li><a href="/departmentrevenue/entry">Department Revenue Entry</a></li>
+                        <li class="dropdown" sec:authorize="hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MANAGER')">
+                            <a class="nav-link dropdown-toggle" href="#" id="entryLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Entry
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="entryLink">
+                                <li  class="nav-item" ><a href="/revenue/daily/entry">Daily Revenue Entry</a></li>
+                                <li class="nav-item"><a href="/revenue/department/entry">Department Revenue Entry</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown" sec:authorize="hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_EXECUTIVE')">
+                            <a class="nav-link dropdown-toggle" href="#" id="reportingLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Report
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="reportingLink">
+                                <li  class="nav-item" ><a href="/revenue/daily">Processed Daily Revenue</a></li>
+                                <li  class="nav-item" ><a href="/summarystats">Summary Stats</a></li>
+                            </ul>
+                        </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li  class="nav-item" ><a href="/storelocation">Stores</a></li>
-                        <li class="nav-item" ><a href="/department">Departments</a></li>
-                        <li  class="nav-item" ><a href="/user/admin">Users</a></li>
+
+                        <li class="dropdown" sec:authorize="hasAuthority('ROLE_ADMIN')">
+                            <a class="nav-link dropdown-toggle" href="#" id="objectLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Admin
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="objectLink">
+                                <li><a class="dropdown-item" th:href="@{/storelocation}">Locations</a></li>
+                                <li><a class="dropdown-item" th:href="@{/department}">Departments</a></li>
+                                <li><a class="dropdown-item" th:href="@{/user/admin}">Users</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown" sec:authorize="isAuthenticated()">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span sec:authentication="name">user</span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <li><a class="dropdown-item" th:href="@{/user}">Profile</a></li>
+                                <li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
+                            </ul>
+                        </li>
+                        <li sec:authorize="isAnonymous()">
+                            <a th:href="@{/login}">Login</a>
+                        </li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div><!--/.container-fluid -->

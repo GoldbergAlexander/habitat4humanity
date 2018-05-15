@@ -1,7 +1,9 @@
 package com.agoldberg.hercules.controller;
 
 import com.agoldberg.hercules.dto.EnteredRevenueDTO;
+import com.agoldberg.hercules.dto.EnteredSearchDTO;
 import com.agoldberg.hercules.service.EnteredRevenueService;
+import com.agoldberg.hercules.service.ProcessedRevenueService;
 import com.agoldberg.hercules.service.StoreLocationService;
 import com.agoldberg.hercules.session.EnteredRevenueStaging;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/revenue")
+@RequestMapping("/revenue/daily")
 public class EnteredRevenueController {
 
     @Autowired
@@ -27,7 +29,26 @@ public class EnteredRevenueController {
     private StoreLocationService storeLocationService;
 
     @Autowired
+    private ProcessedRevenueService processedRevenueService;
+
+    @Autowired
     private EnteredRevenueStaging staging;
+
+    @GetMapping
+    public ModelAndView showProcessedRevenues(Model model, @ModelAttribute(name = "search") EnteredSearchDTO search){
+        EnteredSearchDTO searchDTO = new EnteredSearchDTO();
+
+        if(search != null){
+            searchDTO = search;
+        }
+
+        if(searchDTO.getLocationId() == null || searchDTO.getLocationId() == -1){
+            searchDTO.setLocationId(null);
+        }
+        model.addAttribute("search", searchDTO);
+        model.addAttribute("locations", storeLocationService.getEnabledStoreLocations());
+        return new ModelAndView("reporting/ProcessedRevenueList", "revenues", processedRevenueService.getProcessedRevenues(search));
+    }
 
     /*
     Entry takes a certain set of steps and the system should only process the request if the occur in the correct order:
@@ -51,7 +72,7 @@ public class EnteredRevenueController {
         if((dto = staging.getEnteredRevenueDTO()) == null){
             dto = new EnteredRevenueDTO();
         }
-        return new ModelAndView("EnteredRevenueForm", "enteredRevenue", dto);
+        return new ModelAndView("enteredrevenue/EnteredRevenueForm", "enteredRevenue", dto);
 
     }
 
@@ -60,7 +81,7 @@ public class EnteredRevenueController {
         if(bindingResult.hasErrors()){
             //We still need the list
             model.addAttribute("locationList", storeLocationService.getEnabledStoreLocations());
-            return new ModelAndView("EnteredRevenueForm", "enteredRevenue", dto);
+            return new ModelAndView("enteredrevenue/EnteredRevenueForm", "enteredRevenue", dto);
         }else{
             dto.setLocationName(storeLocationService.getStoreName(dto.getLocationId()));
             staging.setEnteredRevenueDTO(dto);
@@ -71,7 +92,7 @@ public class EnteredRevenueController {
     @GetMapping("confirm")
     public ModelAndView displayEnteredRevenue(){
         if(staging.isStaged()){
-            return new ModelAndView("ConfirmEnteredRevenue", "enteredRevenue", staging.getEnteredRevenueDTO());
+            return new ModelAndView("enteredrevenue/ConfirmEnteredRevenue", "enteredRevenue", staging.getEnteredRevenueDTO());
         }else {
             throw new IllegalStateException("An entry has not been staged for confirmation.");
         }
@@ -90,7 +111,7 @@ public class EnteredRevenueController {
         }
 
         staging.reset();
-        return new ModelAndView("SavedEnteredRevenue", "enteredRevenue", dto);
+        return new ModelAndView("enteredrevenue/SavedEnteredRevenue", "enteredRevenue", dto);
     }
 
 }

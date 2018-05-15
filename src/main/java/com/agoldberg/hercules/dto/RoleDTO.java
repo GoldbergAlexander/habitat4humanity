@@ -1,7 +1,10 @@
 package com.agoldberg.hercules.dto;
 
+import javax.validation.constraints.NotEmpty;
+
 public class RoleDTO {
     private Long id;
+    @NotEmpty
     private String name;
 
     public Long getId() {
