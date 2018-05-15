@@ -13,7 +13,16 @@
 
 <div class="container" style="max-width: 600px">
     <h2>Login</h2>
-    <p th:if="${loginError}" class="error">Wrong user or password</p>
+    <div th:if="${param.error}">
+        <div class="alert alert-danger">
+            Invalid username or password.
+        </div>
+    </div>
+    <div th:if="${param.logout}">
+        <div class="alert alert-info">
+            You have been logged out.
+        </div>
+    </div>
     <form name="f" action="/login" method="POST">
         <table class="table table-borderless">
             <tbody>

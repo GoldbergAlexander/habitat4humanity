@@ -58,6 +58,8 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter{
                 .antMatchers("/storelocation/**").hasRole("ADMIN")
                 .antMatchers("/revenue/daily/entry").hasAnyRole("ADMIN", "MANAGER")
                 .antMatchers("/revenue/department/entry").hasAnyRole("ADMIN", "MANAGER")
+                .antMatchers("/logout").permitAll()
+                .antMatchers("/login").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").permitAll()
                 .and().csrf().disable();
