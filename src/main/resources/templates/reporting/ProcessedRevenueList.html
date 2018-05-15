@@ -87,7 +87,7 @@
         <th>Tax Count</th>
         </thead>
         <tbody>
-        <tr th:each="revenue : ${revenues}">
+        <tr th:each="revenue : ${revenues.data}">
             <td th:text="${revenue.enteredRevenueLocationName}"></td>
             <td th:text="${revenue.enteredRevenueDate}"></td>
             <!--<td th:text="${revenue.enteredRevenueTransactionCount}"></td>-->
@@ -112,6 +112,32 @@
             <td th:text="${revenue.tapeTaxableIntake}"></td>
             <td th:text="${revenue.overUnder}"></td>
             <td th:text="${revenue.taxCount}"></td>
+        </tr>
+        <tr class="table-active" th:object="${revenues.summary}">
+            <th></th>
+            <th></th>
+            <!--<td th:text="${revenue.enteredRevenueTransactionCount}"></td>-->
+            <!--<td th:text="${revenue.enteredRevenueCashCount}"></td>-->
+            <!--<td th:text="${revenue.enteredRevenueCheckCount}"></td>-->
+            <!--<td th:text="${revenue.enteredRevenueCardUnit}"></td>-->
+            <!--<td th:text="${revenue.enteredRevenuePayoutReceipt}"></td>-->
+            <!--<td th:text="${revenue.enteredRevenueCashTape}"></td>-->
+            <!--<td th:text="${revenue.enteredRevenueCheckTape}"></td>-->
+            <!--<td th:text="${revenue.enteredRevenueCardTape}"></td>-->
+            <!--<td th:text="${revenue.enteredRevenueTaxTape}"></td>-->
+            <!--<td th:text="${revenue.enteredRevenueVehicleSale}"></td>-->
+            <!--<td th:text="${revenue.enteredRevenueSalesVoid}"></td>-->
+            <!--<td th:text="${revenue.enteredRevenueTaxVoid}"></td>-->
+            <!--<td th:text="${revenue.enteredRevenueMemo}"></td>-->
+            <th th:text="*{actualIntake}"></th>
+            <th th:text="*{actualPreTaxIntake}"></th>
+            <th th:text="*{actualTaxableIntake}"></th>
+            <th th:text="*{actualTaxIntake}"></th>
+            <th th:text="*{tapeIntake}"></th>
+            <th th:text="*{tapePreTaxIntake}"></th>
+            <th th:text="*{tapeTaxableIntake}"></th>
+            <th th:text="*{overUnder}"></th>
+            <th th:text="*{taxCount}"></th>
         </tr>
         </tbody>
     </table>

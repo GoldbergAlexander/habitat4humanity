@@ -2,6 +2,8 @@ package com.agoldberg.hercules.service;
 
 import com.agoldberg.hercules.dao.ProcessedRevenueDAO;
 import com.agoldberg.hercules.domain.ProcessedRevenueDomain;
+import com.agoldberg.hercules.domain.StoreLocationDomain;
+import com.agoldberg.hercules.dto.SummarySearchDTO;
 import com.agoldberg.hercules.dto.SummaryStatsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,11 +18,11 @@ public class SummaryStatisticsService {
     @Autowired
     private ProcessedRevenueDAO processedRevenueDAO;
 
-    public SummaryStatsDTO getSummaryStatsForCurrentMonth(){
-        return getSummaryStats(new Date());
-    }
+    @Autowired
+    private StoreLocationService storeLocationService;
 
-    public SummaryStatsDTO getSummaryStats(Date date){
+
+    public SummaryStatsDTO getSummaryStats(SummarySearchDTO search){
         /**
          * Define the search ranges for the given month, and the same month one year ago;
          */
@@ -28,53 +30,55 @@ public class SummaryStatisticsService {
         /**
          * Given Year Month
          */
-        int currentDay = date.getDay();
-        YearMonth givenYearMonth = YearMonth.of(date.getYear(), date.getMonth()+1);
-        LocalDate firstOfGivenMonth = givenYearMonth.atDay(1);
-        LocalDate currentOfGivenMonth = givenYearMonth.atDay(currentDay);
-        LocalDate lastOfGivenMonth = givenYearMonth.atEndOfMonth();
 
-        Date firstOfGivenMonthDate = java.sql.Date.valueOf(firstOfGivenMonth);
-        Date currentOfGivenMonthDate = java.sql.Date.valueOf(currentOfGivenMonth);
-        Date lastOfGivenMonthDate = java.sql.Date.valueOf(lastOfGivenMonth);
+        /** Get the date from the search object **/
+        Date date = search.getDate();
 
-        /**
-         * Past Year Month
-         */
-        YearMonth pastYearMonth = givenYearMonth.minusYears(1);
-        LocalDate firstOfPastMonth = pastYearMonth.atDay(1);
-        LocalDate currentOfPastMonth = pastYearMonth.atDay(currentDay);
-        LocalDate lastOfPastMonth = pastYearMonth.atEndOfMonth();
+        /** Set up the date objects **/
+        //CurrentYearMTD is just the given date
+        Date currentYearMTD = date;
 
-        Date firstOfPastMonthDate = java.sql.Date.valueOf(firstOfPastMonth);
-        Date currentOfPastMonthDate = java.sql.Date.valueOf(currentOfPastMonth);
-        Date lastOfPastMonthDate = java.sql.Date.valueOf(lastOfPastMonth);
+        /** Make a new date at start of month **/
+        Date currentYearStart = new Date(date.getYear(), date.getMonth(), 1);
 
+
+        /** Make a new date at the start of the month the year before **/
+        Date priorYearStart = new Date(date.getYear()-1, date.getMonth(), 1);
+
+        /** Make a new date at the current date in the prior year**/
+        Date priorYearMTD = new Date(date.getYear()-1, date.getMonth(), date.getDate());
 
         /**
          * Get the two lists of processed Data
          */
-        List<ProcessedRevenueDomain> givenMTDList = processedRevenueDAO.findByDateBetween(firstOfGivenMonthDate, currentOfGivenMonthDate);
-        List<ProcessedRevenueDomain> pastMTDList = processedRevenueDAO.findByDateBetween(firstOfPastMonthDate, currentOfPastMonthDate);
+        List<ProcessedRevenueDomain> givenMTDList;
+        List<ProcessedRevenueDomain> pastMTDList;
 
-        SummaryStatsDTO summaryStatsDTO = new SummaryStatsDTO();
+        /** Check if a location was included **/
+        if(search.getLocationId() != null && search.getLocationId() != -1){
+            StoreLocationDomain storeLocationDomain = storeLocationService.getStoreLocation(search.getLocationId());
+            givenMTDList = processedRevenueDAO.findByLocationDomainAndDateBetween(storeLocationDomain, currentYearStart, currentYearMTD);
+            pastMTDList = processedRevenueDAO.findByLocationDomainAndDateBetween(storeLocationDomain, priorYearStart, priorYearMTD);
+        }else {
+            givenMTDList = processedRevenueDAO.findByDateBetween(currentYearStart, currentYearMTD);
+            pastMTDList = processedRevenueDAO.findByDateBetween(priorYearStart, priorYearMTD);
+        }
 
         /**
          * Add up all the months -- specific value given by client
          */
-        double givenYearMTD = 0;
+        double givenYearMTDDollars = 0;
         for(ProcessedRevenueDomain entries : givenMTDList){
-            givenYearMTD += entries.getActualPreTaxIntake();
+            givenYearMTDDollars += entries.getActualPreTaxIntake();
         }
 
-        double priorYearMTD = 0;
+        double priorYearMTDDollars = 0;
         for(ProcessedRevenueDomain entries : pastMTDList){
-            priorYearMTD += entries.getActualPreTaxIntake();
+            priorYearMTDDollars += entries.getActualPreTaxIntake();
         }
 
-        return new SummaryStatsDTO(givenYearMTD, priorYearMTD);
 
-
+        return new SummaryStatsDTO(givenYearMTDDollars, priorYearMTDDollars);
     }
 
 

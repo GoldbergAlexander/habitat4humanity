@@ -9,6 +9,7 @@ import com.agoldberg.hercules.domain.StoreLocationDomain;
 import com.agoldberg.hercules.domain.UserDomain;
 import com.agoldberg.hercules.dto.EnteredSearchDTO;
 import com.agoldberg.hercules.dto.ProcessedRevenueDTO;
+import com.agoldberg.hercules.dto.ProcessedRevenueDataAndSummaryDTO;
 import com.agoldberg.hercules.event.RevenueEnteredEvent;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,16 +36,7 @@ public class ProcessedRevenueService implements ApplicationListener<RevenueEnter
     private double taxRate;
 
 
-    public List<ProcessedRevenueDTO> getProcessedRevenues() {
-        List<ProcessedRevenueDomain> domains = processedRevenueDAO.findAll();
-        List<ProcessedRevenueDTO> dtos = new ArrayList<>();
-        for(ProcessedRevenueDomain domain : domains){
-            dtos.add(modelMapper.map(domain, ProcessedRevenueDTO.class));
-        }
-        return dtos;
-    }
-
-    public List<ProcessedRevenueDTO> getProcessedRevenues(EnteredSearchDTO dto){
+    public ProcessedRevenueDataAndSummaryDTO getProcessedRevenues(EnteredSearchDTO dto){
         List<ProcessedRevenueDomain> domains;
         if(dto.getLocationId() != null){
             StoreLocationDomain locationDomain = storeLocationService.getStoreLocation(dto.getLocationId());
@@ -56,10 +48,21 @@ public class ProcessedRevenueService implements ApplicationListener<RevenueEnter
         }
 
         List<ProcessedRevenueDTO> dtos = new ArrayList<>();
+        ProcessedRevenueDTO summary = new ProcessedRevenueDTO();
         for(ProcessedRevenueDomain domain : domains){
             dtos.add(modelMapper.map(domain, ProcessedRevenueDTO.class));
+
+            /** Create Summary Row **/
+            summary.setActualIntake(summary.getActualIntake() + domain.getActualIntake());
+            summary.setActualTaxableIntake(summary.getActualTaxableIntake() + domain.getActualTaxableIntake());
+            summary.setActualTaxIntake(summary.getActualTaxIntake() + domain.getActualTaxIntake());
+            summary.setTapeIntake(summary.getTapeIntake() + domain.getTapeIntake());
+            summary.setTapePreTaxIntake(summary.getTapePreTaxIntake() + domain.getTapePreTaxIntake());
+            summary.setTapeTaxableIntake(summary.getTapeTaxableIntake() + domain.getTapeTaxableIntake());
+            summary.setOverUnder(summary.getOverUnder() + domain.getOverUnder());
+            summary.setTaxCount(summary.getTaxCount() + domain.getTaxCount());
         }
-        return dtos;
+        return new ProcessedRevenueDataAndSummaryDTO(dtos, summary);
     }
 
     @Override

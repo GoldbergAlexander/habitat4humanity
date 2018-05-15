@@ -11,6 +11,42 @@
 
 <div class="container">
     <h2>Summary Statistics</h2>
+    <table class="table">
+        <form th:action="@{/summarystats}" th:object="${search}" method="get">
+            <thead>
+            <tr>
+                <th>Location</th>
+                <th>Date</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><select class="form-control" th:field="*{locationId}">
+                    <option value="-1">All Locations</option>
+                    <option th:each="location : ${locations}"
+                            th:value="${location.id}"
+                            th:text="${location.name}"
+                            th:selected="${search.locationId == location.id}">
+                    </option>
+                </select>
+                </td>
+                <td><input class="form-control form-date" type="date" th:field="*{stringDate}"/>
+                    <p th:each="error : ${#fields.errors('date')}"
+                       th:text="${error}">Constraint error</p>
+                    <script type="text/javascript">
+                        $(function () {
+                            $('#stringStartingDate').datepicker({format:"yyyy-mm-dd"});
+                        });
+                    </script>
+                </td>
+                <td>
+                    <button class="btn btn-primary" type="submit" value="submit">Filter</button>
+                </td>
+            </tr>
+            </tbody>
+        </form>
+    </table>
 <table class="table table-striped" th:object="${stats}">
     <tbody>
     <tr>
