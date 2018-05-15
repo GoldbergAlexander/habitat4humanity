@@ -2,28 +2,19 @@ package com.agoldberg.hercules.config;
 
 import com.agoldberg.hercules.dao.RoleDAO;
 import com.agoldberg.hercules.domain.RoleDomain;
-import com.agoldberg.hercules.dto.StoreLocationDTO;
-import com.agoldberg.hercules.dto.UserDTO;
 import com.agoldberg.hercules.service.StoreLocationService;
-import com.agoldberg.hercules.service.UserService;
+import com.agoldberg.hercules.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
 
 @Component
 public class AdminUserDataLoader implements ApplicationListener<ContextRefreshedEvent>{
     private boolean loaded = false;
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @Autowired
     private RoleDAO roleDAO;
