@@ -83,7 +83,6 @@ public class ProcessedRevenueServiceImpl implements ApplicationListener<RevenueE
 //        Actual Total Daily Intake
         double actualPreTaxIntake = er.getCashCount() +
                 er.getCheckCount() +
-                er.getCheckCount() +
                 er.getCardUnit() +
                 er.getPayoutReceipt() -
                 er.getTaxTape();
