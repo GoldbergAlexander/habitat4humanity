@@ -82,12 +82,13 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         if (userDomain == null) {
             throw new UsernameNotFoundException(s);
         }
-
+        LOGGER.debug("Getting user by username: " + s);
         return userDomain;
     }
 
     @Override
     public UserDTO getCurrentUser(){
+        LOGGER.debug("Getting active user");
         return modelMapper.map(fetchActiveUser(), UserDTO.class);
     }
 
@@ -99,6 +100,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         for(RoleDomain domain: domains){
             dtos.add(modelMapper.map(domain, RoleDTO.class));
         }
+        LOGGER.info("Getting roles list, size: " + dtos.size());
         return dtos;
     }
 
@@ -115,7 +117,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
             UserDTO dto = modelMapper.map(domain, UserDTO.class);
             userDTOS.add(dto);
         }
-
+        LOGGER.info("Getting user list, size: " + userDTOS.size());
         return userDTOS;
     }
 
@@ -123,6 +125,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @RolesAllowed({"ROLE_ADMIN"})
     public UserDTO getUser(Long id){
         UserDomain domain = userDAO.getOne(id);
+        LOGGER.info("Getting user by ID: " + id);
         return modelMapper.map(domain, UserDTO.class);
     }
 
@@ -240,7 +243,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
        UserDomain user = userDAO.getOne(id);
        user.setAccountNonLocked(!user.isAccountNonLocked());
        userDAO.save(user);
-       LOGGER.info("Toggled enable state of user ");
+       LOGGER.info("Setting user: " + user.getUsername() + "to enabled: " + user.isEnabled());
     }
 
     public void createAdmin(){

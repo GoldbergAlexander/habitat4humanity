@@ -4,6 +4,8 @@ import com.agoldberg.hercules.dao.StoreLocationDAO;
 import com.agoldberg.hercules.domain.StoreLocationDomain;
 import com.agoldberg.hercules.dto.StoreLocationDTO;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,8 @@ import java.util.List;
 
 @Service
 public class StoreLocationServiceImpl implements StoreLocationService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(StoreLocationService.class);
     @Autowired
     private StoreLocationDAO storeLocationDAO;
 
@@ -26,6 +30,7 @@ public class StoreLocationServiceImpl implements StoreLocationService {
         StoreLocationDomain location = storeLocationDAO.getOne(id);
         location.setEnabled(!location.isEnabled());
         storeLocationDAO.save(location);
+        LOGGER.info("Location: " + location.getName() + " set to: " + location.isEnabled());
     }
 
     @Override
@@ -44,6 +49,7 @@ public class StoreLocationServiceImpl implements StoreLocationService {
         storeLocationDomain.setEnabled(true);
 
         storeLocationDAO.save(storeLocationDomain);
+        LOGGER.info("Created location: " + storeLocationDomain.getName());
     }
 
     @Override
@@ -54,6 +60,7 @@ public class StoreLocationServiceImpl implements StoreLocationService {
             throw new IllegalArgumentException("Could not map the store location dto to the domain object.");
         }
         storeLocationDAO.deleteById(domain.getId());
+        LOGGER.info("Deleted location: " + domain.getName());
     }
 
     @Override
@@ -65,10 +72,12 @@ public class StoreLocationServiceImpl implements StoreLocationService {
         }
 
         storeLocationDAO.save(domain);
+        LOGGER.info("Modified location: " + domain.getName());
     }
 
     @Override
     public StoreLocationDTO getStoreLocationDTO(Long id){
+        LOGGER.info("Getting location with ID: " + id);
         return modelMapper.map(storeLocationDAO.getOne(id), StoreLocationDTO.class);
     }
 
@@ -77,6 +86,7 @@ public class StoreLocationServiceImpl implements StoreLocationService {
         if(storeLocation == null){
             throw new IllegalStateException("A store location that is enabled and with the ID provided could not be found.");
         }
+        LOGGER.info("Got enabled location with ID: " + id);
         return storeLocation;
     }
 
@@ -89,6 +99,7 @@ public class StoreLocationServiceImpl implements StoreLocationService {
             dtos.add(modelMapper.map(domain, StoreLocationDTO.class));
         }
 
+        LOGGER.info("Getting list of locations, size: " + dtos.size());
         return dtos;
     }
 
@@ -100,7 +111,7 @@ public class StoreLocationServiceImpl implements StoreLocationService {
         for(StoreLocationDomain domain : domains){
             dtos.add(modelMapper.map(domain, StoreLocationDTO.class));
         }
-
+        LOGGER.info("Getting list of enabled locations, size: " + dtos.size());
         return dtos;
     }
 
@@ -110,6 +121,7 @@ public class StoreLocationServiceImpl implements StoreLocationService {
         if(domain == null){
             throw new IllegalStateException("A store location that is enabled and with the ID provided could not be found.");
         }
+        LOGGER.info("Getting location domain with ID: " + id);
         return domain.getName();
     }
 }

@@ -48,6 +48,7 @@ public class TokenServiceImpl implements TokenService {
             LOGGER.info("Confirmed token for user: " +token.getUser().getUsername());
             return token.getUser();
         }else {
+            LOGGER.warn("Could not validate token: " + uuid);
             return null;
         }
     }

@@ -10,9 +10,12 @@ import com.agoldberg.hercules.dto.ProcessedRevenueDTO;
 import com.agoldberg.hercules.dto.ProcessedRevenueDataAndSummaryDTO;
 import com.agoldberg.hercules.event.RevenueEnteredEvent;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,6 +23,8 @@ import java.util.List;
 
 @Service
 public class ProcessedRevenueServiceImpl implements ApplicationListener<RevenueEnteredEvent>, ProcessedRevenueService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProcessedRevenueService.class);
 
     @Autowired
     private ProcessedRevenueDAO processedRevenueDAO;
@@ -61,11 +66,14 @@ public class ProcessedRevenueServiceImpl implements ApplicationListener<RevenueE
             summary.setOverUnder(summary.getOverUnder() + domain.getOverUnder());
             summary.setTaxCount(summary.getTaxCount() + domain.getTaxCount());
         }
+
+        LOGGER.info("Returning list of processed revenue for dates between: " + dto.getStartingDate() + " and " + dto.getEndingDate() + " filtered by location: " + dto.getLocationName() + ", size: " + dtos.size());
         return new ProcessedRevenueDataAndSummaryDTO(dtos, summary);
     }
 
     @Override
     public void onApplicationEvent(RevenueEnteredEvent revenueEnteredEvent) {
+        LOGGER.debug("Handling event");
         processRevenue(revenueEnteredEvent.getEnteredRevenue());
     }
 
@@ -152,8 +160,10 @@ public class ProcessedRevenueServiceImpl implements ApplicationListener<RevenueE
             //Maintain audit log
             processedRevenue.setCreatedBy(existing.getCreatedBy());
             processedRevenue.setCreationDate(existing.getCreationDate());
+            LOGGER.warn("Processed Revenue Data is being overwritten by user: " + SecurityContextHolder.getContext().getAuthentication().getName());
         }
         processedRevenueDAO.save(processedRevenue);
+        LOGGER.info("Created or updated processed revenue entry for date: " + processedRevenue.getDate() + " and location: " + processedRevenue.getLocationDomain().getName());
     }
 
 
