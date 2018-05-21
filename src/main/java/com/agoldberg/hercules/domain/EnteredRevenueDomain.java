@@ -1,13 +1,14 @@
 package com.agoldberg.hercules.domain;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 @Table(
         uniqueConstraints = @UniqueConstraint(columnNames = {"location_id", "date"})
 )
 @Entity
-public class EnteredRevenueDomain extends Auditable<String>{
+public class EnteredRevenueDomain extends Auditable<String> implements Serializable{
 
     @Id
     @GeneratedValue

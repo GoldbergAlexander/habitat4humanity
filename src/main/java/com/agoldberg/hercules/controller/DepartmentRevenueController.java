@@ -19,6 +19,15 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/revenue/department")
 public class DepartmentRevenueController {
+    private static final String DEPARTMENT_REVENUE_MODEL = "departmentRevenue";
+    private static final String DEPARTMENTS_MODEL = "departmentList";
+    private static final String DEPARTMENT_REVENUE_FORM_VIEW = "departmentrevenue/DepartmentRevenueForm";
+    private static final String CONFIRM_REDIRECT = "redirect:confirm";
+    private static final String DEPARTMENT_REVENUE_CONFIRM_VIEW = "departmentrevenue/ConfirmDepartmentRevenue";
+    private static final String STAGING_ERROR = "An entry has not been staged for confirmation.";
+    private static final String STAGING_CONFIRM_ERROR = "An entry has either not be staged or has already been confirmed.";
+    private static final String DEPARTMENT_REVENUE_SAVED_VIEW = "departmentrevenue/SavedDepartmentRevenue";
+
     @Autowired
     private DepartmentRevenueService departmentRevenueService;
 
@@ -41,9 +50,8 @@ public class DepartmentRevenueController {
 
     @GetMapping("entry")
     public ModelAndView displayRevenueEntryForm(Model model){
-        //model.addAttribute("enteredRevenue", new EnteredRevenueDTO());
         //Add a list of locations to the model.
-        model.addAttribute("departmentList", departmentService.getEnabledDepartments());
+        model.addAttribute(DEPARTMENTS_MODEL, departmentService.getEnabledDepartments());
 
         /** Display Existing data if its there **/
         DepartmentRevenueDTO dto;
@@ -51,29 +59,29 @@ public class DepartmentRevenueController {
             dto = new DepartmentRevenueDTO();
         }
 
-        return new ModelAndView("departmentrevenue/DepartmentRevenueForm", "departmentRevenue", dto);
+        return new ModelAndView(DEPARTMENT_REVENUE_FORM_VIEW, DEPARTMENT_REVENUE_MODEL, dto);
 
     }
 
     @PostMapping("entry")
-    public ModelAndView saveEnteredRevenueToSession(Model model, @Valid @ModelAttribute("departmentRevenue") DepartmentRevenueDTO dto, BindingResult bindingResult){
+    public ModelAndView saveEnteredRevenueToSession(Model model, @Valid @ModelAttribute(DEPARTMENT_REVENUE_MODEL) DepartmentRevenueDTO dto, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             //We still need the list
-            model.addAttribute("departmentList", departmentService.getEnabledDepartments());
-            return new ModelAndView("departmentrevenue/DepartmentRevenueForm", "departmentRevenue", dto);
+            model.addAttribute(DEPARTMENTS_MODEL, departmentService.getEnabledDepartments());
+            return new ModelAndView(DEPARTMENT_REVENUE_FORM_VIEW, DEPARTMENT_REVENUE_MODEL, dto);
         }else{
             dto.setDepartmentName(departmentService.getDepartmentName(dto.getDepartmentId()));
             staging.setDepartmentRevenueDTO(dto);
         }
-        return new ModelAndView("redirect:confirm");
+        return new ModelAndView(CONFIRM_REDIRECT);
     }
 
     @GetMapping("confirm")
     public ModelAndView displayEnteredRevenue(){
         if(staging.isStaged()){
-            return new ModelAndView("departmentrevenue/ConfirmDepartmentRevenue", "departmentRevenue", staging.getDepartmentRevenueDTO());
+            return new ModelAndView(DEPARTMENT_REVENUE_CONFIRM_VIEW, DEPARTMENT_REVENUE_MODEL, staging.getDepartmentRevenueDTO());
         }else {
-            throw new IllegalStateException("An entry has not been staged for confirmation.");
+            throw new IllegalStateException(STAGING_ERROR);
         }
     }
 
@@ -86,10 +94,10 @@ public class DepartmentRevenueController {
             dto = departmentRevenueService.createRevenueEntry(staging.getDepartmentRevenueDTO());
         }else{
             staging.reset();
-            throw new IllegalStateException("An entry has either not be staged or has already been confirmed.");
+            throw new IllegalStateException(STAGING_CONFIRM_ERROR);
         }
 
         staging.reset();
-        return new ModelAndView("departmentrevenue/SavedDepartmentRevenue", "departmentRevenue", dto);
+        return new ModelAndView(DEPARTMENT_REVENUE_SAVED_VIEW, DEPARTMENT_REVENUE_MODEL, dto);
     }
 }

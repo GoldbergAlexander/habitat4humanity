@@ -1,9 +1,8 @@
 package com.agoldberg.hercules.service;
 
-import com.agoldberg.hercules.domain.UserDomain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -20,7 +19,7 @@ public class AuditorAwareService implements AuditorAware<String>{
         }catch (NullPointerException e){
             LOGGER.warn("Could not get current user for audit.");
         }
-        LOGGER.debug("Using user: " + username + " for audit.");
+        LOGGER.debug("Using user: {} for audit.", username);
         return Optional.of(username);
     }
 }

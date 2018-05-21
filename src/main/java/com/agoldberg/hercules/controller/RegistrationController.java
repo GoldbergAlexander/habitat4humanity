@@ -17,6 +17,13 @@ import javax.validation.Valid;
 @RequestMapping("/register")
 public class RegistrationController {
 
+    private static final String REGISTER_MODEL = "register";
+    private static final String LOCATIONS_MODEL = "locations";
+    private static final String USER_MODEL = "user";
+    private static final String REGISTRATION_FORM_VIEW = "registration/RegistrationForm";
+    private static final String REGISTRATION_CONFIRMED_VIEW = "registration/UserConfirmed";
+    private static final String REGISTRATION_SUCCESS_VIEW = "registration/RegistrationSuccess";
+
     @Autowired
     private UserService userService;
 
@@ -25,25 +32,25 @@ public class RegistrationController {
 
     @GetMapping
     public ModelAndView showRegistrationForm(Model model){
-        model.addAttribute("locations", storeLocationService.getEnabledStoreLocations());
-        return new ModelAndView("registration/RegistrationForm", "register", new RegistrationDTO());
+        model.addAttribute(LOCATIONS_MODEL, storeLocationService.getEnabledStoreLocations());
+        return new ModelAndView(REGISTRATION_FORM_VIEW, REGISTER_MODEL, new RegistrationDTO());
     }
 
     @PostMapping
-    public ModelAndView handleRegistration(Model model, @Valid @ModelAttribute("register") RegistrationDTO registration, BindingResult bindingResult){
+    public ModelAndView handleRegistration(Model model, @Valid @ModelAttribute(REGISTER_MODEL) RegistrationDTO registration, BindingResult bindingResult){
         if(!bindingResult.hasErrors()){
             userService.createUser(registration);
-            return new ModelAndView("registration/RegistrationSuccess", "register", registration);
+            return new ModelAndView(REGISTRATION_SUCCESS_VIEW, REGISTER_MODEL, registration);
         }else{
-            model.addAttribute("locations", storeLocationService.getEnabledStoreLocations());
-            return new ModelAndView("registration/RegistrationForm", "register", registration);
+            model.addAttribute(LOCATIONS_MODEL, storeLocationService.getEnabledStoreLocations());
+            return new ModelAndView(REGISTRATION_FORM_VIEW, REGISTER_MODEL, registration);
         }
     }
 
     @GetMapping("confirm")
     public ModelAndView handleConfirmation(@RequestParam("token") String uuid){
         UserDTO userDTO = userService.confirmUser(uuid);
-        return new ModelAndView("registration/UserConfirmed", "user", userDTO);
+        return new ModelAndView(REGISTRATION_CONFIRMED_VIEW, USER_MODEL, userDTO);
     }
 
 }

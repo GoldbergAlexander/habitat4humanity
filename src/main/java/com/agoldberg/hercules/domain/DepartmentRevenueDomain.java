@@ -16,8 +16,6 @@ public class DepartmentRevenueDomain extends Auditable<String>{
     private Date date;
     private double revenue;
 
-    public DepartmentRevenueDomain() {
-    }
 
     public Long getId() {
         return id;

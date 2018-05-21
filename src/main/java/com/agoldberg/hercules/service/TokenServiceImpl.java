@@ -33,7 +33,7 @@ public class TokenServiceImpl implements TokenService {
         token.setUser(user);
         token.setTokenType(type);
         tokenDAO.save(token);
-        LOGGER.info("Created Token: " + token.getToken() + " for User: " + token.getUser().getUsername());
+        LOGGER.info("Created Token: {} for user: {}",token.getToken(),token.getUser().getUsername());
 
         TokenCreatedEvent event = new TokenCreatedEvent(this, token);
         eventPublisher.publishEvent(event);
@@ -42,13 +42,13 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public UserDomain validateToken(String uuid, TokenType type){
-        LOGGER.debug("Searching for token: " + uuid);
+        LOGGER.debug("Searching for token: {}", uuid);
         TokenDomain token = tokenDAO.findByTokenAndTokenType(uuid, type);
         if(token != null){
-            LOGGER.info("Confirmed token for user: " +token.getUser().getUsername());
+            LOGGER.info("Confirmed token for user: {}",token.getUser().getUsername());
             return token.getUser();
         }else {
-            LOGGER.warn("Could not validate token: " + uuid);
+            LOGGER.warn("Could not validate token: {}", uuid);
             return null;
         }
     }

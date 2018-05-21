@@ -18,6 +18,7 @@ import javax.annotation.security.RolesAllowed;
 public class DepartmentRevenueServiceImpl implements DepartmentRevenueService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DepartmentService.class);
+    public static final String MAPPING_ERROR = "Could not map to entered revenue dto to a domain object.";
 
     @Autowired
     private DepartmentServiceImpl departmentService;
@@ -33,12 +34,12 @@ public class DepartmentRevenueServiceImpl implements DepartmentRevenueService {
     public DepartmentRevenueDTO createRevenueEntry(DepartmentRevenueDTO dto){
         DepartmentRevenueDomain domain = modelMapper.map(dto, DepartmentRevenueDomain.class);
         if(domain == null){
-            throw new IllegalArgumentException("Could not map to entered revenue dto to a domain object.");
+            throw new IllegalArgumentException(MAPPING_ERROR);
         }
         DepartmentDomain departmentDomain = departmentService.getDepartment(dto.getDepartmentId());
         domain.setDepartment(departmentDomain);
         domain = departmentRevenueDAO.save(domain);
-        LOGGER.info("Created department revenue entry for department: " + dto.getDepartmentName());
+        LOGGER.info("Created department revenue entry for department: {}", dto.getDepartmentName());
         return modelMapper.map(domain, DepartmentRevenueDTO.class);
     }
 }

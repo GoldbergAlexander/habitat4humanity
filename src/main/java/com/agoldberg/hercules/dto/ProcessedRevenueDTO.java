@@ -32,8 +32,6 @@ public class ProcessedRevenueDTO {
     private double overUnder;
     private double taxCount;
 
-    public ProcessedRevenueDTO() {
-    }
 
     public String getEnteredRevenueLocationName() {
         return enteredRevenueLocationName;

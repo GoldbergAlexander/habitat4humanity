@@ -67,7 +67,7 @@ public class ProcessedRevenueServiceImpl implements ApplicationListener<RevenueE
             summary.setTaxCount(summary.getTaxCount() + domain.getTaxCount());
         }
 
-        LOGGER.info("Returning list of processed revenue for dates between: " + dto.getStartingDate() + " and " + dto.getEndingDate() + " filtered by location: " + dto.getLocationName() + ", size: " + dtos.size());
+        LOGGER.info("Returning list of processed revenue for dates between: {} and {}, filtered by location: {}, size: {}",dto.getStartingDate(), dto.getEndingDate() , dto.getLocationName() ,dtos.size());
         return new ProcessedRevenueDataAndSummaryDTO(dtos, summary);
     }
 
@@ -160,10 +160,10 @@ public class ProcessedRevenueServiceImpl implements ApplicationListener<RevenueE
             //Maintain audit log
             processedRevenue.setCreatedBy(existing.getCreatedBy());
             processedRevenue.setCreationDate(existing.getCreationDate());
-            LOGGER.warn("Processed Revenue Data is being overwritten by user: " + SecurityContextHolder.getContext().getAuthentication().getName());
+            LOGGER.warn("Processed Revenue Data is being overwritten by user: {}", SecurityContextHolder.getContext().getAuthentication().getName());
         }
         processedRevenueDAO.save(processedRevenue);
-        LOGGER.info("Created or updated processed revenue entry for date: " + processedRevenue.getDate() + " and location: " + processedRevenue.getLocationDomain().getName());
+        LOGGER.info("Created or updated processed revenue entry for date: {} and location: {}", processedRevenue.getDate(), processedRevenue.getLocationDomain().getName());
     }
 
 

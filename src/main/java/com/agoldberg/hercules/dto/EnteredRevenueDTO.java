@@ -46,8 +46,6 @@ public class EnteredRevenueDTO {
     private double taxVoid;
     private String memo;
 
-    public EnteredRevenueDTO() {
-    }
 
     public String getStringDate() {
         return stringDate;

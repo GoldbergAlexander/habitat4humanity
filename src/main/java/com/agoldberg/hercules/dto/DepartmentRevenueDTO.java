@@ -1,6 +1,6 @@
 package com.agoldberg.hercules.dto;
 
-import com.sun.istack.internal.NotNull;
+import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Min;
@@ -23,8 +23,6 @@ public class DepartmentRevenueDTO {
     @Min(0)
     private double revenue;
 
-    public DepartmentRevenueDTO() {
-    }
 
     public String getStringDate() {
         return stringDate;

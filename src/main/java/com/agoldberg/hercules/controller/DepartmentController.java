@@ -16,6 +16,13 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("department")
 public class DepartmentController {
+    public static final String LOCATIONS_MODEL = "locations";
+    public static final String DEPARTMENT_REDIRECT = "redirect:/department";
+    public static final String NEW_DEPARTMENT_MODEL = "newDepartment";
+    public static final String DEPARTMENT_LIST_VIEW = "department/DepartmentList";
+    public static final String DEPARTMENTS_MODEL = "departments";
+    public static final String DEPARTMENT_FORM_VIEW = "department/DepartmentForm";
+    public static final String DEPARTMENT_MODEL = "department";
     @Autowired
     private StoreLocationService storeLocationService;
     @Autowired
@@ -23,15 +30,15 @@ public class DepartmentController {
 
     @RequestMapping
     public ModelAndView showDepartments(Model model){
-        model.addAttribute("newDepartment", new DepartmentDTO());
-        model.addAttribute("locations", storeLocationService.getEnabledStoreLocations());
-        return new ModelAndView("department/DepartmentList", "departments", departmentService.getDepartments());
+        model.addAttribute(NEW_DEPARTMENT_MODEL, new DepartmentDTO());
+        model.addAttribute(LOCATIONS_MODEL, storeLocationService.getEnabledStoreLocations());
+        return new ModelAndView(DEPARTMENT_LIST_VIEW, DEPARTMENTS_MODEL, departmentService.getDepartments());
     }
 
     @GetMapping("{department_id}")
     public ModelAndView showDepartmentForm(@PathVariable("department_id") Long departmentId, Model model){
-        model.addAttribute("locations", storeLocationService.getEnabledStoreLocations());
-        return new ModelAndView("department/DepartmentForm","department", departmentService.getDepartmentDTO(departmentId));
+        model.addAttribute(LOCATIONS_MODEL, storeLocationService.getEnabledStoreLocations());
+        return new ModelAndView(DEPARTMENT_FORM_VIEW, DEPARTMENT_MODEL, departmentService.getDepartmentDTO(departmentId));
 
     }
 
@@ -39,35 +46,36 @@ public class DepartmentController {
     public ModelAndView modifyDepartment(@PathVariable("department_id") Long departmentId, Model model, @Valid @ModelAttribute("department") DepartmentDTO department, BindingResult bindingResult){
         if(!bindingResult.hasErrors()){
             departmentService.modifyDepartment(department);
-            return new ModelAndView("redirect:/department");
+            return new ModelAndView(DEPARTMENT_REDIRECT);
         }else{
-            model.addAttribute("locations", storeLocationService.getEnabledStoreLocations());
-            return new ModelAndView("department/DepartmentForm", "department", department);
+            model.addAttribute(LOCATIONS_MODEL, storeLocationService.getEnabledStoreLocations());
+            return new ModelAndView(DEPARTMENT_FORM_VIEW, DEPARTMENT_MODEL, department);
         }
     }
 
     @PostMapping("create")
-    public ModelAndView createDepartment(Model model, @Valid @ModelAttribute("newDepartment") DepartmentDTO departmentDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+    public ModelAndView createDepartment(Model model, @Valid @ModelAttribute(NEW_DEPARTMENT_MODEL) DepartmentDTO departmentDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes){
         if(!bindingResult.hasErrors()) {
             departmentService.createDepartment(departmentDTO);
-            return new ModelAndView("redirect:/department");
+            return new ModelAndView(DEPARTMENT_REDIRECT);
 
         }else {
-            model.addAttribute("locations", storeLocationService.getEnabledStoreLocations());
-            return new ModelAndView("department/DepartmentList", "newDepartment", departmentDTO);
+            model.addAttribute(LOCATIONS_MODEL, storeLocationService.getEnabledStoreLocations());
+            return new ModelAndView(DEPARTMENT_LIST_VIEW, NEW_DEPARTMENT_MODEL, departmentDTO);
         }
     }
 
+
     @PostMapping("enable")
-    public String toggleEnable(@ModelAttribute("newDepartment") DepartmentDTO dto){
+    public String toggleEnable(@ModelAttribute(NEW_DEPARTMENT_MODEL) DepartmentDTO dto){
         departmentService.toggleDepartmentEnabled(dto.getId());
-        return "redirect:/department";
+        return DEPARTMENT_REDIRECT;
     }
 
     @PostMapping("delete")
-    public String deleteDepartment(Model model, @Valid @ModelAttribute("newDepartment") DepartmentDTO departmentDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+    public String deleteDepartment(Model model, @Valid @ModelAttribute(NEW_DEPARTMENT_MODEL) DepartmentDTO departmentDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes){
         departmentService.deleteDepartment(departmentDTO);
         redirectAttributes.addFlashAttribute(model);
-        return "redirect:/department";
+        return DEPARTMENT_REDIRECT;
     }
 }

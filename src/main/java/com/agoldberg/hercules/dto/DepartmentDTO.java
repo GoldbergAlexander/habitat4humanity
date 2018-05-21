@@ -1,10 +1,10 @@
 package com.agoldberg.hercules.dto;
 
-import com.agoldberg.hercules.domain.StoreLocationDomain;
+
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+
 
 public class DepartmentDTO {
 
@@ -17,8 +17,6 @@ public class DepartmentDTO {
     private double size;
     private boolean enabled;
 
-    public DepartmentDTO() {
-    }
 
     public String getLocationName() {
         return locationName;

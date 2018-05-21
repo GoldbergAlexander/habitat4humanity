@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import java.util.Objects;
 
 @Entity
-public class RoleDomain {
+public class RoleDomain extends Auditable<String>{
     @Id
     @GeneratedValue
     private Long id;

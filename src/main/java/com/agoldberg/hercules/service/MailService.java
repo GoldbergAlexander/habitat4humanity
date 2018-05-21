@@ -58,7 +58,7 @@ public class MailService implements ApplicationListener<TokenCreatedEvent> {
         email.setSubject(confirmMessage);
         email.setText(applicationURL+confirmURL+tokenDomain.getToken());
         mailSender.send(email);
-        LOGGER.info("Sent Confirmation Email: " + email.toString());
+        LOGGER.info("Sent Confirmation Email: {}", email);
     }
 
     private void sendResetEmail(TokenDomain tokenDomain){
@@ -70,6 +70,6 @@ public class MailService implements ApplicationListener<TokenCreatedEvent> {
         email.setSubject(resetMessage);
         email.setText(applicationURL+resetURL+tokenDomain.getToken());
         mailSender.send(email);
-        LOGGER.info("Sent Reset Email: " + email.toString());
+        LOGGER.info("Sent Reset Email: {}", email);
     }
 }

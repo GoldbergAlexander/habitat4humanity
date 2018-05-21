@@ -10,11 +10,12 @@ import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import java.io.Serializable;
 import java.util.Date;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-abstract class Auditable<U> {
+abstract class Auditable<U> implements Serializable{
 
     @CreatedBy
     protected U createdBy;

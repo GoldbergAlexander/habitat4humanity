@@ -19,6 +19,7 @@ import javax.annotation.security.RolesAllowed;
 public class EnteredRevenueServiceImpl implements EnteredRevenueService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EnteredRevenueService.class);
+    private static final String MAPPING_ERROR = "Could not map to entered revenue dto to a domain object.";
 
     @Autowired
     private EnteredRevenueDAO enteredRevenueDAO;
@@ -38,10 +39,10 @@ public class EnteredRevenueServiceImpl implements EnteredRevenueService {
         LOGGER.info("Checking for existing revenue entry");
         EnteredRevenueDomain domain = modelMapper.map(dto, EnteredRevenueDomain.class);
         if(domain == null){
-            throw new IllegalArgumentException("Could not map to entered revenue dto to a domain object.");
+            throw new IllegalArgumentException(MAPPING_ERROR);
         }
 
-        //Convert the store location id to a domain object;
+        //Convert the store location id to a domain object
         StoreLocationDomain storeLocationDomain = storeLocationService.getStoreLocation(dto.getLocationId());
 
         //Set the domain object inside the domain
@@ -56,7 +57,7 @@ public class EnteredRevenueServiceImpl implements EnteredRevenueService {
         if(existing == null){
             return null;
         }
-        LOGGER.info("Found existing revenue entry for location: " + domain.getLocation().getName() + " and date: " + domain.getDate());
+        LOGGER.info("Found existing revenue entry for location: {} and date: {}", domain.getLocation().getName(), domain.getDate());
         //Return a DTO of the existing data.
         return modelMapper.map(existing, EnteredRevenueDTO.class);
     }
@@ -66,10 +67,10 @@ public class EnteredRevenueServiceImpl implements EnteredRevenueService {
     public EnteredRevenueDTO createRevenueEntry(EnteredRevenueDTO dto){
         EnteredRevenueDomain domain = modelMapper.map(dto, EnteredRevenueDomain.class);
         if(domain == null){
-            throw new IllegalArgumentException("Could not map to entered revenue dto to a domain object.");
+            throw new IllegalArgumentException(MAPPING_ERROR);
         }
 
-        //Convert the store location id to a domain object;
+        //Convert the store location id to a domain object
         StoreLocationDomain storeLocationDomain = storeLocationService.getStoreLocation(dto.getLocationId());
 
         //Set the domain object inside the domain
@@ -84,7 +85,7 @@ public class EnteredRevenueServiceImpl implements EnteredRevenueService {
             //Maintain the audit logs
             domain.setCreatedBy(existing.getCreatedBy());
             domain.setCreationDate(existing.getCreationDate());
-            LOGGER.warn("Entered Revenue Data is being overwritten by user: " + SecurityContextHolder.getContext().getAuthentication().getName());
+            LOGGER.warn("Entered Revenue Data is being overwritten by user: {}", SecurityContextHolder.getContext().getAuthentication().getName());
 
         }
 
@@ -96,7 +97,7 @@ public class EnteredRevenueServiceImpl implements EnteredRevenueService {
         RevenueEnteredEvent event = new RevenueEnteredEvent(this, domain);
         eventPublisher.publishEvent(event);
 
-        LOGGER.info("Created or updated entered revenue entry for location: " + domain.getLocation().getName() + " and date " + domain.getDate());
+        LOGGER.info("Created or updated entered revenue entry for location: {} and date: {}", domain.getLocation().getName(),domain.getDate());
         return modelMapper.map(domain, EnteredRevenueDTO.class);
     }
 }

@@ -3,11 +3,10 @@ package com.agoldberg.hercules.dto;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.YearMonth;
 import java.util.Date;
 
 public class EnteredSearchDTO {
+    public static final String PATTERN = "yyyy-MM-dd";
     private Long locationId;
     private String locationName;
 
@@ -39,7 +38,7 @@ public class EnteredSearchDTO {
         this.endingDate.setSeconds(0);
 
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat dateFormat = new SimpleDateFormat(PATTERN);
         this.stringStartingDate = dateFormat.format(startingDate);
         this.stringEndingDate = dateFormat.format(endingDate);
     }
@@ -66,7 +65,7 @@ public class EnteredSearchDTO {
 
     public void setStringStartingDate(String stringStartingDate) {
         try {
-            this.startingDate = new SimpleDateFormat("yyyy-MM-dd").parse(stringStartingDate);
+            this.startingDate = new SimpleDateFormat(PATTERN).parse(stringStartingDate);
             this.startingDate.setHours(0);
             this.startingDate.setMinutes(0);
             this.startingDate.setSeconds(0);
@@ -82,7 +81,7 @@ public class EnteredSearchDTO {
 
     public void setStringEndingDate(String stringEndingDate) {
         try {
-            this.endingDate = new SimpleDateFormat("yyyy-MM-dd").parse(stringEndingDate);
+            this.endingDate = new SimpleDateFormat(PATTERN).parse(stringEndingDate);
             this.endingDate.setHours(0);
             this.endingDate.setMinutes(0);
             this.endingDate.setSeconds(0);

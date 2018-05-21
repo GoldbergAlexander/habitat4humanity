@@ -19,9 +19,7 @@ public class TokenDomain extends Auditable<String>{
     private TokenType tokenType;
 
     private Date created;
-
-    public TokenDomain() {
-    }
+    
 
     public Date getCreated() {
         return created;

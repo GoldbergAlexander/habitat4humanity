@@ -2,8 +2,6 @@ package com.agoldberg.hercules.service;
 
 import com.agoldberg.hercules.dto.RoleDTO;
 import com.agoldberg.hercules.dto.UserDTO;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import javax.annotation.security.RolesAllowed;
 import java.util.List;

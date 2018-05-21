@@ -22,6 +22,19 @@ import javax.validation.Valid;
 @RequestMapping("/revenue/daily")
 public class EnteredRevenueController {
 
+    private static final String ENTERED_REVENUE_MODEL = "enteredRevenue";
+    private static final String SEARCH_MODEL = "search";
+    private static final String LOCATIONS_MODEL = "locations";
+    private static final String REPORTING_PROCESSED_VIEW = "reporting/ProcessedRevenueList";
+    private static final String REVENUES_MODEL = "revenues";
+    private static final String ENTERED_REVENUE_FORM_VIEW = "enteredrevenue/EnteredRevenueForm";
+    private static final String CONFIRM_REDIRECT = "redirect:confirm";
+    private static final String EXISTING_MODEL = "existing";
+    private static final String ENTERED_REVENUE_CONFIRM_VIEW = "enteredrevenue/ConfirmEnteredRevenue";
+    private static final String STAGING_ERROR = "An entry has not been staged for confirmation.";
+    private static final String STAGING_CONFIRM_ERROR = "An entry has either not be staged or has already been confirmed.";
+    private static final String ENTERED_REVENUE_SAVED_VIEW = "enteredrevenue/SavedEnteredRevenue";
+
     @Autowired
     private EnteredRevenueService enteredRevenueService;
 
@@ -35,7 +48,7 @@ public class EnteredRevenueController {
     private EnteredRevenueStaging staging;
 
     @GetMapping
-    public ModelAndView showProcessedRevenues(Model model, @ModelAttribute(name = "search") EnteredSearchDTO search){
+    public ModelAndView showProcessedRevenues(Model model, @ModelAttribute(name = SEARCH_MODEL) EnteredSearchDTO search){
         EnteredSearchDTO searchDTO = new EnteredSearchDTO();
 
         if(search != null){
@@ -45,9 +58,9 @@ public class EnteredRevenueController {
         if(searchDTO.getLocationId() == null || searchDTO.getLocationId() == -1){
             searchDTO.setLocationId(null);
         }
-        model.addAttribute("search", searchDTO);
-        model.addAttribute("locations", storeLocationService.getEnabledStoreLocations());
-        return new ModelAndView("reporting/ProcessedRevenueList", "revenues", processedRevenueService.getProcessedRevenues(search));
+        model.addAttribute(SEARCH_MODEL, searchDTO);
+        model.addAttribute(LOCATIONS_MODEL, storeLocationService.getEnabledStoreLocations());
+        return new ModelAndView(REPORTING_PROCESSED_VIEW, REVENUES_MODEL, processedRevenueService.getProcessedRevenues(search));
     }
 
     /*
@@ -63,30 +76,29 @@ public class EnteredRevenueController {
 
     @GetMapping("entry")
     public ModelAndView displayRevenueEntryForm(Model model){
-        //model.addAttribute("enteredRevenue", new EnteredRevenueDTO());
         //Add a list of locations to the model.
-        model.addAttribute("locationList", storeLocationService.getEnabledStoreLocations());
+        model.addAttribute(LOCATIONS_MODEL, storeLocationService.getEnabledStoreLocations());
 
         /** Display Existing data if its there **/
         EnteredRevenueDTO dto;
         if((dto = staging.getEnteredRevenueDTO()) == null){
             dto = new EnteredRevenueDTO();
         }
-        return new ModelAndView("enteredrevenue/EnteredRevenueForm", "enteredRevenue", dto);
+        return new ModelAndView(ENTERED_REVENUE_FORM_VIEW, ENTERED_REVENUE_MODEL, dto);
 
     }
 
     @PostMapping("entry")
-    public ModelAndView saveEnteredRevenueToSession(Model model, @Valid @ModelAttribute("enteredRevenue") EnteredRevenueDTO dto, BindingResult bindingResult){
+    public ModelAndView saveEnteredRevenueToSession(Model model, @Valid @ModelAttribute(ENTERED_REVENUE_MODEL) EnteredRevenueDTO dto, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             //We still need the list
-            model.addAttribute("locationList", storeLocationService.getEnabledStoreLocations());
-            return new ModelAndView("enteredrevenue/EnteredRevenueForm", "enteredRevenue", dto);
+            model.addAttribute(LOCATIONS_MODEL, storeLocationService.getEnabledStoreLocations());
+            return new ModelAndView(ENTERED_REVENUE_FORM_VIEW, ENTERED_REVENUE_MODEL, dto);
         }else{
             dto.setLocationName(storeLocationService.getStoreName(dto.getLocationId()));
             staging.setEnteredRevenueDTO(dto);
         }
-        return new ModelAndView("redirect:confirm");
+        return new ModelAndView(CONFIRM_REDIRECT);
     }
 
     @GetMapping("confirm")
@@ -94,10 +106,10 @@ public class EnteredRevenueController {
         if(staging.isStaged()){
             //Check for existing entry
             EnteredRevenueDTO existing = enteredRevenueService.checkForExistingEntry(staging.getEnteredRevenueDTO());
-            model.addAttribute("existing", existing);
-            return new ModelAndView("enteredrevenue/ConfirmEnteredRevenue", "enteredRevenue", staging.getEnteredRevenueDTO());
+            model.addAttribute(EXISTING_MODEL, existing);
+            return new ModelAndView(ENTERED_REVENUE_CONFIRM_VIEW, ENTERED_REVENUE_MODEL, staging.getEnteredRevenueDTO());
         }else {
-            throw new IllegalStateException("An entry has not been staged for confirmation.");
+            throw new IllegalStateException(STAGING_ERROR);
         }
     }
 
@@ -110,11 +122,11 @@ public class EnteredRevenueController {
             dto = enteredRevenueService.createRevenueEntry(staging.getEnteredRevenueDTO());
         }else{
             staging.reset();
-            throw new IllegalStateException("An entry has either not be staged or has already been confirmed.");
+            throw new IllegalStateException(STAGING_CONFIRM_ERROR);
         }
 
         staging.reset();
-        return new ModelAndView("enteredrevenue/SavedEnteredRevenue", "enteredRevenue", dto);
+        return new ModelAndView(ENTERED_REVENUE_SAVED_VIEW, ENTERED_REVENUE_MODEL, dto);
     }
 
 }

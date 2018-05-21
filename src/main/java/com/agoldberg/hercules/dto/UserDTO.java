@@ -26,8 +26,6 @@ public class UserDTO {
     private boolean accountNonLocked;
 
 
-    public UserDTO() {
-    }
 
     public Long getRolesId() {
         return rolesId;

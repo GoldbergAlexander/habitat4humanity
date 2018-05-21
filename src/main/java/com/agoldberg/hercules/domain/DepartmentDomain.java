@@ -17,8 +17,6 @@ public class DepartmentDomain extends Auditable<String>{
     private double size;
     private boolean enabled;
 
-    public DepartmentDomain() {
-    }
 
     public boolean isEnabled() {
         return enabled;

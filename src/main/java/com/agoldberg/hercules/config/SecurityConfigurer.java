@@ -19,6 +19,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @ComponentScan
 public class SecurityConfigurer extends WebSecurityConfigurerAdapter{
 
+    public static final String ADMIN = "ADMIN";
+    public static final String MANAGER = "MANAGER";
     @Autowired
     UserDetailsService userService;
 
@@ -54,10 +56,10 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter{
                 .antMatchers("/user/forgot").permitAll()
                 .antMatchers("/user/reset").permitAll()
                 .antMatchers("/user/changepassword").hasAnyAuthority("PRIVILEGE_CHANGE_PASSWORD")
-                .antMatchers("/department/**").hasRole("ADMIN")
-                .antMatchers("/storelocation/**").hasRole("ADMIN")
-                .antMatchers("/revenue/daily/entry").hasAnyRole("ADMIN", "MANAGER")
-                .antMatchers("/revenue/department/entry").hasAnyRole("ADMIN", "MANAGER")
+                .antMatchers("/department/**").hasRole(ADMIN)
+                .antMatchers("/storelocation/**").hasRole(ADMIN)
+                .antMatchers("/revenue/daily/entry").hasAnyRole(ADMIN, MANAGER)
+                .antMatchers("/revenue/department/entry").hasAnyRole(ADMIN, MANAGER)
                 .antMatchers("/logout").permitAll()
                 .antMatchers("/login").permitAll()
                 .anyRequest().authenticated()

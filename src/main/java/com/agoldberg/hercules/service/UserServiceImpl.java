@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         if (userDomain == null) {
             throw new UsernameNotFoundException(s);
         }
-        LOGGER.debug("Getting user by username: " + s);
+        LOGGER.debug("Getting user by username: {}",  s);
         return userDomain;
     }
 
@@ -100,7 +100,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         for(RoleDomain domain: domains){
             dtos.add(modelMapper.map(domain, RoleDTO.class));
         }
-        LOGGER.info("Getting roles list, size: " + dtos.size());
+        LOGGER.info("Getting roles list, size: {}", dtos.size());
         return dtos;
     }
 
@@ -117,7 +117,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
             UserDTO dto = modelMapper.map(domain, UserDTO.class);
             userDTOS.add(dto);
         }
-        LOGGER.info("Getting user list, size: " + userDTOS.size());
+        LOGGER.info("Getting user list, size: {}", userDTOS.size());
         return userDTOS;
     }
 
@@ -125,7 +125,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @RolesAllowed({"ROLE_ADMIN"})
     public UserDTO getUser(Long id){
         UserDomain domain = userDAO.getOne(id);
-        LOGGER.info("Getting user by ID: " + id);
+        LOGGER.info("Getting user by ID: {}", id);
         return modelMapper.map(domain, UserDTO.class);
     }
 
@@ -148,7 +148,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         userDomain.setEnabled(false);
         userDAO.save(userDomain);
 
-        LOGGER.info("Saved User: " + userDomain.getUsername());
+        LOGGER.info("Saved User: {}", userDomain.getUsername());
 
         LOGGER.debug("Handing off to token service");
         tokenService.createToken(userDomain, TokenType.CONFRIM);
@@ -164,13 +164,13 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
         user.setEnabled(true);
         user = userDAO.save(user);
-        LOGGER.info("Enabled User: " + user.getUsername());
+        LOGGER.info("Enabled User: {}", user.getUsername());
         return modelMapper.map(user, UserDTO.class);
     }
 
     @Override
     public void passwordResetSetup(String email){
-        LOGGER.info("Checking for user with email: " + email);
+        LOGGER.info("Checking for user with email: {}", email);
         UserDomain user = userDAO.findByUsername(email);
         if(user == null){
             LOGGER.info("User not found");
@@ -182,7 +182,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public void resetPassword(String token){
-        LOGGER.info("Checking for user with token: " + token);
+        LOGGER.info("Checking for user with token: {}", token);
         UserDomain user = tokenService.validateToken(token, TokenType.RESET);
         if(user == null){
             throw new IllegalArgumentException("The token provided is not valid.");
@@ -196,7 +196,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
         //Set the new user to the user context
         SecurityContextHolder.getContext().setAuthentication(auth);
-        LOGGER.info("Rest User Password: " + user.getUsername());
+        LOGGER.info("Rest User Password: {}", user.getUsername());
     }
 
     @Override
@@ -210,7 +210,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public void userUpdateUser(UserDTO dto){
-        LOGGER.info("Updating user as user: " + dto.getUsername());
+        LOGGER.info("Updating user as user: {}", dto.getUsername());
         /** Not using model mapper to avoid setting protected values **/
         UserDomain existingUserDomain = userDAO.getOne(dto.getId());
 
@@ -225,7 +225,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @RolesAllowed({"ROLE_ADMIN"})
     public void adminUpdateUser(UserDTO dto){
-        LOGGER.info("Updating user as admin: " + dto.getUsername());
+        LOGGER.info("Updating user as admin: {}", dto.getUsername());
         //Do everything the user can do
         userUpdateUser(dto);
         UserDomain existingUserDomain = userDAO.getOne(dto.getId());
@@ -243,7 +243,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
        UserDomain user = userDAO.getOne(id);
        user.setAccountNonLocked(!user.isAccountNonLocked());
        userDAO.save(user);
-       LOGGER.info("Setting user: " + user.getUsername() + "to enabled: " + user.isEnabled());
+       LOGGER.info("Setting user: {} to enabled: {}", user.getUsername(),user.isEnabled());
     }
 
     public void createAdmin(){

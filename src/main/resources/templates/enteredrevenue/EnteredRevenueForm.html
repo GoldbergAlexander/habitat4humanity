@@ -36,7 +36,7 @@
         <tr>
             <th>Location</th>
             <td><select class="form-control" th:field="*{locationId}">
-                <option th:each="location : ${locationList}"
+                <option th:each="location : ${locations}"
                         th:value="${location.id}"
                         th:text="${location.name}"
                         th:selected="${enteredRevenue.locationId == location.id}">

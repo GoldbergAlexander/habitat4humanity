@@ -19,6 +19,16 @@ import java.util.List;
 @RequestMapping("/user/admin")
 public class UserAdminController {
 
+    private static final String LOCATIONS_MODEL = "locations";
+    private static final String ROLES_MODEL = "roles";
+    private static final String USERS_MODEL = "users";
+    private static final String CHANGE_USER_MODEL = "changeUser";
+    private static final String USER_MODEL = "user";
+    private static final String USER_FORM_VIEW = "user/UserForm";
+    private static final String USER_LIST_VIEW = "user/UserList";
+    private static final String USER_ADMIN_REDIRECT = "redirect:/user/admin";
+
+
     @Autowired
     private UserServiceImpl userService;
 
@@ -30,40 +40,40 @@ public class UserAdminController {
         List<UserDTO> users = userService.getUsers();
         List<RoleDTO> roles = userService.getRoleList();
         List<StoreLocationDTO> locations = storeLocationService.getEnabledStoreLocations();
-        model.addAttribute("locations", locations);
-        model.addAttribute("roles", roles);
-        model.addAttribute("changeUser", new UserDTO());
-        return new ModelAndView("user/UserList", "users", users);
+        model.addAttribute(LOCATIONS_MODEL, locations);
+        model.addAttribute(ROLES_MODEL, roles);
+        model.addAttribute(CHANGE_USER_MODEL, new UserDTO());
+        return new ModelAndView(USER_LIST_VIEW, USERS_MODEL, users);
     }
 
     @GetMapping("{user_id}")
     public ModelAndView showUserForm(Model model, @PathVariable("user_id") Long userId){
         List<RoleDTO> roles = userService.getRoleList();
         List<StoreLocationDTO> locations = storeLocationService.getEnabledStoreLocations();
-        model.addAttribute("locations", locations);
-        model.addAttribute("roles", roles);
+        model.addAttribute(LOCATIONS_MODEL, locations);
+        model.addAttribute(ROLES_MODEL, roles);
         UserDTO user = userService.getUser(userId);
-        return new ModelAndView("user/UserForm", "user", user);
+        return new ModelAndView(USER_FORM_VIEW, USER_MODEL, user);
     }
 
     @PostMapping("{user_id}")
-    public ModelAndView modifyUser(Model model,@PathVariable("user_id") Long userId, @Valid @ModelAttribute("user") UserDTO user, BindingResult bindingResult){
+    public ModelAndView modifyUser(Model model, @PathVariable("user_id") Long userId, @Valid @ModelAttribute(USER_MODEL) UserDTO user, BindingResult bindingResult){
         List<RoleDTO> roles = userService.getRoleList();
         List<StoreLocationDTO> locations = storeLocationService.getEnabledStoreLocations();
-        model.addAttribute("locations", locations);
-        model.addAttribute("roles", roles);
+        model.addAttribute(LOCATIONS_MODEL, locations);
+        model.addAttribute(ROLES_MODEL, roles);
         if(!bindingResult.hasErrors()){
             userService.adminUpdateUser(user);
-            return new ModelAndView("redirect:/user/admin");
+            return new ModelAndView(USER_ADMIN_REDIRECT);
         }else{
-            return new ModelAndView("user/UserForm", "user", user);
+            return new ModelAndView(USER_FORM_VIEW, USER_MODEL, user);
         }
     }
 
     @PostMapping("lock")
-    public String toggleEnableUser(@ModelAttribute("changeUser") UserDTO user){
+    public String toggleEnableUser(@ModelAttribute(CHANGE_USER_MODEL) UserDTO user){
         userService.toggleLock(user.getId());
-        return "redirect:/user/admin";
+        return USER_ADMIN_REDIRECT;
     }
 
 }
