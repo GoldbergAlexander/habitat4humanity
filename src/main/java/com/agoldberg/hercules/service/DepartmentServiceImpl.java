@@ -2,8 +2,10 @@ package com.agoldberg.hercules.service;
 
 import com.agoldberg.hercules.dao.DepartmentDAO;
 import com.agoldberg.hercules.domain.DepartmentDomain;
+import com.agoldberg.hercules.domain.DepartmentSizeDomain;
 import com.agoldberg.hercules.domain.StoreLocationDomain;
 import com.agoldberg.hercules.dto.DepartmentDTO;
+import com.agoldberg.hercules.dto.DepartmentSizeDTO;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +29,15 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    public List<DepartmentSizeDTO> getDepartmentSizes(Long departmentId){
+        DepartmentDomain departmentDomain = departmentDAO.getOne(departmentId);
+        List<DepartmentSizeDTO> sizeDTOS = new ArrayList<>();
+        for(DepartmentSizeDomain sizeDomain : departmentDomain.getSizes()){
+            sizeDTOS.add(modelMapper.map(sizeDomain, DepartmentSizeDTO.class));
+        }
+        return sizeDTOS;
+    }
 
     @Override
     @RolesAllowed("ROLE_ADMIN")

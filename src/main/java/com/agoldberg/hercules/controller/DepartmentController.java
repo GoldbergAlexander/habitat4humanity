@@ -16,13 +16,14 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("department")
 public class DepartmentController {
-    public static final String LOCATIONS_MODEL = "locations";
-    public static final String DEPARTMENT_REDIRECT = "redirect:/department";
-    public static final String NEW_DEPARTMENT_MODEL = "newDepartment";
-    public static final String DEPARTMENT_LIST_VIEW = "department/DepartmentList";
-    public static final String DEPARTMENTS_MODEL = "departments";
-    public static final String DEPARTMENT_FORM_VIEW = "department/DepartmentForm";
-    public static final String DEPARTMENT_MODEL = "department";
+    private static final String LOCATIONS_MODEL = "locations";
+    private static final String DEPARTMENT_REDIRECT = "redirect:/department";
+    private static final String NEW_DEPARTMENT_MODEL = "newDepartment";
+    private static final String DEPARTMENT_LIST_VIEW = "department/DepartmentList";
+    private static final String DEPARTMENTS_MODEL = "departments";
+    private static final String DEPARTMENT_FORM_VIEW = "department/DepartmentForm";
+    private static final String DEPARTMENT_MODEL = "department";
+
     @Autowired
     private StoreLocationService storeLocationService;
     @Autowired

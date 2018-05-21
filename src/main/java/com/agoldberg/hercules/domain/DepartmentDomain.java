@@ -2,6 +2,7 @@ package com.agoldberg.hercules.domain;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.List;
 
 @Entity
 public class DepartmentDomain extends Auditable<String>{
@@ -14,9 +15,19 @@ public class DepartmentDomain extends Auditable<String>{
     @ManyToOne
     @JoinColumn(name = "location_id")
     private StoreLocationDomain location;
+
+    @OneToMany
+    private List<DepartmentSizeDomain> sizes;
     private double size;
     private boolean enabled;
 
+    public List<DepartmentSizeDomain> getSizes() {
+        return sizes;
+    }
+
+    public void setSizes(List<DepartmentSizeDomain> sizes) {
+        this.sizes = sizes;
+    }
 
     public boolean isEnabled() {
         return enabled;
