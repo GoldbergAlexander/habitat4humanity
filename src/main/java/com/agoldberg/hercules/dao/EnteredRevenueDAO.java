@@ -9,5 +9,5 @@ import java.util.Date;
 import java.util.List;
 @Repository
 public interface EnteredRevenueDAO extends JpaRepository<EnteredRevenueDomain, Long>{
-    List<EnteredRevenueDomain> findByLocationAndDate(StoreLocationDomain locationDomain, Date date);
+    EnteredRevenueDomain findByLocationAndDate(StoreLocationDomain locationDomain, Date date);
 }

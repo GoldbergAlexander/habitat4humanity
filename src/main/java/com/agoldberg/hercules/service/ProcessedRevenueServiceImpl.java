@@ -149,6 +149,9 @@ public class ProcessedRevenueServiceImpl implements ApplicationListener<RevenueE
         ProcessedRevenueDomain existing = processedRevenueDAO.findByLocationDomainAndDate(er.getLocation(), er.getDate());
         if(existing != null){
             processedRevenue.setId(existing.getId());
+            //Maintain audit log
+            processedRevenue.setCreatedBy(existing.getCreatedBy());
+            processedRevenue.setCreationDate(existing.getCreationDate());
         }
         processedRevenueDAO.save(processedRevenue);
     }

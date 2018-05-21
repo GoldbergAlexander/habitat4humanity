@@ -90,8 +90,11 @@ public class EnteredRevenueController {
     }
 
     @GetMapping("confirm")
-    public ModelAndView displayEnteredRevenue(){
+    public ModelAndView displayEnteredRevenue(Model model){
         if(staging.isStaged()){
+            //Check for existing entry
+            EnteredRevenueDTO existing = enteredRevenueService.checkForExistingEntry(staging.getEnteredRevenueDTO());
+            model.addAttribute("existing", existing);
             return new ModelAndView("enteredrevenue/ConfirmEnteredRevenue", "enteredRevenue", staging.getEnteredRevenueDTO());
         }else {
             throw new IllegalStateException("An entry has not been staged for confirmation.");

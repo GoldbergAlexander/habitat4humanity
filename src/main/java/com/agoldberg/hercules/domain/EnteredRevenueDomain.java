@@ -3,7 +3,9 @@ package com.agoldberg.hercules.domain;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
-
+@Table(
+        uniqueConstraints = @UniqueConstraint(columnNames = {"location_id", "date"})
+)
 @Entity
 public class EnteredRevenueDomain extends Auditable<String>{
 
@@ -14,6 +16,7 @@ public class EnteredRevenueDomain extends Auditable<String>{
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "location_id")
     private StoreLocationDomain location;
+    @Column(name = "date")
     private Date date;
 
     private boolean processed;

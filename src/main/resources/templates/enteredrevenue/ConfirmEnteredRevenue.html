@@ -10,101 +10,222 @@
 <div th:replace="fragment/navigation :: nav"></div>
 
 <div class="container">
+    <div th:if="${existing}" class="alert alert-warning" role="alert">
+        Data overwrite warning!
+    </div>
+    <div class="row">
+        <div th:class="${existing != null} ? col-xs-6 : col">
     <h2>Confirm Revenue Entry</h2>
-<th:block th:object="${enteredRevenue}">
-    <table class="table table-striped">
-        <tbody>
+    <th:block th:object="${enteredRevenue}">
+        <table class="table table-striped">
+            <tbody>
 
-        <!-- Date -->
-        <tr>
-            <th>Date</th>
-            <td th:text="*{date}"></td>
-        </tr>
+            <!-- Date -->
+            <tr>
+                <th>Date</th>
+                <td th:text="*{date}"></td>
+            </tr>
 
-        <!-- Location -->
-        <tr>
-            <th>Location</th>
-            <td th:text="*{locationName}"></td>
-        </tr>
-        <!-- transactionCount -->
-        <tr>
-            <th>Transaction Count</th>
-            <td th:text="*{transactionCount}"/></td>
-        </tr>
-        <!-- cashCount -->
-        <tr>
-            <th>Cash Count</th>
-            <td th:text="*{cashCount}"/></td>
-        </tr>
-        <!-- checkCount -->
-        <tr>
-            <th>Check Count</th>
-            <td th:text="*{checkCount}"/></td>
-        </tr>
-        <!-- cardUnit -->
-        <tr>
-            <th>Card Unit</th>
-            <td th:text="*{cardUnit}"/></td>
-        </tr>
-        <!-- payoutReceipt -->
-        <tr>
-            <th>Payout Receipt</th>
-            <td th:text="*{payoutReceipt}"/></td>
-        </tr>
-        <!-- cashTape -->
-        <tr>
-            <th>Cash Tape</th>
-            <td th:text="*{cashTape}"/></td>
-        </tr>
-        <!-- checkTape -->
-        <tr>
-            <th>Check Tape</th>
-            <td th:text="*{checkTape}"/></td>
-        </tr>
-        <!-- cardTape -->
-        <tr>
-            <th>Card Tape</th>
-            <td th:text="*{cardTape}"/></td>
-        </tr>
-        <!-- taxTape -->
-        <tr>
-            <th>Tax Tape</th>
-            <td th:text="*{taxTape}"/></td>
-        </tr>
-        <!-- vehicleSale -->
-        <tr>
-            <th>Vehicle Sale</th>
-            <td th:text="*{vehicleSale}"/></td>
-        </tr>
-        <!-- salesVoid -->
-        <tr>
-            <th>Sales Void</th>
-            <td th:text="*{salesVoid}"/></td>
-        </tr>
-        <!-- taxVoid -->
-        <tr>
-            <th>Tax Void</th>
-            <td th:text="*{taxVoid}"/></td>
-        </tr>
-        <!-- memo -->
-        <tr>
-            <th>Memo</th>
-            <td><p th:text="*{memo}"></p></td>
-        </tr>
+            <!-- Location -->
+            <tr>
+                <th>Location</th>
+                <td th:text="*{locationName}"></td>
+            </tr>
+            <!-- transactionCount -->
+            <tr>
+                <th>Transaction Count</th>
+                <td th:text="*{transactionCount}"/>
+                </td>
+            </tr>
+            <!-- cashCount -->
+            <tr>
+                <th>Cash Count</th>
+                <td th:text="*{cashCount}"/>
+                </td>
+            </tr>
+            <!-- checkCount -->
+            <tr>
+                <th>Check Count</th>
+                <td th:text="*{checkCount}"/>
+                </td>
+            </tr>
+            <!-- cardUnit -->
+            <tr>
+                <th>Card Unit</th>
+                <td th:text="*{cardUnit}"/>
+                </td>
+            </tr>
+            <!-- payoutReceipt -->
+            <tr>
+                <th>Payout Receipt</th>
+                <td th:text="*{payoutReceipt}"/>
+                </td>
+            </tr>
+            <!-- cashTape -->
+            <tr>
+                <th>Cash Tape</th>
+                <td th:text="*{cashTape}"/>
+                </td>
+            </tr>
+            <!-- checkTape -->
+            <tr>
+                <th>Check Tape</th>
+                <td th:text="*{checkTape}"/>
+                </td>
+            </tr>
+            <!-- cardTape -->
+            <tr>
+                <th>Card Tape</th>
+                <td th:text="*{cardTape}"/>
+                </td>
+            </tr>
+            <!-- taxTape -->
+            <tr>
+                <th>Tax Tape</th>
+                <td th:text="*{taxTape}"/>
+                </td>
+            </tr>
+            <!-- vehicleSale -->
+            <tr>
+                <th>Vehicle Sale</th>
+                <td th:text="*{vehicleSale}"/>
+                </td>
+            </tr>
+            <!-- salesVoid -->
+            <tr>
+                <th>Sales Void</th>
+                <td th:text="*{salesVoid}"/>
+                </td>
+            </tr>
+            <!-- taxVoid -->
+            <tr>
+                <th>Tax Void</th>
+                <td th:text="*{taxVoid}"/>
+                </td>
+            </tr>
+            <!-- memo -->
+            <tr>
+                <th>Memo</th>
+                <td><p th:text="*{memo}"></p></td>
+            </tr>
 
-        <tr>
-            <td><a class="btn btn-primary" th:href="@{/revenue/daily/entry}">Edit Data</a></td>
-            <form th:action="@{/revenue/daily/confirm}" method="post">
-                <td><button class="btn btn-warning" type="submit" value="confirm">Confirm</button></td>
-            </form>
-        </tr>
+            <tr>
+                <td><a class="btn btn-primary" th:href="@{/revenue/daily/entry}">Edit Data</a></td>
+                <form th:action="@{/revenue/daily/confirm}" method="post">
+                    <td>
+                        <button class="btn btn-warning" type="submit" value="confirm">Confirm</button>
+                    </td>
+                </form>
+            </tr>
 
 
+            </tbody>
+        </table>
 
-        </tbody>
-    </table>
+    </th:block>
+        </div>
+        <div class="col-xs-6" th:if="${existing}">
+            <h2>Existing Data</h2>
+    <th:block  th:object="${existing}">
+        <table class="table table-striped">
+            <tbody>
 
-</th:block>
+            <!-- Date -->
+            <tr>
+                <th>Date</th>
+                <td th:text="*{date}"></td>
+            </tr>
+
+            <!-- Location -->
+            <tr>
+                <th>Location</th>
+                <td th:text="*{locationName}"></td>
+            </tr>
+            <!-- transactionCount -->
+            <tr>
+                <th>Transaction Count</th>
+                <td th:text="*{transactionCount}"/>
+                </td>
+            </tr>
+            <!-- cashCount -->
+            <tr>
+                <th>Cash Count</th>
+                <td th:text="*{cashCount}"/>
+                </td>
+            </tr>
+            <!-- checkCount -->
+            <tr>
+                <th>Check Count</th>
+                <td th:text="*{checkCount}"/>
+                </td>
+            </tr>
+            <!-- cardUnit -->
+            <tr>
+                <th>Card Unit</th>
+                <td th:text="*{cardUnit}"/>
+                </td>
+            </tr>
+            <!-- payoutReceipt -->
+            <tr>
+                <th>Payout Receipt</th>
+                <td th:text="*{payoutReceipt}"/>
+                </td>
+            </tr>
+            <!-- cashTape -->
+            <tr>
+                <th>Cash Tape</th>
+                <td th:text="*{cashTape}"/>
+                </td>
+            </tr>
+            <!-- checkTape -->
+            <tr>
+                <th>Check Tape</th>
+                <td th:text="*{checkTape}"/>
+                </td>
+            </tr>
+            <!-- cardTape -->
+            <tr>
+                <th>Card Tape</th>
+                <td th:text="*{cardTape}"/>
+                </td>
+            </tr>
+            <!-- taxTape -->
+            <tr>
+                <th>Tax Tape</th>
+                <td th:text="*{taxTape}"/>
+                </td>
+            </tr>
+            <!-- vehicleSale -->
+            <tr>
+                <th>Vehicle Sale</th>
+                <td th:text="*{vehicleSale}"/>
+                </td>
+            </tr>
+            <!-- salesVoid -->
+            <tr>
+                <th>Sales Void</th>
+                <td th:text="*{salesVoid}"/>
+                </td>
+            </tr>
+            <!-- taxVoid -->
+            <tr>
+                <th>Tax Void</th>
+                <td th:text="*{taxVoid}"/>
+                </td>
+            </tr>
+            <!-- memo -->
+            <tr>
+                <th>Memo</th>
+                <td><p th:text="*{memo}"></p></td>
+            </tr>
+
+            </tbody>
+        </table>
+
+    </th:block>
+        </div>
+</div>
+
 </div>
 
 
