@@ -10,5 +10,5 @@ import java.util.List;
 public interface StoreLocationDAO extends JpaRepository<StoreLocationDomain, Long>{
     StoreLocationDomain findByName(String name);
     List<StoreLocationDomain> findByEnabledIsTrue();
-    StoreLocationDomain findByIdAndAndEnabledIsTrue(Long id);
+    StoreLocationDomain findByIdAndEnabledIsTrue(Long id);
 }

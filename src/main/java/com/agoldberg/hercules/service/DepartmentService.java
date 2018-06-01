@@ -9,6 +9,10 @@ import java.util.List;
 public interface DepartmentService {
 
     List<DepartmentSizeDTO> getDepartmentSizes(Long departmentId);
+
+    void createDepartmentSize(DepartmentSizeDTO departmentSizeDTO);
+    void deleteDepartmentSize(DepartmentSizeDTO departmentSizeDTO);
+
     @RolesAllowed("ROLE_ADMIN")
     void createDepartment(DepartmentDTO dto);
 
@@ -28,4 +32,6 @@ public interface DepartmentService {
     String getDepartmentName(Long id);
 
     DepartmentDTO getDepartmentDTO(Long id);
+
+
 }

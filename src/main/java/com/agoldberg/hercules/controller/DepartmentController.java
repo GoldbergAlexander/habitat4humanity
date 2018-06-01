@@ -1,6 +1,7 @@
 package com.agoldberg.hercules.controller;
 
 import com.agoldberg.hercules.dto.DepartmentDTO;
+import com.agoldberg.hercules.dto.DepartmentSizeDTO;
 import com.agoldberg.hercules.service.DepartmentService;
 import com.agoldberg.hercules.service.StoreLocationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +11,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import java.util.List;
 
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("department")
+@RequestMapping("/department")
 public class DepartmentController {
     private static final String LOCATIONS_MODEL = "locations";
     private static final String DEPARTMENT_REDIRECT = "redirect:/department";
@@ -26,6 +28,7 @@ public class DepartmentController {
 
     @Autowired
     private StoreLocationService storeLocationService;
+
     @Autowired
     private DepartmentService departmentService;
 
@@ -35,6 +38,37 @@ public class DepartmentController {
         model.addAttribute(LOCATIONS_MODEL, storeLocationService.getEnabledStoreLocations());
         return new ModelAndView(DEPARTMENT_LIST_VIEW, DEPARTMENTS_MODEL, departmentService.getDepartments());
     }
+
+    @GetMapping("{department_id}/size")
+    public ModelAndView showDepartmentSizes(@PathVariable("department_id") Long departmentId, Model model){
+        model.addAttribute("newSize", new DepartmentSizeDTO());
+        List<DepartmentSizeDTO> sizes = departmentService.getDepartmentSizes(departmentId);
+        model.addAttribute(DEPARTMENT_MODEL, departmentService.getDepartmentDTO(departmentId));
+        return new ModelAndView("department/SizeList", "sizes", sizes);
+    }
+
+    @PostMapping("{department_id}/size/create")
+    public ModelAndView createDepartmentSize(@PathVariable("department_id") Long departmentId, @ModelAttribute("newSize") DepartmentSizeDTO sizeDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+        if(!bindingResult.hasErrors()) {
+            sizeDTO.setDepartmentId(departmentId);
+            departmentService.createDepartmentSize(sizeDTO);
+        }else{
+            redirectAttributes.addFlashAttribute("newSize", sizeDTO);
+        }
+        return new ModelAndView("redirect:/department/" + departmentId + "/size");
+    }
+
+    @PostMapping("{department_id}/size/delete")
+    public ModelAndView deleteDepartmentSize(@PathVariable("department_id") Long departmentId, @ModelAttribute("newSize") DepartmentSizeDTO sizeDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+        if(!bindingResult.hasErrors()) {
+            sizeDTO.setDepartmentId(departmentId);
+            departmentService.deleteDepartmentSize(sizeDTO);
+        }else{
+            redirectAttributes.addFlashAttribute("newSize", sizeDTO);
+        }
+        return new ModelAndView("redirect:/department/" + departmentId + "/size");
+    }
+
 
     @GetMapping("{department_id}")
     public ModelAndView showDepartmentForm(@PathVariable("department_id") Long departmentId, Model model){

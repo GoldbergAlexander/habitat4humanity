@@ -1,6 +1,7 @@
 package com.agoldberg.hercules.service;
 
 import com.agoldberg.hercules.dao.DepartmentDAO;
+import com.agoldberg.hercules.dao.DepartmentSizeDAO;
 import com.agoldberg.hercules.domain.DepartmentDomain;
 import com.agoldberg.hercules.domain.DepartmentSizeDomain;
 import com.agoldberg.hercules.domain.StoreLocationDomain;
@@ -25,17 +26,45 @@ public class DepartmentServiceImpl implements DepartmentService {
     private DepartmentDAO departmentDAO;
 
     @Autowired
+    private DepartmentSizeDAO departmentSizeDAO;
+
+    @Autowired
     private StoreLocationServiceImpl storeLocationService;
 
     @Autowired
     private ModelMapper modelMapper;
 
+    @Override
+    public void deleteDepartmentSize(DepartmentSizeDTO departmentSizeDTO) {
+        DepartmentSizeDomain sizeDomain = modelMapper.map(departmentSizeDTO, DepartmentSizeDomain.class);
+        //Get the department from with the id in the dto -- the modelmapper wont be able to
+        DepartmentDomain departmentDomain = departmentDAO.getOne(departmentSizeDTO.getDepartmentId());
+        departmentDomain.removeSize(sizeDomain);
+        departmentSizeDAO.delete(sizeDomain);
+        LOGGER.info("Deleted size for department: {}", departmentDomain.getName());
+        /** Dirty checking with department domain **/
+    }
+
+    @Override
+    public void createDepartmentSize(DepartmentSizeDTO departmentSizeDTO) {
+        DepartmentSizeDomain sizeDomain = modelMapper.map(departmentSizeDTO, DepartmentSizeDomain.class);
+        //Get the department from with the id in the dto -- the modelmapper wont be able to
+        DepartmentDomain departmentDomain = departmentDAO.getOne(departmentSizeDTO.getDepartmentId());
+        departmentDomain.addSize(sizeDomain);
+        departmentSizeDAO.save(sizeDomain);
+        LOGGER.info("Created size for department: {}", departmentDomain.getName());
+        /** Dirty checking with department domain **/
+    }
+
     public List<DepartmentSizeDTO> getDepartmentSizes(Long departmentId){
         DepartmentDomain departmentDomain = departmentDAO.getOne(departmentId);
         List<DepartmentSizeDTO> sizeDTOS = new ArrayList<>();
+
+        /** getting Sizes from department rather than DAO */
         for(DepartmentSizeDomain sizeDomain : departmentDomain.getSizes()){
             sizeDTOS.add(modelMapper.map(sizeDomain, DepartmentSizeDTO.class));
         }
+        LOGGER.info("Getting list of sizes for department: {}, list size: {}", departmentDomain.getName(),sizeDTOS.size());
         return sizeDTOS;
     }
 

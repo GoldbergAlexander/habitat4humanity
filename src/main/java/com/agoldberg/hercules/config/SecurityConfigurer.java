@@ -21,6 +21,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter{
 
     public static final String ADMIN = "ADMIN";
     public static final String MANAGER = "MANAGER";
+
     @Autowired
     UserDetailsService userService;
 

@@ -1,14 +1,38 @@
 package com.agoldberg.hercules.dto;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DepartmentSizeDTO {
 
     private Long id;
     private Long departmentId;
-    private Long departmentName;
+    private String departmentName;
     private Date start;
-    private Date end;
+    private String stringStart;
+    private double size;
+
+    public double getSize() {
+        return size;
+    }
+
+    public void setSize(double size) {
+        this.size = size;
+    }
+
+    public String getStringStart() {
+        return stringStart;
+    }
+
+    public void setStringStart(String stringStart) {
+        try {
+            this.start = new SimpleDateFormat("yyyy-MM-dd").parse(stringStart);
+            this.stringStart = stringStart;
+        }catch (ParseException e){
+            this.stringStart = "Could Not Parse Date";
+        }
+    }
 
     public Long getId() {
         return id;
@@ -26,11 +50,11 @@ public class DepartmentSizeDTO {
         this.departmentId = departmentId;
     }
 
-    public Long getDepartmentName() {
+    public String getDepartmentName() {
         return departmentName;
     }
 
-    public void setDepartmentName(Long departmentName) {
+    public void setDepartmentName(String departmentName) {
         this.departmentName = departmentName;
     }
 
@@ -42,11 +66,4 @@ public class DepartmentSizeDTO {
         this.start = start;
     }
 
-    public Date getEnd() {
-        return end;
-    }
-
-    public void setEnd(Date end) {
-        this.end = end;
-    }
 }

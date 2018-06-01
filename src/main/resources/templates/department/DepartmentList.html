@@ -20,13 +20,14 @@
         <th></th>
         <th></th>
         <th></th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="department : ${departments}">
         <td th:text="${department.name}"></td>
         <td th:text="${department.locationName}"></td>
-        <td th:text="${department.size}"></td>
+        <!--<td th:text="${department.size}"></td>-->
         <td>
             <form th:action="@{/department/enable}" method="post">
                 <input type="hidden" id="id" name="id" th:value="${department.id}"/>
@@ -35,6 +36,9 @@
         </td>
         <td>
             <a class="btn btn-warning" th:href="@{/department/{department_id}(department_id=${department.id})}">Modify</a>
+        </td>
+        <td>
+            <a class="btn btn-warning" th:href="@{/department/{department_id}/size(department_id=${department.id})}">Sizes</a>
         </td>
         <td>
             <form th:action="@{/department/delete}" method="post">
@@ -58,11 +62,6 @@
                     </option>
                 </select>
                 <p th:each="error : ${#fields.errors('locationId')}"
-                   th:text="${error}">Constraint error</p>
-            </td>
-            <td>
-                <input class="form-control" th:field="*{size}"/>
-                <p th:each="error : ${#fields.errors('size')}"
                    th:text="${error}">Constraint error</p>
             </td>
             <td><button class="btn btn-primary" type="submit" value="create">Create</button></td>

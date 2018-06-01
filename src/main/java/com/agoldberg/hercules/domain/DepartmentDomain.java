@@ -1,6 +1,7 @@
 package com.agoldberg.hercules.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.List;
 
@@ -23,6 +24,28 @@ public class DepartmentDomain extends Auditable<String>{
 
     public List<DepartmentSizeDomain> getSizes() {
         return sizes;
+    }
+
+    public void addSize(DepartmentSizeDomain size){
+        if(sizes == null){
+            sizes = new ArrayList<>();
+        }
+
+        size.setDepartment(this);
+        sizes.add(size);
+    }
+
+    public void removeSize(DepartmentSizeDomain sizeDomain){
+        if(sizes != null && !sizes.isEmpty()){
+            int index = 0;
+            for(DepartmentSizeDomain size : sizes){
+                index++;
+                if(size.equals(sizeDomain)){
+                    sizes.remove(index);
+                    size.setDepartment(null);
+                }
+            }
+        }
     }
 
     public void setSizes(List<DepartmentSizeDomain> sizes) {

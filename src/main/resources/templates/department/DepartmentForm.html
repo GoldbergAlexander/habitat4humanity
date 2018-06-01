@@ -11,7 +11,7 @@
 
 <div class="container">
 <table class="table table-striped">
-    <h2 th:text="${department.name}">Store Locations</h2>
+    <h2 th:text="${department.name}">Department</h2>
         <form th:action="@{/department/{department_id}(department_id=${department.id})}" th:object="${department}" method="post">
             <input type="hidden" th:field="*{id}"/>
             <tr>
@@ -33,13 +33,6 @@
                 </select>
                 <p th:each="error : ${#fields.errors('locationId')}"
                    th:text="${error}">Constraint error</p>
-                </td>
-            </tr>
-            <tr>
-                <th>Size</th>
-                <td><input class="form-control" th:field="*{size}"/>
-                    <p th:each="error : ${#fields.errors('size')}"
-                       th:text="${error}">Constraint error</p>
                 </td>
             </tr>
             <tr>

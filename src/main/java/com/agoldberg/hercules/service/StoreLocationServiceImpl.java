@@ -19,6 +19,7 @@ public class StoreLocationServiceImpl implements StoreLocationService {
     private static final Logger LOGGER = LoggerFactory.getLogger(StoreLocationService.class);
     private static final String MAPPING_ERROR = "Could not map the store location dto to the domain object.";
     private static final String LOCATION_EXISTS_ERROR = "A store location with the provided name already exists.";
+
     @Autowired
     private StoreLocationDAO storeLocationDAO;
 
@@ -84,7 +85,7 @@ public class StoreLocationServiceImpl implements StoreLocationService {
     }
 
     protected StoreLocationDomain getStoreLocation(Long id){
-        StoreLocationDomain storeLocation = storeLocationDAO.findByIdAndAndEnabledIsTrue(id);
+        StoreLocationDomain storeLocation = storeLocationDAO.findByIdAndEnabledIsTrue(id);
         if(storeLocation == null){
             throw new IllegalStateException(LOCATION_EXISTS_ERROR);
         }
@@ -119,7 +120,7 @@ public class StoreLocationServiceImpl implements StoreLocationService {
 
     @Override
     public String getStoreName(Long id){
-        StoreLocationDomain domain = storeLocationDAO.findByIdAndAndEnabledIsTrue(id);
+        StoreLocationDomain domain = storeLocationDAO.findByIdAndEnabledIsTrue(id);
         if(domain == null){
             throw new IllegalStateException(LOCATION_EXISTS_ERROR);
         }

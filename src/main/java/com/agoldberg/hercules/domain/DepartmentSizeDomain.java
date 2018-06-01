@@ -14,7 +14,7 @@ public class DepartmentSizeDomain extends Auditable<String>{
     @JoinColumn(name = "department_id")
     private DepartmentDomain department;
     private Date start;
-    private Date end;
+    private double size;
 
     public Long getId() {
         return id;
@@ -40,11 +40,11 @@ public class DepartmentSizeDomain extends Auditable<String>{
         this.start = start;
     }
 
-    public Date getEnd() {
-        return end;
+    public double getSize() {
+        return size;
     }
 
-    public void setEnd(Date end) {
-        this.end = end;
+    public void setSize(double size) {
+        this.size = size;
     }
 }
