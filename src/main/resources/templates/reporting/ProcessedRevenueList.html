@@ -88,7 +88,7 @@
         <tbody>
         <tr th:each="revenue : ${revenues.data}">
             <td th:text="${revenue.enteredRevenueLocationName}"></td>
-            <td th:text="${revenue.enteredRevenueDate}"></td>
+            <td th:text="${#dates.format(revenue.enteredRevenueDate,'yyyy-MM-dd')}"></td>
             <!--<td th:text="${revenue.enteredRevenueTransactionCount}"></td>-->
             <!--<td th:text="${revenue.enteredRevenueCashCount}"></td>-->
             <!--<td th:text="${revenue.enteredRevenueCheckCount}"></td>-->

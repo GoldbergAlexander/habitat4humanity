@@ -23,7 +23,7 @@
             <!-- Date -->
             <tr>
                 <th>Date</th>
-                <td th:text="*{date}"></td>
+                <td th:text="*{#dates.format(date,'yyyy-MM-dd')}"></td>
             </tr>
 
             <!-- Location -->

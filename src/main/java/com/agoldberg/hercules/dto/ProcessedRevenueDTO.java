@@ -7,7 +7,7 @@ import java.util.Date;
 public class ProcessedRevenueDTO {
 
     private String enteredRevenueLocationName;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @DateTimeFormat(pattern = "YYYY-m-d")
     private Date enteredRevenueDate;
     private long enteredRevenueTransactionCount;
     private double enteredRevenueCashCount;
