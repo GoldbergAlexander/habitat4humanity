@@ -56,20 +56,54 @@ public class ProcessedRevenueServiceImpl implements ApplicationListener<RevenueE
         ProcessedRevenueDTO summary = new ProcessedRevenueDTO();
         for(ProcessedRevenueDomain domain : domains){
             dtos.add(modelMapper.map(domain, ProcessedRevenueDTO.class));
-
-            /** Create Summary Row **/
-            summary.setActualIntake(summary.getActualIntake() + domain.getActualIntake());
-            summary.setActualTaxableIntake(summary.getActualTaxableIntake() + domain.getActualTaxableIntake());
-            summary.setActualTaxIntake(summary.getActualTaxIntake() + domain.getActualTaxIntake());
-            summary.setTapeIntake(summary.getTapeIntake() + domain.getTapeIntake());
-            summary.setTapePreTaxIntake(summary.getTapePreTaxIntake() + domain.getTapePreTaxIntake());
-            summary.setTapeTaxableIntake(summary.getTapeTaxableIntake() + domain.getTapeTaxableIntake());
-            summary.setOverUnder(summary.getOverUnder() + domain.getOverUnder());
-            summary.setTaxCount(summary.getTaxCount() + domain.getTaxCount());
+            addToSummary(summary, domain);
         }
 
         LOGGER.info("Returning list of processed revenue for dates between: {} and {}, filtered by location: {}, size: {}",dto.getStartingDate(), dto.getEndingDate() , dto.getLocationName() ,dtos.size());
         return new ProcessedRevenueDataAndSummaryDTO(dtos, summary);
+    }
+
+    private void addToSummary(ProcessedRevenueDTO summary, ProcessedRevenueDomain domain) {
+        /** Create Summary Row **/
+        summary.setActualIntake(
+                Precision.round(
+                        summary.getActualIntake() +
+                        domain.getActualIntake(),2));
+
+        summary.setActualTaxableIntake(
+                Precision.round(
+                summary.getActualTaxableIntake() +
+                        domain.getActualTaxableIntake(),2));
+
+        summary.setActualPreTaxIntake(
+                Precision.round(
+                summary.getActualPreTaxIntake() +
+                        domain.getActualPreTaxIntake(),2));
+
+        summary.setTapeIntake(
+                Precision.round(
+                summary.getTapeIntake() +
+                        domain.getTapeIntake(),2));
+
+        summary.setTapePreTaxIntake(
+                Precision.round(
+                summary.getTapePreTaxIntake() +
+                        domain.getTapePreTaxIntake(),2));
+
+        summary.setTapeTaxableIntake(
+                Precision.round(
+                summary.getTapeTaxableIntake() +
+                        domain.getTapeTaxableIntake(),2));
+
+        summary.setOverUnder(
+                Precision.round(
+                summary.getOverUnder() +
+                        domain.getOverUnder(),2));
+
+        summary.setTaxCount(
+                Precision.round(
+                summary.getTaxCount() +
+                        domain.getTaxCount(),2));
     }
 
     @Override
@@ -104,10 +138,7 @@ public class ProcessedRevenueServiceImpl implements ApplicationListener<RevenueE
                 er.getTaxTape() -
                 er.getVehicleSale();
 
-        //Actual Daily Taxable Intake
-        double actualTaxIntake = er.getCashTape() +
-                er.getCheckTape() +
-                er.getCardTape();
+
         //Total Daily Tape
         double tapeIntake = er.getCashTape() +
                 er.getCheckTape() +
@@ -117,14 +148,13 @@ public class ProcessedRevenueServiceImpl implements ApplicationListener<RevenueE
         double tapePreTaxIntake = er.getCashTape() +
                 er.getCheckTape() +
                 er.getCardTape() -
-                er.getTaxTape() -
-                er.getVehicleSale();
+                er.getTaxTape();
 
         //Daily Taxable Tape
         double tapeTaxableIntake = er.getCashTape() +
                 er.getCheckTape() +
-                er.getCardTape() +
-                er.getTaxTape() +
+                er.getCardTape() -
+                er.getTaxTape() -
                 er.getVehicleSale();
 
         //Over Under
@@ -142,7 +172,6 @@ public class ProcessedRevenueServiceImpl implements ApplicationListener<RevenueE
                 .setActualIntake(actualIntake)
                 .setActualPreTaxIntake(actualPreTaxIntake)
                 .setActualTaxableIntake(actualTaxableIntake)
-                .setActualTaxIntake(actualTaxIntake)
                 .setActualPreTaxIntake(actualPreTaxIntake)
                 .setTapeIntake(tapeIntake)
                 .setTapePreTaxIntake(tapePreTaxIntake)
@@ -151,7 +180,6 @@ public class ProcessedRevenueServiceImpl implements ApplicationListener<RevenueE
                 .setTaxCount(taxCount)
                 .setEnteredRevenue(er)
                 .createProcessedRevenueDomain();
-
 
 
         /**

@@ -25,7 +25,6 @@ public class ProcessedRevenueDTO {
     private double actualIntake;
     private double actualPreTaxIntake;
     private double actualTaxableIntake;
-    private double actualTaxIntake;
     private double tapeIntake;
     private double tapePreTaxIntake;
     private double tapeTaxableIntake;
@@ -177,13 +176,6 @@ public class ProcessedRevenueDTO {
         this.actualTaxableIntake = actualTaxableIntake;
     }
 
-    public double getActualTaxIntake() {
-        return actualTaxIntake;
-    }
-
-    public void setActualTaxIntake(double actualTaxIntake) {
-        this.actualTaxIntake = actualTaxIntake;
-    }
 
     public double getTapeIntake() {
         return tapeIntake;

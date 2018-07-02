@@ -1,5 +1,7 @@
 package com.agoldberg.hercules.domain;
 
+import org.apache.commons.math3.util.Precision;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
@@ -23,7 +25,6 @@ public class ProcessedRevenueDomain extends Auditable<String>{
     private double actualIntake;
     private double actualPreTaxIntake;
     private double actualTaxableIntake;
-    private double actualTaxIntake;
     private double tapeIntake;
     private double tapePreTaxIntake;
     private double tapeTaxableIntake;
@@ -34,19 +35,18 @@ public class ProcessedRevenueDomain extends Auditable<String>{
     public ProcessedRevenueDomain() {
     }
 
-    public ProcessedRevenueDomain(EnteredRevenueDomain enteredRevenue, Date date, StoreLocationDomain location, double actualIntake, double actualPreTaxIntake, double actualTaxableIntake, double actualTaxIntake, double tapeIntake, double tapePreTaxIntake, double tapeTaxableIntake, double overUnder, double taxCount) {
+    public ProcessedRevenueDomain(EnteredRevenueDomain enteredRevenue, Date date, StoreLocationDomain location, double actualIntake, double actualPreTaxIntake, double actualTaxableIntake, double tapeIntake, double tapePreTaxIntake, double tapeTaxableIntake, double overUnder, double taxCount) {
         this.locationDomain = location;
         this.date = date;
         this.enteredRevenue = enteredRevenue;
-        this.actualIntake = actualIntake;
-        this.actualPreTaxIntake = actualPreTaxIntake;
-        this.actualTaxableIntake = actualTaxableIntake;
-        this.actualTaxIntake = actualTaxIntake;
-        this.tapeIntake = tapeIntake;
-        this.tapePreTaxIntake = tapePreTaxIntake;
-        this.tapeTaxableIntake = tapeTaxableIntake;
-        this.overUnder = overUnder;
-        this.taxCount = taxCount;
+        this.actualIntake = Precision.round(actualIntake,2);
+        this.actualPreTaxIntake = Precision.round(actualPreTaxIntake,2);
+        this.actualTaxableIntake = Precision.round(actualTaxableIntake,2);
+        this.tapeIntake = Precision.round(tapeIntake,2);
+        this.tapePreTaxIntake = Precision.round(tapePreTaxIntake,2);
+        this.tapeTaxableIntake = Precision.round(tapeTaxableIntake,2);
+        this.overUnder = Precision.round(overUnder,2);
+        this.taxCount = Precision.round(taxCount,2);
     }
 
     public StoreLocationDomain getLocationDomain() {
@@ -105,13 +105,6 @@ public class ProcessedRevenueDomain extends Auditable<String>{
         this.actualTaxableIntake = actualTaxableIntake;
     }
 
-    public double getActualTaxIntake() {
-        return actualTaxIntake;
-    }
-
-    public void setActualTaxIntake(double actualTaxIntake) {
-        this.actualTaxIntake = actualTaxIntake;
-    }
 
     public double getTapeIntake() {
         return tapeIntake;

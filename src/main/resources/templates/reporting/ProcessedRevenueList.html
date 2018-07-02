@@ -79,12 +79,11 @@
         <th>Actual Intake</th>
         <th>Actual Pre-Tax Intake</th>
         <th>Actual Taxable Intake</th>
-        <th>Actual Tax Intake</th>
         <th>Tape Intake</th>
         <th>Tape Pre-Tax Intake</th>
         <th>Tape Taxable Intake</th>
         <th>Over/Under</th>
-        <th>Tax Count</th>
+        <th>Calculated Tax Intake</th>
         </thead>
         <tbody>
         <tr th:each="revenue : ${revenues.data}">
@@ -106,7 +105,6 @@
             <td th:text="${revenue.actualIntake}"></td>
             <td th:text="${revenue.actualPreTaxIntake}"></td>
             <td th:text="${revenue.actualTaxableIntake}"></td>
-            <td th:text="${revenue.actualTaxIntake}"></td>
             <td th:text="${revenue.tapeIntake}"></td>
             <td th:text="${revenue.tapePreTaxIntake}"></td>
             <td th:text="${revenue.tapeTaxableIntake}"></td>
@@ -132,7 +130,6 @@
             <th th:text="*{actualIntake}"></th>
             <th th:text="*{actualPreTaxIntake}"></th>
             <th th:text="*{actualTaxableIntake}"></th>
-            <th th:text="*{actualTaxIntake}"></th>
             <th th:text="*{tapeIntake}"></th>
             <th th:text="*{tapePreTaxIntake}"></th>
             <th th:text="*{tapeTaxableIntake}"></th>

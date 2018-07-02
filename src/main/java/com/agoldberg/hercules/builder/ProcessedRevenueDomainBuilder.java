@@ -8,7 +8,6 @@ public class ProcessedRevenueDomainBuilder {
     private double actualIntake;
     private double actualPreTaxIntake;
     private double actualTaxableIntake;
-    private double actualTaxIntake;
     private double tapeIntake;
     private double tapePreTaxIntake;
     private double tapeTaxableIntake;
@@ -36,10 +35,6 @@ public class ProcessedRevenueDomainBuilder {
         return this;
     }
 
-    public ProcessedRevenueDomainBuilder setActualTaxIntake(double actualTaxIntake) {
-        this.actualTaxIntake = actualTaxIntake;
-        return this;
-    }
 
     public ProcessedRevenueDomainBuilder setTapeIntake(double tapeIntake) {
         this.tapeIntake = tapeIntake;
@@ -67,6 +62,6 @@ public class ProcessedRevenueDomainBuilder {
     }
 
     public ProcessedRevenueDomain createProcessedRevenueDomain() {
-        return new ProcessedRevenueDomain(enteredRevenue, enteredRevenue.getDate(), enteredRevenue.getLocation(), actualIntake, actualPreTaxIntake, actualTaxableIntake, actualTaxIntake, tapeIntake, tapePreTaxIntake, tapeTaxableIntake, overUnder, taxCount);
+        return new ProcessedRevenueDomain(enteredRevenue, enteredRevenue.getDate(), enteredRevenue.getLocation(), actualIntake, actualPreTaxIntake, actualTaxableIntake, tapeIntake, tapePreTaxIntake, tapeTaxableIntake, overUnder, taxCount);
     }
 }
