@@ -35,6 +35,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     private ModelMapper modelMapper;
 
     @Override
+    @RolesAllowed("ROLE_ADMIN")
     public void deleteDepartmentSize(DepartmentSizeDTO departmentSizeDTO) {
         DepartmentSizeDomain sizeDomain = modelMapper.map(departmentSizeDTO, DepartmentSizeDomain.class);
         //Get the department from with the id in the dto -- the modelmapper wont be able to
@@ -46,6 +47,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    @RolesAllowed("ROLE_ADMIN")
     public void createDepartmentSize(DepartmentSizeDTO departmentSizeDTO) {
         DepartmentSizeDomain sizeDomain = modelMapper.map(departmentSizeDTO, DepartmentSizeDomain.class);
         //Get the department from with the id in the dto -- the modelmapper wont be able to
@@ -56,6 +58,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         /** Dirty checking with department domain **/
     }
 
+    @Override
     public List<DepartmentSizeDTO> getDepartmentSizes(Long departmentId){
         DepartmentDomain departmentDomain = departmentDAO.getOne(departmentId);
         List<DepartmentSizeDTO> sizeDTOS = new ArrayList<>();

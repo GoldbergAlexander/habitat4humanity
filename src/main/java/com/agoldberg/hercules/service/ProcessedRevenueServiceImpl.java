@@ -9,6 +9,7 @@ import com.agoldberg.hercules.dto.EnteredSearchDTO;
 import com.agoldberg.hercules.dto.ProcessedRevenueDTO;
 import com.agoldberg.hercules.dto.ProcessedRevenueDataAndSummaryDTO;
 import com.agoldberg.hercules.event.RevenueEnteredEvent;
+import org.apache.commons.math3.util.Precision;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,14 +89,14 @@ public class ProcessedRevenueServiceImpl implements ApplicationListener<RevenueE
                 er.getCardUnit() +
                 er.getPayoutReceipt();
 
-//        Actual Total Daily Intake
+        //Actual Total Daily Intake
         double actualPreTaxIntake = er.getCashCount() +
                 er.getCheckCount() +
                 er.getCardUnit() +
                 er.getPayoutReceipt() -
                 er.getTaxTape();
 
-//        Actual Daily Pre-Tax Intake
+        //Actual Daily Pre-Tax Intake
         double actualTaxableIntake = er.getCashCount() +
                 er.getCheckCount() +
                 er.getCardUnit() +
@@ -103,36 +104,39 @@ public class ProcessedRevenueServiceImpl implements ApplicationListener<RevenueE
                 er.getTaxTape() -
                 er.getVehicleSale();
 
-//        Actual Daily Taxable Intake
+        //Actual Daily Taxable Intake
         double actualTaxIntake = er.getCashTape() +
                 er.getCheckTape() +
                 er.getCardTape();
-//        Total Daily Tape
+        //Total Daily Tape
         double tapeIntake = er.getCashTape() +
                 er.getCheckTape() +
                 er.getCardTape();
 
-//        Total Daily Tape
+        //Total Daily Tape
         double tapePreTaxIntake = er.getCashTape() +
                 er.getCheckTape() +
                 er.getCardTape() -
                 er.getTaxTape() -
                 er.getVehicleSale();
 
-//        Daily Taxable Tape
+        //Daily Taxable Tape
         double tapeTaxableIntake = er.getCashTape() +
                 er.getCheckTape() +
                 er.getCardTape() +
                 er.getTaxTape() +
                 er.getVehicleSale();
 
-//        Over Under
+        //Over Under
         double overUnder = actualIntake - tapeIntake;
 
-//        Tax Count
+        //Tax Count
         double taxCount = (actualIntake - overUnder - er.getVehicleSale()) -
                 ((actualIntake - overUnder - er.getVehicleSale()) /
                         (1+taxRate));
+
+        //Round to 2 decimal places
+        taxCount = Precision.round(taxCount, 2);
 
         ProcessedRevenueDomain processedRevenue = new ProcessedRevenueDomainBuilder()
                 .setActualIntake(actualIntake)
