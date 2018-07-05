@@ -40,6 +40,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Value("${admin.password:admin}")
     private String adminPassword;
 
+    @Value("${system.use.email:true}")
+    private boolean useEmail;
+
 
     @Autowired
     private UserDAO userDAO;
@@ -131,7 +134,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
 
     @Override
-    public void createUser(UserDTO userDTO){
+    public UserDTO createUser(UserDTO userDTO){
         UserDomain userDomain = modelMapper.map(userDTO, UserDomain.class);
 
         if(userDomain == null){
@@ -145,13 +148,25 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
         //Secure the users password
         userDomain.setPassword(passwordEncoder.encode(userDomain.getPassword()));
-        userDomain.setEnabled(false);
-        userDAO.save(userDomain);
+
+        //If use email is false, skip the token generation
+        if(!useEmail){
+            userDomain.setEnabled(true);
+        }else{
+            userDomain.setEnabled(false);
+        }
+        UserDTO dto = modelMapper.map(userDAO.save(userDomain),UserDTO.class);
 
         LOGGER.info("Saved User: {}", userDomain.getUsername());
 
-        LOGGER.debug("Handing off to token service");
-        tokenService.createToken(userDomain, TokenType.CONFRIM);
+        if(useEmail) {
+            LOGGER.debug("Handing off to token service");
+            tokenService.createToken(userDomain, TokenType.CONFRIM);
+        }else{
+            LOGGER.debug("Not using email, not handing off to token service.");
+        }
+
+        return dto;
 
     }
 

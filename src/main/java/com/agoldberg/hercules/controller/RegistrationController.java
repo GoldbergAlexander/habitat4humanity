@@ -5,6 +5,7 @@ import com.agoldberg.hercules.dto.UserDTO;
 import com.agoldberg.hercules.service.StoreLocationService;
 import com.agoldberg.hercules.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,6 +25,9 @@ public class RegistrationController {
     private static final String REGISTRATION_CONFIRMED_VIEW = "registration/UserConfirmed";
     private static final String REGISTRATION_SUCCESS_VIEW = "registration/RegistrationSuccess";
 
+    @Value("${system.use.email:true}")
+    private boolean useEmail;
+
     @Autowired
     private UserService userService;
 
@@ -39,8 +43,12 @@ public class RegistrationController {
     @PostMapping
     public ModelAndView handleRegistration(Model model, @Valid @ModelAttribute(REGISTER_MODEL) RegistrationDTO registration, BindingResult bindingResult){
         if(!bindingResult.hasErrors()){
-            userService.createUser(registration);
-            return new ModelAndView(REGISTRATION_SUCCESS_VIEW, REGISTER_MODEL, registration);
+            UserDTO userDTO = userService.createUser(registration);
+            if(useEmail) {
+                return new ModelAndView(REGISTRATION_SUCCESS_VIEW, REGISTER_MODEL, registration);
+            }else{
+                return new ModelAndView(REGISTRATION_CONFIRMED_VIEW, USER_MODEL, userDTO);
+            }
         }else{
             model.addAttribute(LOCATIONS_MODEL, storeLocationService.getEnabledStoreLocations());
             return new ModelAndView(REGISTRATION_FORM_VIEW, REGISTER_MODEL, registration);

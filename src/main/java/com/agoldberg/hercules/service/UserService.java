@@ -19,7 +19,7 @@ public interface UserService {
     @RolesAllowed({"ROLE_ADMIN"})
     UserDTO getUser(Long id);
 
-    void createUser(UserDTO userDTO);
+    UserDTO createUser(UserDTO userDTO);
 
     UserDTO confirmUser(String token);
 
