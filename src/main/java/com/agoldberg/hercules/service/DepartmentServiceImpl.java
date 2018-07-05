@@ -137,8 +137,21 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public List<DepartmentDTO> getEnabledDepartments(){
-        List<DepartmentDomain> domains = departmentDAO.findAll();
+    public List<DepartmentDTO> getEnabledDepartments(Long locationId){
+        List<DepartmentDomain> domains;
+
+        /** if locationId is not null, search for a location domain in the location service **/
+        StoreLocationDomain location = null;
+        if(locationId != null){
+            location = storeLocationService.getStoreLocation(locationId);
+        }
+
+        // Setup the domain list, with or without a location limiter
+        if(location != null){
+            domains = departmentDAO.findByEnabledIsTrueAndLocation(location);
+        }else{
+            domains = departmentDAO.findByEnabledIsTrue();
+        }
         List<DepartmentDTO> dtos = new ArrayList<>();
 
         for(DepartmentDomain domain : domains){
@@ -147,6 +160,11 @@ public class DepartmentServiceImpl implements DepartmentService {
 
         LOGGER.info("Getting list of enabled departments, size: {}", dtos.size());
         return dtos;
+    }
+
+    @Override
+    public List<DepartmentDTO> getEnabledDepartments(){
+        return getEnabledDepartments(null);
     }
 
     @Override

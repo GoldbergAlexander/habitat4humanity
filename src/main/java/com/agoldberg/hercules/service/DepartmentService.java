@@ -29,6 +29,8 @@ public interface DepartmentService {
 
     List<DepartmentDTO> getEnabledDepartments();
 
+    List<DepartmentDTO> getEnabledDepartments(Long locationId);
+
     String getDepartmentName(Long id);
 
     DepartmentDTO getDepartmentDTO(Long id);

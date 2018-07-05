@@ -87,7 +87,7 @@ public class StoreLocationServiceImpl implements StoreLocationService {
     protected StoreLocationDomain getStoreLocation(Long id){
         StoreLocationDomain storeLocation = storeLocationDAO.findByIdAndEnabledIsTrue(id);
         if(storeLocation == null){
-            throw new IllegalStateException(LOCATION_EXISTS_ERROR);
+            throw new IllegalStateException("Location with the given ID does not exist");
         }
         LOGGER.info("Got enabled location with ID: {}", id);
         return storeLocation;

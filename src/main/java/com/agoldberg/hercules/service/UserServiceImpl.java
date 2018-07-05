@@ -247,6 +247,10 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     public void createAdmin(){
+        //Prevent Multiple Admins
+        if(userDAO.findByUsername(adminUsername) != null){
+            return;
+        }
         UserDomain userDomain = new UserDomain();
         userDomain.setEnabled(true);
         userDomain.setAccountNonLocked(true);

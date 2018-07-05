@@ -11,7 +11,7 @@
 
 <div class="container">
     <h2>Department Revenue Entry</h2>
-<form th:action="@{/revenue/department/entry}" th:object="${departmentRevenue}" method="post">
+
     <table class="table table-striped">
         <colgroup>
             <col style="width: 70%">
@@ -19,6 +19,21 @@
         </colgroup>
         <tbody>
 
+        <!-- Locations -->
+        <tr>
+            <form th:action="@{/revenue/department/entry}" id="locationSelect" method="get">
+                <th>Location</th>
+                <td><select onchange="this.form.submit()" class="form-control" name=locationId>
+                    <option th:each="location : ${locations}"
+                            th:value="${location.id}"
+                            th:text="${location.name}">
+                    </option>
+                </select>
+                </td>
+            </form>
+        </tr>
+
+        <form th:action="@{/revenue/department/entry}" th:object="${departmentRevenue}" method="post">
         <!-- Date -->
         <tr>
             <th>Date</th>
@@ -28,7 +43,9 @@
             </td>
         </tr>
 
-        <!-- Location -->
+
+
+        <!-- Department -->
         <tr>
             <th>Department</th>
             <td><select class="form-control" th:field="*{departmentId}">

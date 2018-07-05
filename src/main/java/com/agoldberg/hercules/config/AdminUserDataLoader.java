@@ -28,14 +28,20 @@ public class AdminUserDataLoader implements ApplicationListener<ContextRefreshed
 
             if (!loaded) {
                 /** Create Roles **/
-                RoleDomain adminRole = new RoleDomain("ROLE_ADMIN");
-                roleDAO.save(adminRole);
+                if(roleDAO.findByName("ROLE_ADMIN") == null) {
+                    RoleDomain adminRole = new RoleDomain("ROLE_ADMIN");
+                    roleDAO.save(adminRole);
+                }
 
-                RoleDomain managerRole = new RoleDomain("ROLE_MANAGER");
-                roleDAO.save(managerRole);
+                if(roleDAO.findByName("ROLE_MANAGER") == null) {
+                    RoleDomain managerRole = new RoleDomain("ROLE_MANAGER");
+                    roleDAO.save(managerRole);
+                }
 
-                RoleDomain executiveRole = new RoleDomain("ROLE_EXECUTIVE");
-                roleDAO.save(executiveRole);
+                if(roleDAO.findByName("ROLE_EXECUTIVE") == null) {
+                    RoleDomain executiveRole = new RoleDomain("ROLE_EXECUTIVE");
+                    roleDAO.save(executiveRole);
+                }
 
                 userService.createAdmin();
 

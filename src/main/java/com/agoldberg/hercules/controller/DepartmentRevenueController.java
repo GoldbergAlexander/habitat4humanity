@@ -1,18 +1,21 @@
 package com.agoldberg.hercules.controller;
 
+import com.agoldberg.hercules.domain.StoreLocationDomain;
 import com.agoldberg.hercules.dto.DepartmentRevenueDTO;
+import com.agoldberg.hercules.dto.StoreLocationDTO;
 import com.agoldberg.hercules.service.DepartmentRevenueService;
 import com.agoldberg.hercules.service.DepartmentService;
+import com.agoldberg.hercules.service.StoreLocationService;
 import com.agoldberg.hercules.session.DepartmentRevenueStaging;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Collections;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -35,6 +38,9 @@ public class DepartmentRevenueController {
     private DepartmentService departmentService;
 
     @Autowired
+    private StoreLocationService locationService;
+
+    @Autowired
     private DepartmentRevenueStaging staging;
 
         /*
@@ -49,9 +55,26 @@ public class DepartmentRevenueController {
      */
 
     @GetMapping("entry")
-    public ModelAndView displayRevenueEntryForm(Model model){
-        //Add a list of locations to the model.
-        model.addAttribute(DEPARTMENTS_MODEL, departmentService.getEnabledDepartments());
+    public ModelAndView displayRevenueEntryForm(Model model, @RequestParam(value = "locationId", required = false) Long locationId){
+       //Get location list
+        List<StoreLocationDTO> locations = locationService.getEnabledStoreLocations();
+
+
+        //order the location menu to display the selected location
+        if(locationId != null){
+            for(StoreLocationDTO location : locations){
+                if(location.getId().equals(locationId)){
+                    Collections.swap(locations,locations.indexOf(location),0);
+                    break;
+                }
+            }
+        }
+
+        //Add a list of locations
+        model.addAttribute("locations", locations);
+
+        //Add a list of departments to the model.
+        model.addAttribute(DEPARTMENTS_MODEL, departmentService.getEnabledDepartments(locationId));
 
         /** Display Existing data if its there **/
         DepartmentRevenueDTO dto;
@@ -66,8 +89,10 @@ public class DepartmentRevenueController {
     @PostMapping("entry")
     public ModelAndView saveEnteredRevenueToSession(Model model, @Valid @ModelAttribute(DEPARTMENT_REVENUE_MODEL) DepartmentRevenueDTO dto, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            //We still need the list
+            //We still need the lists
+            model.addAttribute("locations", locationService.getEnabledStoreLocations());
             model.addAttribute(DEPARTMENTS_MODEL, departmentService.getEnabledDepartments());
+
             return new ModelAndView(DEPARTMENT_REVENUE_FORM_VIEW, DEPARTMENT_REVENUE_MODEL, dto);
         }else{
             dto.setDepartmentName(departmentService.getDepartmentName(dto.getDepartmentId()));
