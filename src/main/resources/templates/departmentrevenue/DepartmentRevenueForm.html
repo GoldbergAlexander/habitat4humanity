@@ -23,7 +23,7 @@
         <tr>
             <form th:action="@{/revenue/department/entry}" id="locationSelect" method="get">
                 <th>Location</th>
-                <td><select onchange="this.form.submit()" class="form-control" name=locationId>
+                <td><select onchange="this.form.submit()" class="form-control custom-select" name=locationId>
                     <option th:each="location : ${locations}"
                             th:value="${location.id}"
                             th:text="${location.name}">
@@ -40,7 +40,7 @@
             <td>
                 <div class="row">
                     <div class="col-sm-6">
-                        <select class="form-control col-xs" name="year">
+                        <select class="form-control col-xs custom-select" name="year">
                             <option th:each="year : ${years}"
                                     th:value="${year}"
                                     th:text="${year}"
@@ -49,7 +49,7 @@
                         </select>
                     </div>
                     <div class="col-sm-6">
-                        <select class="form-control col-xs" name="month">
+                        <select class="form-control col-xs custom-select" name="month">
                             <option th:each="month : ${T(java.time.Month).values()}"
                                     th:value="${month}"
                                     th:text="${month}"
@@ -68,7 +68,7 @@
         <!-- Department -->
         <tr>
             <th>Department</th>
-            <td><select class="form-control" th:field="*{departmentId}">
+            <td><select class="form-control custom-select" th:field="*{departmentId}">
                 <option th:each="department : ${departmentList}"
                         th:value="${department.id}"
                         th:text="${department.name}"

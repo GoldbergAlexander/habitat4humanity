@@ -15,4 +15,19 @@ public class GeneralController {
         return "index";
     }
 
+    @GetMapping("/entry")
+    public String showEntry() {
+        return "entry";
+    }
+
+    @GetMapping("/reporting")
+    public String showReporting() {
+        return "reporting";
+    }
+
+    @GetMapping("/admin")
+    public String showAdmin() {
+        return "admin";
+    }
+
 }

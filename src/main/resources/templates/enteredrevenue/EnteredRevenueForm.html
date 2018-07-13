@@ -10,8 +10,6 @@
 <div th:replace="fragment/navigation :: nav"></div>
 
 <div class="container">
-    <div class="row">
-        <div class="col-3">
     <h2>Revenue Entry</h2>
 <form th:action="@{/revenue/daily/entry}" th:object="${enteredRevenue}" method="post">
     <table class="table table-striped">
@@ -35,7 +33,7 @@
         <!-- Location -->
         <tr>
             <th>Location</th>
-            <td><select class="form-control" th:field="*{locationId}">
+            <td><select class="form-control custom-select" th:field="*{locationId}">
                 <option th:each="location : ${locations}"
                         th:value="${location.id}"
                         th:text="${location.name}"
@@ -159,8 +157,6 @@
         </tbody>
     </table>
 </form>
-        </div>
-    </div>
 </div>
 </body>
 </html>

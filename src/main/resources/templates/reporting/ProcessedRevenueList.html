@@ -24,7 +24,7 @@
         </thead>
         <tbody>
         <tr>
-            <td><select class="form-control" th:field="*{locationId}">
+            <td><select class="form-control custom-select" th:field="*{locationId}">
                 <option value="-1">All Locations</option>
                 <option th:each="location : ${locations}"
                         th:value="${location.id}"
