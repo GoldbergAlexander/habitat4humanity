@@ -36,9 +36,29 @@
         <form th:action="@{/revenue/department/entry}" th:object="${departmentRevenue}" method="post">
         <!-- Date -->
         <tr>
-            <th>Date</th>
-            <td><input class="form-control" type="date" th:field="*{stringDate}"/>
-            <p th:each="error : ${#fields.errors('date')}"
+            <th>Year & Month</th>
+            <td>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <select class="form-control col-xs" name="year">
+                            <option th:each="year : ${years}"
+                                    th:value="${year}"
+                                    th:text="${year}"
+                                    th:selected="${year == departmentRevenue.year.getValue()}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <select class="form-control col-xs" name="month">
+                            <option th:each="month : ${T(java.time.Month).values()}"
+                                    th:value="${month}"
+                                    th:text="${month}"
+                                    th:selected="${month == departmentRevenue.month}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            <p th:each="error : ${#fields.errors('month')}"
                th:text="${error}">Constraint error</p>
             </td>
         </tr>

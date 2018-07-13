@@ -14,6 +14,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.Year;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -59,7 +65,6 @@ public class DepartmentRevenueController {
        //Get location list
         List<StoreLocationDTO> locations = locationService.getEnabledStoreLocations();
 
-
         //order the location menu to display the selected location
         if(locationId != null){
             for(StoreLocationDTO location : locations){
@@ -69,6 +74,17 @@ public class DepartmentRevenueController {
                 }
             }
         }
+
+        /* Get the current year and add 5 to it (arbitrary, but in the future)*/
+        Integer currentYear = Year.now().getValue() + 5;
+        List<Integer> years = new ArrayList<>();
+        /* Make an aaray list with 50 values */
+        for(int i = 0; i < 50; i++){
+            years.add(currentYear - i);
+        }
+
+        model.addAttribute("years", years);
+
 
         //Add a list of locations
         model.addAttribute("locations", locations);
@@ -80,6 +96,10 @@ public class DepartmentRevenueController {
         DepartmentRevenueDTO dto;
         if((dto = staging.getDepartmentRevenueDTO()) == null){
             dto = new DepartmentRevenueDTO();
+
+            /* Set the current year and date in the DTO */
+            dto.setYear(Year.now());
+            dto.setMonth(Month.from(LocalDate.now()));
         }
 
         return new ModelAndView(DEPARTMENT_REVENUE_FORM_VIEW, DEPARTMENT_REVENUE_MODEL, dto);

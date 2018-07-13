@@ -16,8 +16,8 @@
 
         <!-- Date -->
         <tr>
-            <th>Date</th>
-            <td th:text="*{date}"></td>
+            <th>Year & Month</th>
+            <td><span th:text="*{year}"></span> -- <span th:text="*{month}"></span></td>
         </tr>
 
         <!-- Location -->
@@ -25,7 +25,7 @@
             <th>Department</th>
             <td th:text="*{departmentName}"></td>
         </tr>
-        <!-- transactionCount -->
+        <!-- Rev -->
         <tr>
             <th>Revenue</th>
             <td th:text="*{revenue}"/></td>

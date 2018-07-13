@@ -7,6 +7,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Month;
+import java.time.Year;
 import java.util.Date;
 
 public class DepartmentRevenueDTO {
@@ -15,27 +17,12 @@ public class DepartmentRevenueDTO {
     @NotNull
     private Long departmentId;
     private String departmentName;
-    /** This is a bit of an issues -- @DateTimeFormat didn't work with time zones, etc **/
-    @NotEmpty
-    private String stringDate;
     @NotNull
-    private Date date;
+    private Year year;
+    @NotNull
+    private Month month;
     @Min(0)
     private double revenue;
-
-
-    public String getStringDate() {
-        return stringDate;
-    }
-
-    public void setStringDate(String stringDate) {
-        try {
-            this.date = new SimpleDateFormat("yyyy-MM-dd").parse(stringDate);
-            this.stringDate = stringDate;
-        }catch (ParseException e){
-            this.stringDate = "Could Not Parse Date";
-        }
-    }
 
 
 
@@ -63,12 +50,20 @@ public class DepartmentRevenueDTO {
         this.departmentId = departmentId;
     }
 
-    public Date getDate() {
-        return date;
+    public Year getYear() {
+        return year;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setYear(Year year) {
+        this.year = year;
+    }
+
+    public Month getMonth() {
+        return month;
+    }
+
+    public void setMonth(Month month) {
+        this.month = month;
     }
 
     public double getRevenue() {
