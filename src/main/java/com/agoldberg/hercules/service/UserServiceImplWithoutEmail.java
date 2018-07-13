@@ -11,11 +11,15 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+/**
+ * This implementation extends and overrides the standard implementation when emailless mode is enabled.
+ */
+
 @Service
 @Profile("emailless")
 public class UserServiceImplWithoutEmail extends UserServiceImpl {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImplWithoutEmail.class);
 
     @Autowired
     private UserDAO userDAO;

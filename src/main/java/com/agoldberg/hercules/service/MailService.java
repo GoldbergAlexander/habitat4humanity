@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Async
-@Profile("!emailless")
 public class MailService implements ApplicationListener<TokenCreatedEvent> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MailService.class);
@@ -45,9 +44,9 @@ public class MailService implements ApplicationListener<TokenCreatedEvent> {
         LOGGER.debug("Got Token Created Event");
         switch (tokenCreatedEvent.getTokenDomain().getTokenType()){
             case CONFRIM:sendConfirmationEmail(tokenCreatedEvent.getTokenDomain());
-            break;
+                break;
             case RESET:sendResetEmail(tokenCreatedEvent.getTokenDomain());
-            break;
+                break;
         }
     }
 

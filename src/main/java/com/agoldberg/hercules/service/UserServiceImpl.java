@@ -30,6 +30,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * This is the standard userService implementation.
+ */
+
 @Service
 @Profile("!emailless")
 public class UserServiceImpl implements UserDetailsService, UserService {
