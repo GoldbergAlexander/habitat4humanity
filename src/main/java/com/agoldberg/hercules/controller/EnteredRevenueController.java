@@ -28,10 +28,10 @@ public class EnteredRevenueController {
     private static final String REPORTING_PROCESSED_VIEW = "reporting/ProcessedRevenueList";
     private static final String REVENUES_MODEL = "revenues";
     private static final String ENTERED_REVENUE_FORM_VIEW = "enteredrevenue/EnteredRevenueForm";
-    private static final String CONFIRM_REDIRECT = "redirect:confirm";
+    private static final String CONFIRM_REDIRECT = "redirect:review";
     private static final String EXISTING_MODEL = "existing";
-    private static final String ENTERED_REVENUE_CONFIRM_VIEW = "enteredrevenue/ConfirmEnteredRevenue";
-    private static final String STAGING_ERROR = "An entry has not been staged for confirmation.";
+    private static final String ENTERED_REVENUE_CONFIRM_VIEW = "enteredrevenue/ReviewEntry";
+    private static final String STAGING_ERROR = "An entry has not been staged for review.";
     private static final String STAGING_CONFIRM_ERROR = "An entry has either not be staged or has already been confirmed.";
     private static final String ENTERED_REVENUE_SAVED_VIEW = "enteredrevenue/SavedEnteredRevenue";
 
@@ -101,7 +101,7 @@ public class EnteredRevenueController {
         return new ModelAndView(CONFIRM_REDIRECT);
     }
 
-    @GetMapping("confirm")
+    @GetMapping("review")
     public ModelAndView displayEnteredRevenue(Model model){
         if(staging.isStaged()){
             //Check for existing entry

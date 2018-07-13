@@ -31,8 +31,8 @@ public class DepartmentRevenueController {
     private static final String DEPARTMENT_REVENUE_MODEL = "departmentRevenue";
     private static final String DEPARTMENTS_MODEL = "departmentList";
     private static final String DEPARTMENT_REVENUE_FORM_VIEW = "departmentrevenue/DepartmentRevenueForm";
-    private static final String CONFIRM_REDIRECT = "redirect:confirm";
-    private static final String DEPARTMENT_REVENUE_CONFIRM_VIEW = "departmentrevenue/ConfirmDepartmentRevenue";
+    private static final String CONFIRM_REDIRECT = "redirect:review";
+    private static final String DEPARTMENT_REVENUE_CONFIRM_VIEW = "departmentrevenue/ReviewEntry";
     private static final String STAGING_ERROR = "An entry has not been staged for confirmation.";
     private static final String STAGING_CONFIRM_ERROR = "An entry has either not be staged or has already been confirmed.";
     private static final String DEPARTMENT_REVENUE_SAVED_VIEW = "departmentrevenue/SavedDepartmentRevenue";
@@ -121,7 +121,7 @@ public class DepartmentRevenueController {
         return new ModelAndView(CONFIRM_REDIRECT);
     }
 
-    @GetMapping("confirm")
+    @GetMapping("review")
     public ModelAndView displayEnteredRevenue(){
         if(staging.isStaged()){
             return new ModelAndView(DEPARTMENT_REVENUE_CONFIRM_VIEW, DEPARTMENT_REVENUE_MODEL, staging.getDepartmentRevenueDTO());
