@@ -3,7 +3,8 @@ package com.agoldberg.hercules.config;
 import com.agoldberg.hercules.dao.RoleDAO;
 import com.agoldberg.hercules.domain.RoleDomain;
 import com.agoldberg.hercules.service.StoreLocationService;
-import com.agoldberg.hercules.service.UserServiceImpl;
+import com.agoldberg.hercules.service.UserService;
+import com.agoldberg.hercules.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -14,7 +15,7 @@ public class AdminUserDataLoader implements ApplicationListener<ContextRefreshed
     private boolean loaded = false;
 
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @Autowired
     private RoleDAO roleDAO;

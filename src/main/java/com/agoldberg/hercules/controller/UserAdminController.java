@@ -4,7 +4,7 @@ import com.agoldberg.hercules.dto.RoleDTO;
 import com.agoldberg.hercules.dto.StoreLocationDTO;
 import com.agoldberg.hercules.dto.UserDTO;
 import com.agoldberg.hercules.service.StoreLocationService;
-import com.agoldberg.hercules.service.UserServiceImpl;
+import com.agoldberg.hercules.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,7 +30,7 @@ public class UserAdminController {
 
 
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @Autowired
     private StoreLocationService storeLocationService;

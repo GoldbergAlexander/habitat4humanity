@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -30,6 +31,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
+@Profile("!emailless")
 public class UserServiceImpl implements UserDetailsService, UserService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
@@ -39,10 +41,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Value("${admin.password:admin}")
     private String adminPassword;
-
-    @Value("${system.use.email:true}")
-    private boolean useEmail;
-
 
     @Autowired
     private UserDAO userDAO;
@@ -61,7 +59,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Autowired
     private TokenService tokenService;
-
 
 
     public UserServiceImpl() {
@@ -149,22 +146,15 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         //Secure the users password
         userDomain.setPassword(passwordEncoder.encode(userDomain.getPassword()));
 
-        //If use email is false, skip the token generation
-        if(!useEmail){
-            userDomain.setEnabled(true);
-        }else{
-            userDomain.setEnabled(false);
-        }
+        userDomain.setEnabled(false);
+
         UserDTO dto = modelMapper.map(userDAO.save(userDomain),UserDTO.class);
 
         LOGGER.info("Saved User: {}", userDomain.getUsername());
 
-        if(useEmail) {
-            LOGGER.debug("Handing off to token service");
-            tokenService.createToken(userDomain, TokenType.CONFRIM);
-        }else{
-            LOGGER.debug("Not using email, not handing off to token service.");
-        }
+        LOGGER.debug("Handing off to token service");
+        tokenService.createToken(userDomain, TokenType.CONFRIM);
+
 
         return dto;
 

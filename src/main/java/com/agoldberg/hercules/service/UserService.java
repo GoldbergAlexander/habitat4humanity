@@ -30,4 +30,10 @@ public interface UserService {
     void changeCurrentUserPassword(String newPassword);
 
     void userUpdateUser(UserDTO dto);
+
+    void createAdmin();
+
+    void adminUpdateUser(UserDTO dto);
+
+    void toggleLock(Long id);
 }
