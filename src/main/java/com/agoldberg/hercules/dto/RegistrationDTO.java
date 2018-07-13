@@ -5,7 +5,7 @@ import com.agoldberg.hercules.constraint.PasswordMatching;
 import javax.validation.constraints.NotEmpty;
 
 @PasswordMatching
-public class RegistrationDTO extends UserDTO{
+public class RegistrationDTO extends UserDTO implements MatchingPassword{
     @NotEmpty
     private String confirmPassword;
 

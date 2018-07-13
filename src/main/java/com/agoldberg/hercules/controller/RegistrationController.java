@@ -42,6 +42,7 @@ public class RegistrationController {
 
     @PostMapping
     public ModelAndView handleRegistration(Model model, @Valid @ModelAttribute(REGISTER_MODEL) RegistrationDTO registration, BindingResult bindingResult){
+        //TODO Componitize based on email (rather than t/f)
         if(!bindingResult.hasErrors()){
             UserDTO userDTO = userService.createUser(registration);
             if(useEmail) {

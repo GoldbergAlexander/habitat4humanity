@@ -1,5 +1,7 @@
 package com.agoldberg.hercules.service;
 
+import com.agoldberg.hercules.dto.MatchingPassword;
+import com.agoldberg.hercules.dto.PasswordChangeDTO;
 import com.agoldberg.hercules.dto.RoleDTO;
 import com.agoldberg.hercules.dto.UserDTO;
 
@@ -27,7 +29,7 @@ public interface UserService {
 
     void resetPassword(String token);
 
-    void changeCurrentUserPassword(String newPassword);
+    void changeCurrentUserPassword(PasswordChangeDTO passwordChangeDTO);
 
     void userUpdateUser(UserDTO dto);
 

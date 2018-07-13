@@ -6,6 +6,7 @@ import com.agoldberg.hercules.domain.RoleDomain;
 import com.agoldberg.hercules.domain.StoreLocationDomain;
 import com.agoldberg.hercules.domain.TokenType;
 import com.agoldberg.hercules.domain.UserDomain;
+import com.agoldberg.hercules.dto.PasswordChangeDTO;
 import com.agoldberg.hercules.dto.RoleDTO;
 import com.agoldberg.hercules.dto.UserDTO;
 import org.modelmapper.ModelMapper;
@@ -209,9 +210,12 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public void changeCurrentUserPassword(String newPassword){
+    public void changeCurrentUserPassword(PasswordChangeDTO passwordChangeDTO){
         LOGGER.info("Changing password for logged in user");
-        String encodedPassword = passwordEncoder.encode(newPassword);
+        if(!passwordChangeDTO.getPassword().equals(passwordChangeDTO.getConfirmPassword())){
+            throw new IllegalArgumentException("Password and Confirm Password do not match!");
+        }
+        String encodedPassword = passwordEncoder.encode(passwordChangeDTO.getConfirmPassword());
         UserDomain userDomain = fetchActiveUser();
         userDomain.setPassword(encodedPassword);
         userDAO.save(userDomain);
