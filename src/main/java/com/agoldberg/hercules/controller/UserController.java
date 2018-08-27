@@ -25,6 +25,7 @@ public class UserController {
     private static final String USER_CHANGE_PASSWORD_REDIRECT = "redirect:/user/changepassword";
     private static final String USER_PASSWORD_RESET_VIEW = "user/PasswordResetForm";
     public static final String SUCCESS_REDIRECT = "redirect:/";
+
     @Autowired
     private UserService userService;
 

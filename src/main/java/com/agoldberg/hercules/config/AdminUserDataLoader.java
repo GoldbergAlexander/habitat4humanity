@@ -20,8 +20,6 @@ public class AdminUserDataLoader implements ApplicationListener<ContextRefreshed
     @Autowired
     private RoleDAO roleDAO;
 
-    @Autowired
-    private StoreLocationService storeLocationService;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
