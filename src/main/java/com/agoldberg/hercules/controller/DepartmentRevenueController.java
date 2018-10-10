@@ -94,7 +94,7 @@ public class DepartmentRevenueController {
 
         /** Display Existing data if its there **/
         DepartmentRevenueDTO dto;
-        if((dto = staging.getDepartmentRevenueDTO()) == null){
+        if((dto = staging.getDTO()) == null){
             dto = new DepartmentRevenueDTO();
 
             /* Set the current year and date in the DTO */
@@ -116,7 +116,7 @@ public class DepartmentRevenueController {
             return new ModelAndView(DEPARTMENT_REVENUE_FORM_VIEW, DEPARTMENT_REVENUE_MODEL, dto);
         }else{
             dto.setDepartmentName(departmentService.getDepartmentName(dto.getDepartmentId()));
-            staging.setDepartmentRevenueDTO(dto);
+            staging.setDTO(dto);
         }
         return new ModelAndView(CONFIRM_REDIRECT);
     }
@@ -124,7 +124,7 @@ public class DepartmentRevenueController {
     @GetMapping("review")
     public ModelAndView displayEnteredRevenue(){
         if(staging.isStaged()){
-            return new ModelAndView(DEPARTMENT_REVENUE_CONFIRM_VIEW, DEPARTMENT_REVENUE_MODEL, staging.getDepartmentRevenueDTO());
+            return new ModelAndView(DEPARTMENT_REVENUE_CONFIRM_VIEW, DEPARTMENT_REVENUE_MODEL, staging.getDTO());
         }else {
             throw new IllegalStateException(STAGING_ERROR);
         }
@@ -136,7 +136,7 @@ public class DepartmentRevenueController {
 
         if(staging.isStaged() && !staging.isConfirmed()){
             staging.setConfirmed(true);
-            dto = departmentRevenueService.createRevenueEntry(staging.getDepartmentRevenueDTO());
+            dto = departmentRevenueService.createRevenueEntry(staging.getDTO());
         }else{
             staging.reset();
             throw new IllegalStateException(STAGING_CONFIRM_ERROR);

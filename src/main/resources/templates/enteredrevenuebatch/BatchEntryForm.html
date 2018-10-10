@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Revenue Entry</title>
+</head>
+<head th:include="fragment/bootstrap :: head"></head>
+<body th:include="fragment/bootstrap :: body"></body>
+<body>
+<div th:replace="fragment/navigation :: nav"></div>
+
+<div class="container">
+    <h2>Revenue Entry</h2>
+    <form th:object="${batchDTO}" th:action="@{/revenue/daily/batch/entry}" th:method="post">
+        <div class="form-group">
+            <label>Location</label>
+            <select class="form-control custom-select" th:field="*{locationId}">
+                <option th:each="location : ${locations}"
+                        th:value="${location.id}"
+                        th:text="${location.name}">
+                        <!--th:selected="${enteredRevenue.locationId == location.id}"-->
+                </option>
+
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="data">Data Entry</label>
+            <textarea class="form-control" id="data" rows="3" th:field="*{data}"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+</div>
+</body>
+</html>

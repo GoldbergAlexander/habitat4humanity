@@ -81,7 +81,7 @@ public class EnteredRevenueController {
 
         /** Display Existing data if its there **/
         EnteredRevenueDTO dto;
-        if((dto = staging.getEnteredRevenueDTO()) == null){
+        if((dto = staging.getDTO()) == null){
             dto = new EnteredRevenueDTO();
         }
         return new ModelAndView(ENTERED_REVENUE_FORM_VIEW, ENTERED_REVENUE_MODEL, dto);
@@ -96,7 +96,7 @@ public class EnteredRevenueController {
             return new ModelAndView(ENTERED_REVENUE_FORM_VIEW, ENTERED_REVENUE_MODEL, dto);
         }else{
             dto.setLocationName(storeLocationService.getStoreName(dto.getLocationId()));
-            staging.setEnteredRevenueDTO(dto);
+            staging.setDTO(dto);
         }
         return new ModelAndView(CONFIRM_REDIRECT);
     }
@@ -105,9 +105,9 @@ public class EnteredRevenueController {
     public ModelAndView displayEnteredRevenue(Model model){
         if(staging.isStaged()){
             //Check for existing entry
-            EnteredRevenueDTO existing = enteredRevenueService.checkForExistingEntry(staging.getEnteredRevenueDTO());
+            EnteredRevenueDTO existing = enteredRevenueService.checkForExistingEntry(staging.getDTO());
             model.addAttribute(EXISTING_MODEL, existing);
-            return new ModelAndView(ENTERED_REVENUE_CONFIRM_VIEW, ENTERED_REVENUE_MODEL, staging.getEnteredRevenueDTO());
+            return new ModelAndView(ENTERED_REVENUE_CONFIRM_VIEW, ENTERED_REVENUE_MODEL, staging.getDTO());
         }else {
             throw new IllegalStateException(STAGING_ERROR);
         }
@@ -119,7 +119,7 @@ public class EnteredRevenueController {
 
         if(staging.isStaged() && !staging.isConfirmed()){
             staging.setConfirmed(true);
-            dto = enteredRevenueService.createRevenueEntry(staging.getEnteredRevenueDTO());
+            dto = enteredRevenueService.createRevenueEntry(staging.getDTO());
         }else{
             staging.reset();
             throw new IllegalStateException(STAGING_CONFIRM_ERROR);

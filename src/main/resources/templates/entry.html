@@ -10,13 +10,35 @@
 <body>
 <div th:replace="fragment/navigation :: nav"></div>
 
-<div class="card m" style="width: 18rem;">
-    <img class="card-img-top" src="..." alt="Card image cap">
-    <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
+<div class="container">
+    <div class="row  justify-content-center">
+        <div class="col-sm-3">
+            <h2>Entry</h2>
+        </div>
+        <div class="col-sm-3">
+
+        </div>
     </div>
+<div class="row  justify-content-center">
+    <div class="col-sm-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Daily Revenue</h5>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a th:href="@{/revenue/daily/entry}" class="btn btn-primary">Daily Entry</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Monthly Departmental</h5>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a th:href="@{/revenue/department/entry}" class="btn btn-primary">Monthly Departmental</a>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 
 </body>

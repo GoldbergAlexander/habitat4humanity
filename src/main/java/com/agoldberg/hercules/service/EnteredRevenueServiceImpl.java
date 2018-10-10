@@ -14,6 +14,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.security.RolesAllowed;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class EnteredRevenueServiceImpl implements EnteredRevenueService {
@@ -99,5 +101,14 @@ public class EnteredRevenueServiceImpl implements EnteredRevenueService {
 
         LOGGER.info("Created or updated entered revenue entry for location: {} and date: {}", domain.getLocation().getName(),domain.getDate());
         return modelMapper.map(domain, EnteredRevenueDTO.class);
+    }
+
+    @Override
+    public List<EnteredRevenueDTO> createRevenueEntry(List<EnteredRevenueDTO> dtos) {
+        List<EnteredRevenueDTO> savedDTO = new ArrayList<>();
+        for(EnteredRevenueDTO dto: dtos){
+            savedDTO.add(createRevenueEntry(dto));
+        }
+        return savedDTO;
     }
 }

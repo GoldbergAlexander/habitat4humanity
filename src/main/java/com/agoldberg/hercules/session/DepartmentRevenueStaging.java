@@ -6,7 +6,7 @@ import org.springframework.web.context.annotation.SessionScope;
 
 @Component
 @SessionScope
-public class DepartmentRevenueStaging {
+public class DepartmentRevenueStaging{
     private boolean staged;
     private boolean confirmed;
     private DepartmentRevenueDTO departmentRevenueDTO;
@@ -32,11 +32,11 @@ public class DepartmentRevenueStaging {
         this.confirmed = confirmed;
     }
 
-    public DepartmentRevenueDTO getDepartmentRevenueDTO() {
+    public DepartmentRevenueDTO getDTO() {
         return departmentRevenueDTO;
     }
 
-    public void setDepartmentRevenueDTO(DepartmentRevenueDTO departmentRevenueDTO) {
+    public void setDTO(DepartmentRevenueDTO departmentRevenueDTO) {
         this.departmentRevenueDTO = departmentRevenueDTO;
         setStaged(true);
     }

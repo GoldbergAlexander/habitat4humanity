@@ -1,17 +1,18 @@
 package com.agoldberg.hercules.session;
 
+import com.agoldberg.hercules.dto.EnteredRevenueBatchDTO;
 import com.agoldberg.hercules.dto.EnteredRevenueDTO;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
 @Component
 @SessionScope
-public class EnteredRevenueStaging{
-    private EnteredRevenueDTO enteredRevenueDTO;
+public class EnteredRevenueBatchStaging {
+    private EnteredRevenueBatchDTO enteredRevenueBatchDTO;
     private boolean staged;
     private boolean confirmed;
 
-    public EnteredRevenueStaging() {
+    public EnteredRevenueBatchStaging() {
         staged = false;
         confirmed = false;
     }
@@ -34,13 +35,13 @@ public class EnteredRevenueStaging{
     }
 
 
-    public EnteredRevenueDTO getDTO() {
-        return enteredRevenueDTO;
+    public EnteredRevenueBatchDTO getDTO() {
+        return enteredRevenueBatchDTO;
     }
 
 
-    public void setDTO(EnteredRevenueDTO enteredRevenueDTO) {
-        this.enteredRevenueDTO = enteredRevenueDTO;
+    public void setDTO(EnteredRevenueBatchDTO enteredRevenueDTO) {
+        this.enteredRevenueBatchDTO = enteredRevenueDTO;
         staged = true;
     }
 
@@ -48,6 +49,6 @@ public class EnteredRevenueStaging{
     public void reset(){
         staged = false;
         confirmed = false;
-        enteredRevenueDTO = null;
+        enteredRevenueBatchDTO = null;
     }
 }

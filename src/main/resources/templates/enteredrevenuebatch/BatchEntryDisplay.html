@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Revenue Entry</title>
+</head>
+<head th:include="fragment/bootstrap :: head"></head>
+<body th:include="fragment/bootstrap :: body"></body>
+<body>
+<div th:replace="fragment/navigation :: nav"></div>
+
+<div class="container">
+    <h2>Revenue Entry</h2>
+    <form th:action="@{/revenue/daily/batch/confirm}" th:method="post">
+        <button type="submit" class="btn btn-primary">Confirm</button>
+    </form>
+
+    <div th:object="${batchDTO}">
+        <div>
+            <p>Location</p>
+            <p th:text="*{locationName}"></p>
+        </div>
+        <div>
+            <p>Data</p>
+            <p th:text="*{data}"></p>
+        </div>
+        <div>
+            <p>Entered Revenue Objects</p>
+            <div>
+                <table>
+                    <thead>
+                        <th>date</th>
+                        <th>cashCount</th>
+                    </thead>
+                    <tbody>
+                        <tr th:each="enteredRevenue : *{enteredRevenueDTOList}">
+                            <td th:text="${enteredRevenue.date}"></td>
+                            <td th:text="${enteredRevenue.cashCount}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
