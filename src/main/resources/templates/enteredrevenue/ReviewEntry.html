@@ -18,8 +18,16 @@
     <h2>Review Revenue Entry</h2>
     <th:block th:object="${enteredRevenue}">
         <table class="table table-striped">
-            <tbody>
 
+            <tbody>
+            <tr>
+                <td><a class="btn btn-primary" th:href="@{/revenue/daily/entry}">Edit Data</a></td>
+                <form th:action="@{/revenue/daily/confirm}" method="post">
+                    <td>
+                        <button class="btn btn-warning" type="submit" value="confirm">Confirm</button>
+                    </td>
+                </form>
+            </tr>
             <!-- Date -->
             <tr>
                 <th>Date</th>

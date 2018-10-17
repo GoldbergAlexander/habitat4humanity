@@ -13,6 +13,13 @@
 <th:block th:object="${departmentRevenue}">
     <table class="table table-striped">
         <tbody>
+        <tr>
+            <td><a class="btn btn-primary" th:href="@{/revenue/department/entry}">Edit Data</a></td>
+            <form th:action="@{/revenue/department/confirm}" method="post">
+                <td><button class="btn btn-warning" type="submit" value="confirm">Confirm</button></td>
+            </form>
+        </tr>
+
 
         <!-- Date -->
         <tr>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Administration</title>
+</head>
+<head th:include="fragment/bootstrap :: head"></head>
+<body th:include="fragment/bootstrap :: body"></body>
+<body>
+<div th:replace="fragment/navigation :: nav"></div>
+
+<div class="container">
+    <div class="row  justify-content-center">
+        <div class="col-sm-3">
+            <h2>Administration</h2>
+        </div>
+        <div class="col-sm-3">
+
+        </div>
+        <div class="col-sm-3">
+
+        </div>
+    </div>
+<div class="row  justify-content-center">
+    <div class="col-sm-3">
+        <div class="card">
+
+            <!--                        <li><a class="dropdown-item" th:href="@{/storelocation}">Locations</a></li>
+                        <li><a class="dropdown-item" th:href="@{/department}">Departments</a></li>
+                        <li><a class="dropdown-item" th:href="@{/user/admin}">Users</a></li>-->
+            <div class="card-body">
+                <h5 class="card-title">Store Locations</h5>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a th:href="@{/storelocation}" class="btn btn-primary">Locations</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Departments</h5>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a th:href="@{/department}" class="btn btn-primary">Departments</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Users</h5>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a th:href="@{/user/admin}" class="btn btn-primary">Users</a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+</body>
+</html>

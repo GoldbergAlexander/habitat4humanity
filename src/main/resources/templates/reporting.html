@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Reporting</title>
+</head>
+<head th:include="fragment/bootstrap :: head"></head>
+<body th:include="fragment/bootstrap :: body"></body>
+<body>
+<div th:replace="fragment/navigation :: nav"></div>
+
+<div class="container">
+    <div class="row  justify-content-center">
+        <div class="col-sm-3">
+            <h2>Entry</h2>
+        </div>
+        <div class="col-sm-3">
+
+        </div>
+    </div>
+<div class="row  justify-content-center">
+    <div class="col-sm-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Summary Statistics</h5>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a th:href="@{/summarystats}" class="btn btn-primary">Summary</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Detailed Revenue</h5>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a th:href="@{/revenue/daily}" class="btn btn-primary">Details</a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+</body>
+</html>
