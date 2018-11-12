@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.agoldberg</groupId>
-	<artifactId>hercules</artifactId>
+	<artifactId>hercules-alpha</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>hercules</name>
+	<name>hercules-alpha</name>
 	<description>A revenue tracking system for habitat for humanity.</description>
 
 	<parent>
@@ -110,12 +110,13 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<executable>true</executable>
+					<!--<executable>true</executable>-->
 				</configuration>
 				<executions>
 					<execution>
 						<goals>
-							<goal>repackage</goal>
+							<!--<goal>repackage</goal>-->
+							<goal>build-info</goal>
 						</goals>
 					</execution>
 				</executions>
