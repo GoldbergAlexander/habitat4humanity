@@ -70,30 +70,13 @@ public class ProcessedRevenueServiceImpl implements ApplicationListener<RevenueE
                         summary.getActualIntake() +
                         domain.getActualIntake(),2));
 
-        summary.setActualTaxableIntake(
-                Precision.round(
-                summary.getActualTaxableIntake() +
-                        domain.getActualTaxableIntake(),2));
 
-        summary.setActualPreTaxIntake(
-                Precision.round(
-                summary.getActualPreTaxIntake() +
-                        domain.getActualPreTaxIntake(),2));
+
 
         summary.setTapeIntake(
                 Precision.round(
                 summary.getTapeIntake() +
                         domain.getTapeIntake(),2));
-
-        summary.setTapePreTaxIntake(
-                Precision.round(
-                summary.getTapePreTaxIntake() +
-                        domain.getTapePreTaxIntake(),2));
-
-        summary.setTapeTaxableIntake(
-                Precision.round(
-                summary.getTapeTaxableIntake() +
-                        domain.getTapeTaxableIntake(),2));
 
         summary.setOverUnder(
                 Precision.round(
@@ -123,59 +106,25 @@ public class ProcessedRevenueServiceImpl implements ApplicationListener<RevenueE
                 er.getCardUnit() +
                 er.getPayoutReceipt();
 
-        //Actual Total Daily Intake
-        double actualPreTaxIntake = er.getCashCount() +
-                er.getCheckCount() +
-                er.getCardUnit() +
-                er.getPayoutReceipt() -
-                er.getTaxTape();
-
-        //Actual Daily Pre-Tax Intake
-        double actualTaxableIntake = er.getCashCount() +
-                er.getCheckCount() +
-                er.getCardUnit() +
-                er.getPayoutReceipt() -
-                er.getTaxTape() -
-                er.getVehicleSale();
-
 
         //Total Daily Tape
         double tapeIntake = er.getCashTape() +
                 er.getCheckTape() +
                 er.getCardTape();
 
-        //Total Daily Tape
-        double tapePreTaxIntake = er.getCashTape() +
-                er.getCheckTape() +
-                er.getCardTape() -
-                er.getTaxTape();
-
-        //Daily Taxable Tape
-        double tapeTaxableIntake = er.getCashTape() +
-                er.getCheckTape() +
-                er.getCardTape() -
-                er.getTaxTape() -
-                er.getVehicleSale();
 
         //Over Under
         double overUnder = actualIntake - tapeIntake;
 
         //Tax Count
-        double taxCount = (actualIntake - overUnder - er.getVehicleSale()) -
-                ((actualIntake - overUnder - er.getVehicleSale()) /
-                        (1+taxRate));
+        double taxCount = (actualIntake) * (taxRate);
 
         //Round to 2 decimal places
         taxCount = Precision.round(taxCount, 2);
 
         ProcessedRevenueDomain processedRevenue = new ProcessedRevenueDomainBuilder()
                 .setActualIntake(actualIntake)
-                .setActualPreTaxIntake(actualPreTaxIntake)
-                .setActualTaxableIntake(actualTaxableIntake)
-                .setActualPreTaxIntake(actualPreTaxIntake)
                 .setTapeIntake(tapeIntake)
-                .setTapePreTaxIntake(tapePreTaxIntake)
-                .setTapeTaxableIntake(tapeTaxableIntake)
                 .setOverUnder(overUnder)
                 .setTaxCount(taxCount)
                 .setEnteredRevenue(er)

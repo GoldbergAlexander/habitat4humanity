@@ -116,30 +116,6 @@
                th:text="${error}">Constraint error</p>
             </td>
         </tr>
-        <!-- vehicleSale -->
-        <tr>
-            <th>Vehicle Sale</th>
-            <td><input class="form-control" type="text" th:field="*{vehicleSale}"/>
-            <p th:each="error : ${#fields.errors('vehicleSale')}"
-               th:text="${error}">Constraint error</p>
-            </td>
-        </tr>
-        <!-- salesVoid -->
-        <tr>
-            <th>Sales Void</th>
-            <td><input class="form-control" type="text" th:field="*{salesVoid}"/>
-            <p th:each="error : ${#fields.errors('salesVoid')}"
-               th:text="${error}">Constraint error</p>
-            </td>
-        </tr>
-        <!-- taxVoid -->
-        <tr>
-            <th>Tax Void</th>
-            <td><input class="form-control" type="text" th:field="*{taxVoid}"/>
-            <p th:each="error : ${#fields.errors('taxVoid')}"
-               th:text="${error}">Constraint error</p>
-            </td>
-        </tr>
         <!-- memo -->
         <tr>
             <th>Memo</th>

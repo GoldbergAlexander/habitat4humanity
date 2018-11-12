@@ -23,11 +23,7 @@ public class ProcessedRevenueDomain extends Auditable<String>{
     private StoreLocationDomain locationDomain;
     private Date date;
     private double actualIntake;
-    private double actualPreTaxIntake;
-    private double actualTaxableIntake;
     private double tapeIntake;
-    private double tapePreTaxIntake;
-    private double tapeTaxableIntake;
     private double overUnder;
     private double taxCount;
 
@@ -35,16 +31,12 @@ public class ProcessedRevenueDomain extends Auditable<String>{
     public ProcessedRevenueDomain() {
     }
 
-    public ProcessedRevenueDomain(EnteredRevenueDomain enteredRevenue, Date date, StoreLocationDomain location, double actualIntake, double actualPreTaxIntake, double actualTaxableIntake, double tapeIntake, double tapePreTaxIntake, double tapeTaxableIntake, double overUnder, double taxCount) {
+    public ProcessedRevenueDomain(EnteredRevenueDomain enteredRevenue, Date date, StoreLocationDomain location, double actualIntake,  double tapeIntake, double overUnder, double taxCount) {
         this.locationDomain = location;
         this.date = date;
         this.enteredRevenue = enteredRevenue;
         this.actualIntake = Precision.round(actualIntake,2);
-        this.actualPreTaxIntake = Precision.round(actualPreTaxIntake,2);
-        this.actualTaxableIntake = Precision.round(actualTaxableIntake,2);
         this.tapeIntake = Precision.round(tapeIntake,2);
-        this.tapePreTaxIntake = Precision.round(tapePreTaxIntake,2);
-        this.tapeTaxableIntake = Precision.round(tapeTaxableIntake,2);
         this.overUnder = Precision.round(overUnder,2);
         this.taxCount = Precision.round(taxCount,2);
     }
@@ -89,22 +81,6 @@ public class ProcessedRevenueDomain extends Auditable<String>{
         this.actualIntake = actualIntake;
     }
 
-    public double getActualPreTaxIntake() {
-        return actualPreTaxIntake;
-    }
-
-    public void setActualPreTaxIntake(double actualPreTaxIntake) {
-        this.actualPreTaxIntake = actualPreTaxIntake;
-    }
-
-    public double getActualTaxableIntake() {
-        return actualTaxableIntake;
-    }
-
-    public void setActualTaxableIntake(double actualTaxableIntake) {
-        this.actualTaxableIntake = actualTaxableIntake;
-    }
-
 
     public double getTapeIntake() {
         return tapeIntake;
@@ -112,22 +88,6 @@ public class ProcessedRevenueDomain extends Auditable<String>{
 
     public void setTapeIntake(double tapeIntake) {
         this.tapeIntake = tapeIntake;
-    }
-
-    public double getTapePreTaxIntake() {
-        return tapePreTaxIntake;
-    }
-
-    public void setTapePreTaxIntake(double tapePreTaxIntake) {
-        this.tapePreTaxIntake = tapePreTaxIntake;
-    }
-
-    public double getTapeTaxableIntake() {
-        return tapeTaxableIntake;
-    }
-
-    public void setTapeTaxableIntake(double tapeTaxableIntake) {
-        this.tapeTaxableIntake = tapeTaxableIntake;
     }
 
     public double getTaxCount() {

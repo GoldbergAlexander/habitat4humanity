@@ -38,12 +38,6 @@ public class EnteredRevenueDTO {
     private double cardTape;
     @Min(0)
     private double taxTape;
-    @Min(0)
-    private double vehicleSale;
-    @Min(0)
-    private double salesVoid;
-    @Min(0)
-    private double taxVoid;
     private String memo;
 
 
@@ -173,27 +167,4 @@ public class EnteredRevenueDTO {
         this.taxTape = taxTape;
     }
 
-    public double getVehicleSale() {
-        return vehicleSale;
-    }
-
-    public void setVehicleSale(double vehicleSale) {
-        this.vehicleSale = vehicleSale;
-    }
-
-    public double getSalesVoid() {
-        return salesVoid;
-    }
-
-    public void setSalesVoid(double salesVoid) {
-        this.salesVoid = salesVoid;
-    }
-
-    public double getTaxVoid() {
-        return taxVoid;
-    }
-
-    public void setTaxVoid(double taxVoid) {
-        this.taxVoid = taxVoid;
-    }
 }

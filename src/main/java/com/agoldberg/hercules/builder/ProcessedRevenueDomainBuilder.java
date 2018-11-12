@@ -62,6 +62,6 @@ public class ProcessedRevenueDomainBuilder {
     }
 
     public ProcessedRevenueDomain createProcessedRevenueDomain() {
-        return new ProcessedRevenueDomain(enteredRevenue, enteredRevenue.getDate(), enteredRevenue.getLocation(), actualIntake, actualPreTaxIntake, actualTaxableIntake, tapeIntake, tapePreTaxIntake, tapeTaxableIntake, overUnder, taxCount);
+        return new ProcessedRevenueDomain(enteredRevenue, enteredRevenue.getDate(), enteredRevenue.getLocation(), actualIntake, tapeIntake, overUnder, taxCount);
     }
 }

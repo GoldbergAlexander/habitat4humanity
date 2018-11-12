@@ -30,15 +30,12 @@ public class EnteredRevenueDomain extends Auditable<String> implements Serializa
     private double checkTape;
     private double cardTape;
     private double taxTape;
-    private double vehicleSale;
-    private double salesVoid;
-    private double taxVoid;
     private String memo;
 
     public EnteredRevenueDomain() {
     }
 
-    public EnteredRevenueDomain(StoreLocationDomain location, Date date, boolean processed, long transactionCount, double cashCount, double checkCount, double cardUnit, double payoutReceipt, double cashTape, double checkTape, double cardTape, double taxTape, double vehicleSale, double salesVoid, double taxVoid, String memo) {
+    public EnteredRevenueDomain(StoreLocationDomain location, Date date, boolean processed, long transactionCount, double cashCount, double checkCount, double cardUnit, double payoutReceipt, double cashTape, double checkTape, double cardTape, double taxTape, String memo) {
         this.date = date;
         this.location = location;
         this.processed = processed;
@@ -51,9 +48,6 @@ public class EnteredRevenueDomain extends Auditable<String> implements Serializa
         this.checkTape = checkTape;
         this.cardTape = cardTape;
         this.taxTape = taxTape;
-        this.vehicleSale = vehicleSale;
-        this.salesVoid = salesVoid;
-        this.taxVoid = taxVoid;
         this.memo = memo;
     }
 
@@ -167,30 +161,6 @@ public class EnteredRevenueDomain extends Auditable<String> implements Serializa
 
     public void setTaxTape(double taxTape) {
         this.taxTape = taxTape;
-    }
-
-    public double getVehicleSale() {
-        return vehicleSale;
-    }
-
-    public void setVehicleSale(double vehicleSale) {
-        this.vehicleSale = vehicleSale;
-    }
-
-    public double getSalesVoid() {
-        return salesVoid;
-    }
-
-    public void setSalesVoid(double salesVoid) {
-        this.salesVoid = salesVoid;
-    }
-
-    public double getTaxVoid() {
-        return taxVoid;
-    }
-
-    public void setTaxVoid(double taxVoid) {
-        this.taxVoid = taxVoid;
     }
 
     @Override

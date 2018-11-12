@@ -18,9 +18,6 @@ public class EnteredRevenueDomainBuilder {
     private double checkTape;
     private double cardTape;
     private double taxTape;
-    private double vehicleSale;
-    private double salesVoid;
-    private double taxVoid;
     private String memo;
 
     public EnteredRevenueDomainBuilder setLocation(StoreLocationDomain location) {
@@ -83,20 +80,6 @@ public class EnteredRevenueDomainBuilder {
         return this;
     }
 
-    public EnteredRevenueDomainBuilder setVehicleSale(double vehicleSale) {
-        this.vehicleSale = vehicleSale;
-        return this;
-    }
-
-    public EnteredRevenueDomainBuilder setSalesVoid(double salesVoid) {
-        this.salesVoid = salesVoid;
-        return this;
-    }
-
-    public EnteredRevenueDomainBuilder setTaxVoid(double taxVoid) {
-        this.taxVoid = taxVoid;
-        return this;
-    }
 
     public EnteredRevenueDomainBuilder setMemo(String memo){
         this.memo = memo;
@@ -104,6 +87,6 @@ public class EnteredRevenueDomainBuilder {
     }
 
     public EnteredRevenueDomain createEnteredRevenueDomain() {
-        return new EnteredRevenueDomain(location, date, processed, transactionCount, cashCount, checkCount, cardUnit, payoutReceipt, cashTape, checkTape, cardTape, taxTape, vehicleSale, salesVoid, taxVoid, memo);
+        return new EnteredRevenueDomain(location, date, processed, transactionCount, cashCount, checkCount, cardUnit, payoutReceipt, cashTape, checkTape, cardTape, taxTape, memo);
     }
 }

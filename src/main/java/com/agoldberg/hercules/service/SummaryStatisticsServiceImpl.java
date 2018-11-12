@@ -81,14 +81,14 @@ public class SummaryStatisticsServiceImpl implements SummaryStatisticsService {
          */
         double givenYearMTDDollars = 0;
         for(ProcessedRevenueDomain entries : givenMTDList){
-            givenYearMTDDollars += entries.getActualPreTaxIntake();
+            givenYearMTDDollars += entries.getActualIntake();
         }
         LOGGER.info("Given Year MTD List Size: {}", givenMTDList.size());
         LOGGER.debug("Given Year MTD Dollars: {}", givenYearMTDDollars);
 
         double priorYearMTDDollars = 0;
         for(ProcessedRevenueDomain entries : pastMTDList){
-            priorYearMTDDollars += entries.getActualPreTaxIntake();
+            priorYearMTDDollars += entries.getActualIntake();
         }
         LOGGER.info("Prior Year MTD List Size: {}", pastMTDList.size());
         LOGGER.debug("Prior Year MTD Dollars: {}", priorYearMTDDollars);
