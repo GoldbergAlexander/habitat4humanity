@@ -1,5 +1,6 @@
 package com.agoldberg.hercules.dto;
 
+import org.apache.commons.math3.util.Precision;
 import org.springframework.beans.factory.annotation.Value;
 
 public class SummaryStatsDTO {
@@ -56,13 +57,13 @@ public class SummaryStatsDTO {
     }
 
     public SummaryStatsDTO(double monthToDate, double priorYearMonthToDate) {
-        this.monthToDate = monthToDate;
-        this.priorYearMonthToDate = priorYearMonthToDate;
-        this.monthOverMonthDollars = this.monthToDate - this.priorYearMonthToDate;
-        this.monthOverMonthPercent = this.monthToDate / this.priorYearMonthToDate;
-        this.monthToDateGoal = this.priorYearMonthToDate * (1 + goal);
-        this.monthToDatePerformanceDollars = this.monthToDate - this.monthToDateGoal;
-        this.monthToDatePerformancePercent = this.monthToDate / this.monthToDateGoal;
+        this.monthToDate = Precision.round(monthToDate,2);
+        this.priorYearMonthToDate = Precision.round(priorYearMonthToDate,2);
+        this.monthOverMonthDollars = Precision.round(this.monthToDate - this.priorYearMonthToDate,2);
+        this.monthOverMonthPercent = Precision.round(this.monthToDate / this.priorYearMonthToDate,2);
+        this.monthToDateGoal = Precision.round(this.priorYearMonthToDate * (1 + goal),2);
+        this.monthToDatePerformanceDollars = Precision.round(this.monthToDate - this.monthToDateGoal,2);
+        this.monthToDatePerformancePercent = Precision.round(this.monthToDate / this.monthToDateGoal,2);
     }
 
     public double getMonthToDate() {

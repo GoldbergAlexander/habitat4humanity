@@ -93,6 +93,8 @@ public class SummaryStatisticsServiceImpl implements SummaryStatisticsService {
         LOGGER.info("Prior Year MTD List Size: {}", pastMTDList.size());
         LOGGER.debug("Prior Year MTD Dollars: {}", priorYearMTDDollars);
 
+
+        //TODO Move logic to service
         return new SummaryStatsDTO(givenYearMTDDollars, priorYearMTDDollars);
     }
 
