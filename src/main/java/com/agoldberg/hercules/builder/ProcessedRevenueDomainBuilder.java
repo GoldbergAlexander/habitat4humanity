@@ -2,17 +2,21 @@ package com.agoldberg.hercules.builder;
 
 import com.agoldberg.hercules.domain.EnteredRevenueDomain;
 import com.agoldberg.hercules.domain.ProcessedRevenueDomain;
+import com.agoldberg.hercules.domain.StoreLocationDomain;
+
+import java.util.Date;
 
 public class ProcessedRevenueDomainBuilder {
     private EnteredRevenueDomain enteredRevenue;
     private double actualIntake;
-    private double actualPreTaxIntake;
-    private double actualTaxableIntake;
     private double tapeIntake;
-    private double tapePreTaxIntake;
-    private double tapeTaxableIntake;
     private double overUnder;
     private double taxCount;
+    private double valuePerTransaction;
+    private double percentageCard;
+    private double percentageCash;
+    private double percentageCheck;
+
 
 
     public ProcessedRevenueDomainBuilder setEnteredRevenue(EnteredRevenueDomain enteredRevenue) {
@@ -25,29 +29,10 @@ public class ProcessedRevenueDomainBuilder {
         return this;
     }
 
-    public ProcessedRevenueDomainBuilder setActualPreTaxIntake(double actualPreTaxIntake) {
-        this.actualPreTaxIntake = actualPreTaxIntake;
-        return this;
-    }
-
-    public ProcessedRevenueDomainBuilder setActualTaxableIntake(double actualTaxableIntake) {
-        this.actualTaxableIntake = actualTaxableIntake;
-        return this;
-    }
 
 
     public ProcessedRevenueDomainBuilder setTapeIntake(double tapeIntake) {
         this.tapeIntake = tapeIntake;
-        return this;
-    }
-
-    public ProcessedRevenueDomainBuilder setTapePreTaxIntake(double tapePreTaxIntake) {
-        this.tapePreTaxIntake = tapePreTaxIntake;
-        return this;
-    }
-
-    public ProcessedRevenueDomainBuilder setTapeTaxableIntake(double tapeTaxableIntake) {
-        this.tapeTaxableIntake = tapeTaxableIntake;
         return this;
     }
 
@@ -61,7 +46,30 @@ public class ProcessedRevenueDomainBuilder {
         return this;
     }
 
-    public ProcessedRevenueDomain createProcessedRevenueDomain() {
-        return new ProcessedRevenueDomain(enteredRevenue, enteredRevenue.getDate(), enteredRevenue.getLocation(), actualIntake, tapeIntake, overUnder, taxCount);
+
+    public ProcessedRevenueDomainBuilder setValuePerTransaction(double valuePerTransaction) {
+        this.valuePerTransaction = valuePerTransaction;
+        return this;
     }
+
+    public ProcessedRevenueDomainBuilder setPercentageCard(double percentageCard) {
+        this.percentageCard = percentageCard;
+        return this;
+    }
+
+    public ProcessedRevenueDomainBuilder setPercentageCash(double percentageCash) {
+        this.percentageCash = percentageCash;
+        return this;
+    }
+
+    public ProcessedRevenueDomainBuilder setPercentageCheck(double percentageCheck) {
+        this.percentageCheck = percentageCheck;
+        return this;
+    }
+
+    public ProcessedRevenueDomain createProcessedRevenueDomain() {
+        return new ProcessedRevenueDomain(enteredRevenue, enteredRevenue.getDate(), enteredRevenue.getLocation(), actualIntake, tapeIntake, overUnder, taxCount, valuePerTransaction, percentageCard, percentageCash, percentageCheck);
+    }
+
+
 }

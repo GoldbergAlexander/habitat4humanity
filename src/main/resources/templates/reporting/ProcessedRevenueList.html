@@ -79,7 +79,12 @@
         <th>Actual Intake</th>
         <th>Tape Intake</th>
         <th>Over/Under</th>
+        <th>Tape Tax</th>
         <th>Calculated Tax Intake</th>
+        <th>Value Per Transaction</th>
+        <th>Percentage Card</th>
+        <th>Percentage Cash</th>
+        <th>Percentage Check</th>
         </thead>
         <tbody>
         <tr th:each="revenue : ${revenues.data}">
@@ -101,11 +106,17 @@
             <td th:text="${revenue.actualIntake}"></td>
             <td th:text="${revenue.tapeIntake}"></td>
             <td th:text="${revenue.overUnder}"></td>
+            <td th:text="${revenue.enteredRevenueTaxTape}"></td>
             <td th:text="${revenue.taxCount}"></td>
+            <td th:text="${revenue.valuePerTransaction}"></td>
+            <td th:text="${revenue.percentageCard}"></td>
+            <td th:text="${revenue.percentageCash}"></td>
+            <td th:text="${revenue.percentageCheck}"></td>
+
         </tr>
         <tr class="table-active" th:object="${revenues.summary}">
-            <th></th>
-            <th></th>
+            <th title="Location Count" th:text="*{locationsContainedInDTO}"></th>
+            <th title ="Entry Count" th:text="*{valuesContainedInDTO}"></th>
             <!--<td th:text="${revenue.enteredRevenueTransactionCount}"></td>-->
             <!--<td th:text="${revenue.enteredRevenueCashCount}"></td>-->
             <!--<td th:text="${revenue.enteredRevenueCheckCount}"></td>-->
@@ -119,10 +130,15 @@
             <!--<td th:text="${revenue.enteredRevenueSalesVoid}"></td>-->
             <!--<td th:text="${revenue.enteredRevenueTaxVoid}"></td>-->
             <!--<td th:text="${revenue.enteredRevenueMemo}"></td>-->
-            <th th:text="*{actualIntake}"></th>
-            <th th:text="*{tapeIntake}"></th>
-            <th th:text="*{overUnder}"></th>
-            <th th:text="*{taxCount}"></th>
+            <th title="Sum" th:text="*{actualIntake}"></th>
+            <th title="Sum" th:text="*{tapeIntake}"></th>
+            <th title="Sum" th:text="*{overUnder}"></th>
+            <th title="Sum" th:text="*{enteredRevenueTaxTape}"></th>
+            <th title="Sum" th:text="*{taxCount}"></th>
+            <th title="Avg" th:text="*{valuePerTransaction}"></th>
+            <th title="Avg" th:text="*{percentageCard}"></th>
+            <th title="Avg" th:text="*{percentageCash}"></th>
+            <th title="Avg" th:text="*{percentageCheck}"></th>
         </tr>
         </tbody>
     </table>

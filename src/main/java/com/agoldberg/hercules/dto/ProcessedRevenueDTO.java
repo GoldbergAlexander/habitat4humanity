@@ -9,6 +9,8 @@ public class ProcessedRevenueDTO {
     private String enteredRevenueLocationName;
     @DateTimeFormat(pattern = "YYYY-m-d")
     private Date enteredRevenueDate;
+    private int valuesContainedInDTO;
+    private int locationsContainedInDTO;
     private long enteredRevenueTransactionCount;
     private double enteredRevenueCashCount;
     private double enteredRevenueCheckCount;
@@ -26,6 +28,10 @@ public class ProcessedRevenueDTO {
     private double tapeIntake;
     private double overUnder;
     private double taxCount;
+    private double valuePerTransaction;
+    private double percentageCash;
+    private double percentageCard;
+    private double percentageCheck;
 
 
     public String getEnteredRevenueLocationName() {
@@ -34,6 +40,22 @@ public class ProcessedRevenueDTO {
 
     public void setEnteredRevenueLocationName(String enteredRevenueLocationName) {
         this.enteredRevenueLocationName = enteredRevenueLocationName;
+    }
+
+    public int getLocationsContainedInDTO() {
+        return locationsContainedInDTO;
+    }
+
+    public void setLocationsContainedInDTO(int locationsContainedInDTO) {
+        this.locationsContainedInDTO = locationsContainedInDTO;
+    }
+
+    public int getValuesContainedInDTO() {
+        return valuesContainedInDTO;
+    }
+
+    public void setValuesContainedInDTO(int valuesContainedInDTO) {
+        this.valuesContainedInDTO = valuesContainedInDTO;
     }
 
     public Date getEnteredRevenueDate() {
@@ -180,5 +202,37 @@ public class ProcessedRevenueDTO {
 
     public void setTaxCount(double taxCount) {
         this.taxCount = taxCount;
+    }
+
+    public double getValuePerTransaction() {
+        return valuePerTransaction;
+    }
+
+    public void setValuePerTransaction(double valuePerTransaction) {
+        this.valuePerTransaction = valuePerTransaction;
+    }
+
+    public double getPercentageCash() {
+        return percentageCash;
+    }
+
+    public void setPercentageCash(double percentageCash) {
+        this.percentageCash = percentageCash;
+    }
+
+    public double getPercentageCard() {
+        return percentageCard;
+    }
+
+    public void setPercentageCard(double percentageCard) {
+        this.percentageCard = percentageCard;
+    }
+
+    public double getPercentageCheck() {
+        return percentageCheck;
+    }
+
+    public void setPercentageCheck(double percentageCheck) {
+        this.percentageCheck = percentageCheck;
     }
 }

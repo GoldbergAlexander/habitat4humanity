@@ -20,7 +20,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ProcessedRevenueServiceImpl implements ApplicationListener<RevenueEnteredEvent>, ProcessedRevenueService {
@@ -54,24 +56,31 @@ public class ProcessedRevenueServiceImpl implements ApplicationListener<RevenueE
 
         List<ProcessedRevenueDTO> dtos = new ArrayList<>();
         ProcessedRevenueDTO summary = new ProcessedRevenueDTO();
+        Set<StoreLocationDomain> locationDomainsSet = new HashSet<>();
         for(ProcessedRevenueDomain domain : domains){
+            locationDomainsSet.add(domain.getLocationDomain());
             dtos.add(modelMapper.map(domain, ProcessedRevenueDTO.class));
             addToSummary(summary, domain);
         }
+
+        //Get Summary of Summary (locations count for now)
+        summary.setLocationsContainedInDTO(locationDomainsSet.size());
+
+
 
         LOGGER.info("Returning list of processed revenue for dates between: {} and {}, filtered by location: {}, size: {}",dto.getStartingDate(), dto.getEndingDate() , dto.getLocationName() ,dtos.size());
         return new ProcessedRevenueDataAndSummaryDTO(dtos, summary);
     }
 
     private void addToSummary(ProcessedRevenueDTO summary, ProcessedRevenueDomain domain) {
+
+        summary.setValuesContainedInDTO(summary.getValuesContainedInDTO() + 1);
+
         /** Create Summary Row **/
         summary.setActualIntake(
                 Precision.round(
                         summary.getActualIntake() +
                         domain.getActualIntake(),2));
-
-
-
 
         summary.setTapeIntake(
                 Precision.round(
@@ -87,6 +96,40 @@ public class ProcessedRevenueServiceImpl implements ApplicationListener<RevenueE
                 Precision.round(
                 summary.getTaxCount() +
                         domain.getTaxCount(),2));
+
+        summary.setEnteredRevenueTaxTape(
+                Precision.round(summary.getEnteredRevenueTaxTape() +
+                        domain.getEnteredRevenue().getTaxTape(),2)
+        );
+
+        summary.setValuePerTransaction(
+                Precision.round(summary.getValuePerTransaction() +
+                        ((domain.getValuePerTransaction()-summary.getValuePerTransaction())/
+                                summary.getValuesContainedInDTO())
+                        ,2)
+        );
+
+        summary.setPercentageCard(
+                Precision.round(summary.getPercentageCard() +
+                                ((domain.getPercentageCard()-summary.getPercentageCard())/
+                                        summary.getValuesContainedInDTO())
+                        ,2)
+        );
+
+        summary.setPercentageCash(
+                Precision.round(summary.getPercentageCash() +
+                                ((domain.getPercentageCash()-summary.getPercentageCash())/
+                                        summary.getValuesContainedInDTO())
+                        ,2)
+        );
+
+        summary.setPercentageCheck(
+                Precision.round(summary.getPercentageCheck() +
+                                ((domain.getPercentageCheck()-summary.getPercentageCheck())/
+                                        summary.getValuesContainedInDTO())
+                        ,2)
+        );
+
     }
 
     @Override
@@ -122,11 +165,27 @@ public class ProcessedRevenueServiceImpl implements ApplicationListener<RevenueE
         //Round to 2 decimal places
         taxCount = Precision.round(taxCount, 2);
 
+        double valuePerTranscation = actualIntake/er.getTransactionCount();
+        valuePerTranscation = Precision.round(valuePerTranscation, 2);
+
+        double percentageCard = er.getCardUnit()/actualIntake;
+        percentageCard = Precision.round(percentageCard,2);
+
+        double percentageCash = er.getCashCount()/actualIntake;
+        percentageCash= Precision.round(percentageCash, 2);
+
+        double percentageCheck = er.getCheckCount()/actualIntake;
+        percentageCheck = Precision.round(percentageCheck, 2);
+
         ProcessedRevenueDomain processedRevenue = new ProcessedRevenueDomainBuilder()
                 .setActualIntake(actualIntake)
                 .setTapeIntake(tapeIntake)
                 .setOverUnder(overUnder)
                 .setTaxCount(taxCount)
+                .setValuePerTransaction(valuePerTranscation)
+                .setPercentageCard(percentageCard)
+                .setPercentageCash(percentageCash)
+                .setPercentageCheck(percentageCheck)
                 .setEnteredRevenue(er)
                 .createProcessedRevenueDomain();
 

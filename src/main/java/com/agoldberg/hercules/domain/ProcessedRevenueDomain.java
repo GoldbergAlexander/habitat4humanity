@@ -26,15 +26,25 @@ public class ProcessedRevenueDomain extends Auditable<String>{
     private double tapeIntake;
     private double overUnder;
     private double taxCount;
+    private double valuePerTransaction;
+    private double percentageCash;
+    private double percentageCard;
+    private double percentageCheck;
+
+
 
 
     public ProcessedRevenueDomain() {
     }
 
-    public ProcessedRevenueDomain(EnteredRevenueDomain enteredRevenue, Date date, StoreLocationDomain location, double actualIntake,  double tapeIntake, double overUnder, double taxCount) {
+    public ProcessedRevenueDomain(EnteredRevenueDomain enteredRevenue, Date date, StoreLocationDomain location, double actualIntake,  double tapeIntake, double overUnder, double taxCount, double valuePerTransaction, double percentageCard, double percentageCash, double percentageCheck) {
         this.locationDomain = location;
         this.date = date;
         this.enteredRevenue = enteredRevenue;
+        this.valuePerTransaction = Precision.round(valuePerTransaction,2);
+        this.percentageCard = Precision.round(percentageCard, 2);
+        this.percentageCash = Precision.round(percentageCash, 2);
+        this.percentageCheck = Precision.round(percentageCheck,2);
         this.actualIntake = Precision.round(actualIntake,2);
         this.tapeIntake = Precision.round(tapeIntake,2);
         this.overUnder = Precision.round(overUnder,2);
@@ -104,6 +114,38 @@ public class ProcessedRevenueDomain extends Auditable<String>{
 
     public void setOverUnder(double overUnder) {
         this.overUnder = overUnder;
+    }
+
+    public double getValuePerTransaction() {
+        return valuePerTransaction;
+    }
+
+    public void setValuePerTransaction(double valuePerTransaction) {
+        this.valuePerTransaction = valuePerTransaction;
+    }
+
+    public double getPercentageCash() {
+        return percentageCash;
+    }
+
+    public void setPercentageCash(double percentageCash) {
+        this.percentageCash = percentageCash;
+    }
+
+    public double getPercentageCard() {
+        return percentageCard;
+    }
+
+    public void setPercentageCard(double percentageCard) {
+        this.percentageCard = percentageCard;
+    }
+
+    public double getPercentageCheck() {
+        return percentageCheck;
+    }
+
+    public void setPercentageCheck(double percentageCheck) {
+        this.percentageCheck = percentageCheck;
     }
 
     @Override
