@@ -65,6 +65,15 @@
             </td>
         </tr>
         <tr>
+            <th>Password</th>
+            <td th:if="${user.password == null}">
+                <a class="btn btn-warning" name="Reset Password" value="Reset Password" th:href="@{/user/admin/{user_id}/reset(user_id=${user.id})}">Reset Password</a>
+            </td>
+            <td th:if="${user.password != null}" th:text="${user.password}">
+
+            </td>
+        </tr>
+        <tr>
             <th></th>
             <td class="text-right">
                 <button class="btn btn-primary" name="submit" type="submit" value="Modify">Modify</button>

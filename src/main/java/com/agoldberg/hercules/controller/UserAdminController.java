@@ -15,6 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.util.List;
 
+import org.apache.commons.lang3.RandomStringUtils;
+
 @Controller
 @RequestMapping("/user/admin")
 public class UserAdminController {
@@ -68,6 +70,23 @@ public class UserAdminController {
         }else{
             return new ModelAndView(USER_FORM_VIEW, USER_MODEL, user);
         }
+    }
+
+    @GetMapping("{user_id}/reset")
+    public ModelAndView generateNewPassword(Model model, @PathVariable("user_id") Long userId){
+        UserDTO user = userService.getUser(userId);
+        String generatedString = RandomStringUtils.randomAlphabetic(12);
+        user.setPassword(generatedString);
+
+        userService.adminUpdateUser(user);
+
+        List<RoleDTO> roles = userService.getRoleList();
+        List<StoreLocationDTO> locations = storeLocationService.getEnabledStoreLocations();
+        model.addAttribute(LOCATIONS_MODEL, locations);
+        model.addAttribute(ROLES_MODEL, roles);
+
+        return new ModelAndView(USER_FORM_VIEW, USER_MODEL, user);
+
     }
 
     @PostMapping("lock")

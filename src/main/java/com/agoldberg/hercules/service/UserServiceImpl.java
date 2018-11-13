@@ -131,7 +131,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     public UserDTO getUser(Long id){
         UserDomain domain = userDAO.getOne(id);
         LOGGER.info("Getting user by ID: {}", id);
-        return modelMapper.map(domain, UserDTO.class);
+        UserDTO dto = modelMapper.map(domain, UserDTO.class);
+        dto.setPassword(null);
+        return dto;
     }
 
 
@@ -243,6 +245,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         userUpdateUser(dto);
         UserDomain existingUserDomain = userDAO.getOne(dto.getId());
         existingUserDomain.setUsername(dto.getUsername());
+
+        if(dto.getPassword() != null && !dto.getPassword().isEmpty()) {
+            String encodedPassword = passwordEncoder.encode(dto.getPassword());
+            existingUserDomain.setPassword(encodedPassword);
+        }
 
         if(dto.getRolesId() != null) {
             RoleDomain roleDomain = roleDAO.getOne(dto.getRolesId());
