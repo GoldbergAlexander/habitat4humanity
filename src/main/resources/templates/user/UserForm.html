@@ -69,8 +69,10 @@
             <td th:if="${user.password == null}">
                 <a class="btn btn-warning" name="Reset Password" value="Reset Password" th:href="@{/user/admin/{user_id}/reset(user_id=${user.id})}">Reset Password</a>
             </td>
-            <td th:if="${user.password != null}" th:text="${user.password}">
-
+            <td th:if="${user.password != null}">
+                <input class="form-control" th:field="*{password}" readonly>
+                <p th:each="error : ${#fields.errors('password')}"
+                   th:text="${error}">Constraint error</p>
             </td>
         </tr>
         <tr>

@@ -78,7 +78,7 @@ public class UserAdminController {
         String generatedString = RandomStringUtils.randomAlphabetic(12);
         user.setPassword(generatedString);
 
-        userService.adminUpdateUser(user);
+        //userService.adminUpdateUser(user);
 
         List<RoleDTO> roles = userService.getRoleList();
         List<StoreLocationDTO> locations = storeLocationService.getEnabledStoreLocations();
