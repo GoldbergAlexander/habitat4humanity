@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Create Goal</title>
+</head>
+<head th:include="fragment/bootstrap :: head"></head>
+<body th:include="fragment/bootstrap :: body"></body>
+<body>
+<div th:replace="fragment/navigation :: nav"></div>
+
+<div class="container">
+    <h2>Create Goal</h2>
+    <form th:object="${goal}" th:action="@{/goal/create}" th:method="post"  >
+        <div class="form-group row">
+            <label for="storeId" class="col-sm-2 col-form-label">Location</label>
+            <div class="col">
+                <select class="form-control custom-select" th:field="*{storeId}">
+                    <option th:each="location : ${stores}"
+                            th:value="${location.id}"
+                            th:text="${location.name}"
+                            th:selected="${goal.storeId == location.id}">
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="start" class="col-sm-2 col-form-label">Date Range</label>
+            <div class="col">
+                <input class="form-control form-date" type="date" th:field="*{start}"/>
+            </div>
+            <div class="col">
+                <input class="form-control form-date" type="date" th:field="*{end}"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="rate" class="col-sm-2 col-form-label">Rate</label>
+            <div class="col">
+                <input class="form-control form-date" type="number"  step="0.001"th:field="*{rate}"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-6">
+                <button type="submit"  class="btn btn-primary" value="Submit">Create</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+</body>
+</html>

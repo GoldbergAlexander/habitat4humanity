@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Goales</title>
+</head>
+<head th:include="fragment/bootstrap :: head"></head>
+<body th:include="fragment/bootstrap :: body"></body>
+<body>
+<div th:replace="fragment/navigation :: nav"></div>
+
+<div class="container">
+    <h2>Goales</h2>
+    <div class="row">
+        <div class="col-3">Audit</div>
+        <div class="col">Location</div>
+        <div class="col">Start</div>
+        <div class="col">End</div>
+        <div class="col">Rate</div>
+        <div class="col-3"></div>
+    </div>
+    <div class="row mt-1" th:each="goal : ${goales}">
+
+        <div class="col-3">
+            <div class="row">
+                <div class="col">Created By</div>
+                <div class="col" th:text="${goal.createdBy}"></div>
+            </div>
+            <div class="row">
+                <div class="col">At</div>
+                <div class="col" th:text="${goal.creationDate}"></div>
+            </div>
+            <div class="row" th:if="${goal.lastModifiedBy != null}">
+                <div class="col">Modified By</div>
+                <div class="col" th:text="${goal.lastModifiedBy}"></div>
+            </div>
+            <div class="row" th:if="${goal.lastModifiedDate != null}">
+                <div class="col">At</div>
+                <div class="col" th:text="${goal.lastModifiedDate}"></div>
+            </div>
+        </div>
+
+        <div class="col" th:text="${goal.storeName}"></div>
+        <div class="col" th:text="${#dates.format(goal.start, 'MM/dd/yyyy')}"></div>
+        <div class="col" th:text="${#dates.format(goal.end, 'MM/dd/yyyy')}"></div>
+        <div class="col" th:text="${goal.rate}"></div>
+        <div class="col-3">
+
+            <div class="row">
+
+                <div class="col">
+                    <a class="btn btn-warning" th:href="@{/goal/{goal}(goal=${goal.id})}">Modify</a>
+                </div>
+
+                <form class="col" th:action="@{/goal/delete}" th:object="${newGoal}" method="post">
+                    <input type="hidden" id="id" name="id" th:value="${goal.id}"/>
+                    <button class="btn btn-danger" type="submit" value="delete">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-primary" th:href="@{/goal/create}">Create</a>
+        </div>
+    </div>
+
+
+</body>
+</html>
