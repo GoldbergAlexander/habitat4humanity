@@ -1,7 +1,7 @@
 package com.agoldberg.hercules.controller;
 
 import com.agoldberg.hercules.dto.SummarySearchDTO;
-import com.agoldberg.hercules.service.StoreLocationService;
+import com.agoldberg.hercules.store.StoreService;
 import com.agoldberg.hercules.service.SummaryStatisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,7 +26,7 @@ public class SummaryStatsController {
     private SummaryStatisticsService summaryStatisticsService;
 
     @Autowired
-    private StoreLocationService storeLocationService;
+    private StoreService storeLocationService;
 
     @RequestMapping
     public ModelAndView displayStatsForDay(Model model, @ModelAttribute(SEARCH) SummarySearchDTO search){
@@ -40,7 +40,7 @@ public class SummaryStatsController {
             searchDTO.setLocationId(null);
         }
         model.addAttribute(SEARCH, searchDTO);
-        model.addAttribute(LOCATIONS, storeLocationService.getEnabledStoreLocations());
+        model.addAttribute(LOCATIONS, storeLocationService.getEnabledStores());
 
         return new ModelAndView(SUMMARY_STATS_VIEW, STATS, summaryStatisticsService.getSummaryStats(searchDTO));
     }

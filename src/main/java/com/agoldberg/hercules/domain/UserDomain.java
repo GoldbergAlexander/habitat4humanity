@@ -1,10 +1,10 @@
 package com.agoldberg.hercules.domain;
 
+import com.agoldberg.hercules.store.Store;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.management.relation.Role;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.HashSet;
@@ -24,7 +24,7 @@ public class UserDomain extends Auditable<String> implements UserDetails{
 
     @ManyToOne
     @JoinColumn(name = "location_id")
-    private StoreLocationDomain location;
+    private Store location;
 
     /**
      * Only allowing the user to have a single role. Spring sec supports multiple roles, but this hasn't been used here
@@ -73,11 +73,11 @@ public class UserDomain extends Auditable<String> implements UserDetails{
         this.lastName = lastName;
     }
 
-    public StoreLocationDomain getLocation() {
+    public Store getLocation() {
         return location;
     }
 
-    public void setLocation(StoreLocationDomain location) {
+    public void setLocation(Store location) {
         this.location = location;
     }
 

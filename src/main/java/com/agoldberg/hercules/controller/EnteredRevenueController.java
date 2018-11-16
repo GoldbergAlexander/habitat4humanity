@@ -4,7 +4,7 @@ import com.agoldberg.hercules.dto.EnteredRevenueDTO;
 import com.agoldberg.hercules.dto.EnteredSearchDTO;
 import com.agoldberg.hercules.service.EnteredRevenueService;
 import com.agoldberg.hercules.service.ProcessedRevenueService;
-import com.agoldberg.hercules.service.StoreLocationService;
+import com.agoldberg.hercules.store.StoreService;
 import com.agoldberg.hercules.session.EnteredRevenueStaging;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,7 +39,7 @@ public class EnteredRevenueController {
     private EnteredRevenueService enteredRevenueService;
 
     @Autowired
-    private StoreLocationService storeLocationService;
+    private StoreService storeLocationService;
 
     @Autowired
     private ProcessedRevenueService processedRevenueService;
@@ -59,7 +59,7 @@ public class EnteredRevenueController {
             searchDTO.setLocationId(null);
         }
         model.addAttribute(SEARCH_MODEL, searchDTO);
-        model.addAttribute(LOCATIONS_MODEL, storeLocationService.getEnabledStoreLocations());
+        model.addAttribute(LOCATIONS_MODEL, storeLocationService.getEnabledStores());
         return new ModelAndView(REPORTING_PROCESSED_VIEW, REVENUES_MODEL, processedRevenueService.getProcessedRevenues(search));
     }
 
@@ -77,7 +77,7 @@ public class EnteredRevenueController {
     @GetMapping("entry")
     public ModelAndView displayRevenueEntryForm(Model model){
         //Add a list of locations to the model.
-        model.addAttribute(LOCATIONS_MODEL, storeLocationService.getEnabledStoreLocations());
+        model.addAttribute(LOCATIONS_MODEL, storeLocationService.getEnabledStores());
 
         /** Display Existing data if its there **/
         EnteredRevenueDTO dto;
@@ -92,7 +92,7 @@ public class EnteredRevenueController {
     public ModelAndView saveEnteredRevenueToSession(Model model, @Valid @ModelAttribute(ENTERED_REVENUE_MODEL) EnteredRevenueDTO dto, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             //We still need the list
-            model.addAttribute(LOCATIONS_MODEL, storeLocationService.getEnabledStoreLocations());
+            model.addAttribute(LOCATIONS_MODEL, storeLocationService.getEnabledStores());
             return new ModelAndView(ENTERED_REVENUE_FORM_VIEW, ENTERED_REVENUE_MODEL, dto);
         }else{
             dto.setLocationName(storeLocationService.getStoreName(dto.getLocationId()));

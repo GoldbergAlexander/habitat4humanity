@@ -4,11 +4,12 @@ import com.agoldberg.hercules.builder.ProcessedRevenueDomainBuilder;
 import com.agoldberg.hercules.dao.ProcessedRevenueDAO;
 import com.agoldberg.hercules.domain.EnteredRevenueDomain;
 import com.agoldberg.hercules.domain.ProcessedRevenueDomain;
-import com.agoldberg.hercules.domain.StoreLocationDomain;
+import com.agoldberg.hercules.store.Store;
 import com.agoldberg.hercules.dto.EnteredSearchDTO;
 import com.agoldberg.hercules.dto.ProcessedRevenueDTO;
 import com.agoldberg.hercules.dto.ProcessedRevenueDataAndSummaryDTO;
 import com.agoldberg.hercules.event.RevenueEnteredEvent;
+import com.agoldberg.hercules.store.StoreServiceImpl;
 import org.apache.commons.math3.util.Precision;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -33,7 +34,7 @@ public class ProcessedRevenueServiceImpl implements ApplicationListener<RevenueE
     private ProcessedRevenueDAO processedRevenueDAO;
 
     @Autowired
-    private StoreLocationServiceImpl storeLocationService;
+    private StoreServiceImpl storeLocationService;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -46,7 +47,7 @@ public class ProcessedRevenueServiceImpl implements ApplicationListener<RevenueE
     public ProcessedRevenueDataAndSummaryDTO getProcessedRevenues(EnteredSearchDTO dto){
         List<ProcessedRevenueDomain> domains;
         if(dto.getLocationId() != null){
-            StoreLocationDomain locationDomain = storeLocationService.getStoreLocation(dto.getLocationId());
+            Store locationDomain = storeLocationService.getStore(dto.getLocationId());
             domains = processedRevenueDAO.findByLocationDomainAndDateBetween(locationDomain, dto.getStartingDate(), dto.getEndingDate());
         }else if(dto.getStartingDate() != null && dto.getEndingDate() != null){
             domains = processedRevenueDAO.findByDateBetween(dto.getStartingDate(), dto.getEndingDate());
@@ -56,7 +57,7 @@ public class ProcessedRevenueServiceImpl implements ApplicationListener<RevenueE
 
         List<ProcessedRevenueDTO> dtos = new ArrayList<>();
         ProcessedRevenueDTO summary = new ProcessedRevenueDTO();
-        Set<StoreLocationDomain> locationDomainsSet = new HashSet<>();
+        Set<Store> locationDomainsSet = new HashSet<>();
         for(ProcessedRevenueDomain domain : domains){
             locationDomainsSet.add(domain.getLocationDomain());
             dtos.add(modelMapper.map(domain, ProcessedRevenueDTO.class));

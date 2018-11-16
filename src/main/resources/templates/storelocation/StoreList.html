@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Stores</title>
+</head>
+<head th:include="fragment/bootstrap :: head"></head>
+<body th:include="fragment/bootstrap :: body"></body>
+<body>
+<div th:replace="fragment/navigation :: nav"></div>
+
+<div class="container">
+    <h2>Stores</h2>
+    <div class="row">
+        <div class="col-3">Audit</div>
+        <div class="col-sm-2">Name</div>
+        <div class="col">Address</div>
+        <div class="col"></div>
+    </div>
+    <div class="row mt-1" th:each="location : ${locations}">
+
+        <div class="col-3">
+            <div class="row">
+                <div class="col">Created By</div>
+                <div class="col" th:text="${location.createdBy}"></div>
+            </div>
+            <div class="row">
+                <div class="col">At</div>
+                <div class="col" th:text="${location.creationDate}"></div>
+            </div>
+            <div class="row" th:if="${location.lastModifiedBy != null}">
+                <div class="col">Modified By</div>
+                <div class="col" th:text="${location.lastModifiedBy}"></div>
+            </div>
+            <div class="row" th:if="${location.lastModifiedDate != null}">
+                <div class="col">At</div>
+                <div class="col" th:text="${location.lastModifiedDate}"></div>
+            </div>
+        </div>
+
+        <div class="col-sm-2" th:text="${location.name}"></div>
+        <div class="col">
+            <div class="row">
+                <div class="col" th:text="${location.lineOne}"></div>
+                <div class="col" th:if="${location.lineTwo != null && location.lineTwo != ''}">
+                    <p th:text="${location.lineTwo}"></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col" th:text="${location.city}"></div>
+                <div class="col" th:text="${location.state}"></div>
+                <div class="col" th:text="${location.zip}"></div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <form class="col" th:action="@{/store/enable}" method="post">
+                <input type="hidden" id="id" name="id" th:value="${location.id}"/>
+                <button style="width:90px" class="btn btn-danger" type="submit"
+                        th:text="${location.enabled == true ? 'Enabled' : ' Disabled '}"></button>
+            </form>
+
+            <div class="col">
+            <a class="btn btn-warning" th:href="@{/store/{location_id}(location_id=${location.id})}">Modify</a>
+            </div>
+
+            <form class="col" th:action="@{/store/delete}" th:object="${newLocation}" method="post">
+                <input type="hidden" id="id" name="id" th:value="${location.id}"/>
+                <button class="btn btn-danger" type="submit" value="delete">Delete</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-primary" th:href="@{/store/create}">Create</a>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

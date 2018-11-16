@@ -1,8 +1,10 @@
-package com.agoldberg.hercules.dto;
+package com.agoldberg.hercules.store;
+
+import com.agoldberg.hercules.domain.Auditable;
 
 import javax.validation.constraints.NotEmpty;
 
-public class StoreLocationDTO {
+public class StoreDTO extends Auditable<String> {
 
     private Long id;
     @NotEmpty
@@ -11,20 +13,20 @@ public class StoreLocationDTO {
     private String lineOne;
     private String lineTwo;
     @NotEmpty
-    private String city, state, zipcode;
+    private String city, state, zip;
     private boolean enabled;
 
-    public StoreLocationDTO() {
+    public StoreDTO() {
     }
 
-    public StoreLocationDTO(Long id, String name, String lineOne, String lineTwo, String city, String state, String zipcode, boolean enabled) {
+    public StoreDTO(Long id, String name, String lineOne, String lineTwo, String city, String state, String zip, boolean enabled) {
         this.id = id;
         this.name = name;
         this.lineOne = lineOne;
         this.lineTwo = lineTwo;
         this.city = city;
         this.state = state;
-        this.zipcode = zipcode;
+        this.zip = zip;
         this.enabled = enabled;
     }
 
@@ -84,11 +86,11 @@ public class StoreLocationDTO {
         this.state = state;
     }
 
-    public String getZipcode() {
-        return zipcode;
+    public String getZip() {
+        return zip;
     }
 
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
+    public void setZip(String zip) {
+        this.zip = zip;
     }
 }

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title th:text="${location.name}">Store Location</title>
+</head>
+<head th:include="fragment/bootstrap :: head"></head>
+<body th:include="fragment/bootstrap :: body"></body>
+<body>
+<div th:replace="fragment/navigation :: nav"></div>
+
+<div class="container">
+    <h2 th:text="${location.name}">Store Locations</h2>
+    <form th:action="@{/store/{location_id}(location_id=${location.id})}" th:object="${location}" method="post">
+        <input type="hidden" th:field="*{id}"/>
+        <div class="form-group row">
+            <label for="name" class="col-sm-2 col-form-label">Store Name</label>
+            <div class="col">
+                <input type="text" class="form-control" th:field="*{name}" value="Name"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="lineOne" class="col-sm-2 col-form-label">Address</label>
+            <div class="col">
+                <input type="text" placeholder="Street" class="form-control" th:field="*{lineOne}"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="lineTwo" class="col-sm-2 col-form-label"></label>
+            <div class="col">
+                <input type="text" placeholder="Apt, etc" class="form-control" th:field="*{lineTwo}"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-2 col-form-label"></div>
+            <div class="col">
+                <input type="text" placeholder="City" class="form-control" th:field="*{city}"/>
+            </div>
+            <div class="col">
+                <input type="text" placeholder="State" class="form-control" th:field="*{state}"/>
+            </div>
+            <div class="col">
+                <input type="text" placeholder="Zip" class="form-control" th:field="*{zip}"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-6">
+                <button type="submit" class="btn btn-primary" value="Submit">Modify</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+</body>
+</html>

@@ -1,9 +1,9 @@
 package com.agoldberg.hercules.controller;
 
 import com.agoldberg.hercules.dto.RoleDTO;
-import com.agoldberg.hercules.dto.StoreLocationDTO;
+import com.agoldberg.hercules.store.StoreDTO;
 import com.agoldberg.hercules.dto.UserDTO;
-import com.agoldberg.hercules.service.StoreLocationService;
+import com.agoldberg.hercules.store.StoreService;
 import com.agoldberg.hercules.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,13 +35,13 @@ public class UserAdminController {
     private UserService userService;
 
     @Autowired
-    private StoreLocationService storeLocationService;
+    private StoreService storeLocationService;
 
     @RequestMapping
     public ModelAndView showUserList(Model model){
         List<UserDTO> users = userService.getUsers();
         List<RoleDTO> roles = userService.getRoleList();
-        List<StoreLocationDTO> locations = storeLocationService.getEnabledStoreLocations();
+        List<StoreDTO> locations = storeLocationService.getEnabledStores();
         model.addAttribute(LOCATIONS_MODEL, locations);
         model.addAttribute(ROLES_MODEL, roles);
         model.addAttribute(CHANGE_USER_MODEL, new UserDTO());
@@ -51,7 +51,7 @@ public class UserAdminController {
     @GetMapping("{user_id}")
     public ModelAndView showUserForm(Model model, @PathVariable("user_id") Long userId){
         List<RoleDTO> roles = userService.getRoleList();
-        List<StoreLocationDTO> locations = storeLocationService.getEnabledStoreLocations();
+        List<StoreDTO> locations = storeLocationService.getEnabledStores();
         model.addAttribute(LOCATIONS_MODEL, locations);
         model.addAttribute(ROLES_MODEL, roles);
         UserDTO user = userService.getUser(userId);
@@ -61,7 +61,7 @@ public class UserAdminController {
     @PostMapping("{user_id}")
     public ModelAndView modifyUser(Model model, @PathVariable("user_id") Long userId, @Valid @ModelAttribute(USER_MODEL) UserDTO user, BindingResult bindingResult){
         List<RoleDTO> roles = userService.getRoleList();
-        List<StoreLocationDTO> locations = storeLocationService.getEnabledStoreLocations();
+        List<StoreDTO> locations = storeLocationService.getEnabledStores();
         model.addAttribute(LOCATIONS_MODEL, locations);
         model.addAttribute(ROLES_MODEL, roles);
         if(!bindingResult.hasErrors()){
@@ -81,7 +81,7 @@ public class UserAdminController {
         //userService.adminUpdateUser(user);
 
         List<RoleDTO> roles = userService.getRoleList();
-        List<StoreLocationDTO> locations = storeLocationService.getEnabledStoreLocations();
+        List<StoreDTO> locations = storeLocationService.getEnabledStores();
         model.addAttribute(LOCATIONS_MODEL, locations);
         model.addAttribute(ROLES_MODEL, roles);
 

@@ -3,7 +3,7 @@ package com.agoldberg.hercules.controller;
 import com.agoldberg.hercules.dto.EnteredRevenueBatchDTO;
 import com.agoldberg.hercules.service.EnteredRevenueBatchService;
 import com.agoldberg.hercules.service.EnteredRevenueService;
-import com.agoldberg.hercules.service.StoreLocationService;
+import com.agoldberg.hercules.store.StoreService;
 import com.agoldberg.hercules.session.EnteredRevenueBatchStaging;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,7 +22,7 @@ public class EnteredRevenueBatchController {
     EnteredRevenueBatchStaging staging;
 
     @Autowired
-    StoreLocationService locationService;
+    StoreService locationService;
 
     @Autowired
     EnteredRevenueBatchService batchService;
@@ -32,7 +32,7 @@ public class EnteredRevenueBatchController {
 
     @GetMapping("entry")
     public ModelAndView displayRevenueEntryBatchForm(Model model){
-        model.addAttribute("locations", locationService.getEnabledStoreLocations());
+        model.addAttribute("locations", locationService.getEnabledStores());
 
         EnteredRevenueBatchDTO dto;
         if((dto = staging.getDTO()) == null){

@@ -2,9 +2,10 @@ package com.agoldberg.hercules.service;
 
 import com.agoldberg.hercules.dao.EnteredRevenueDAO;
 import com.agoldberg.hercules.domain.EnteredRevenueDomain;
-import com.agoldberg.hercules.domain.StoreLocationDomain;
+import com.agoldberg.hercules.store.Store;
 import com.agoldberg.hercules.dto.EnteredRevenueDTO;
 import com.agoldberg.hercules.event.RevenueEnteredEvent;
+import com.agoldberg.hercules.store.StoreServiceImpl;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +28,7 @@ public class EnteredRevenueServiceImpl implements EnteredRevenueService {
     private EnteredRevenueDAO enteredRevenueDAO;
 
     @Autowired
-    private StoreLocationServiceImpl storeLocationService;
+    private StoreServiceImpl storeLocationService;
 
     @Autowired
     private ApplicationEventPublisher eventPublisher;
@@ -45,7 +46,7 @@ public class EnteredRevenueServiceImpl implements EnteredRevenueService {
         }
 
         //Convert the store location id to a domain object
-        StoreLocationDomain storeLocationDomain = storeLocationService.getStoreLocation(dto.getLocationId());
+        Store storeLocationDomain = storeLocationService.getStore(dto.getLocationId());
 
         //Set the domain object inside the domain
         domain.setLocation(storeLocationDomain);
@@ -73,7 +74,7 @@ public class EnteredRevenueServiceImpl implements EnteredRevenueService {
         }
 
         //Convert the store location id to a domain object
-        StoreLocationDomain storeLocationDomain = storeLocationService.getStoreLocation(dto.getLocationId());
+        Store storeLocationDomain = storeLocationService.getStore(dto.getLocationId());
 
         //Set the domain object inside the domain
         domain.setLocation(storeLocationDomain);

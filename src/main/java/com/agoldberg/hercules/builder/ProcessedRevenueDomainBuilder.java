@@ -2,9 +2,6 @@ package com.agoldberg.hercules.builder;
 
 import com.agoldberg.hercules.domain.EnteredRevenueDomain;
 import com.agoldberg.hercules.domain.ProcessedRevenueDomain;
-import com.agoldberg.hercules.domain.StoreLocationDomain;
-
-import java.util.Date;
 
 public class ProcessedRevenueDomainBuilder {
     private EnteredRevenueDomain enteredRevenue;

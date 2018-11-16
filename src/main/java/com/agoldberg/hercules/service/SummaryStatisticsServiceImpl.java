@@ -2,9 +2,10 @@ package com.agoldberg.hercules.service;
 
 import com.agoldberg.hercules.dao.ProcessedRevenueDAO;
 import com.agoldberg.hercules.domain.ProcessedRevenueDomain;
-import com.agoldberg.hercules.domain.StoreLocationDomain;
+import com.agoldberg.hercules.store.Store;
 import com.agoldberg.hercules.dto.SummarySearchDTO;
 import com.agoldberg.hercules.dto.SummaryStatsDTO;
+import com.agoldberg.hercules.store.StoreServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class SummaryStatisticsServiceImpl implements SummaryStatisticsService {
     private ProcessedRevenueDAO processedRevenueDAO;
 
     @Autowired
-    private StoreLocationServiceImpl storeLocationService;
+    private StoreServiceImpl storeLocationService;
 
 
     @Override
@@ -67,7 +68,7 @@ public class SummaryStatisticsServiceImpl implements SummaryStatisticsService {
         /** Check if a location was included **/
         if(search.getLocationId() != null && search.getLocationId() != -1){
             LOGGER.info("Searching with location: {}", search.getLocationName());
-            StoreLocationDomain storeLocationDomain = storeLocationService.getStoreLocation(search.getLocationId());
+            Store storeLocationDomain = storeLocationService.getStore(search.getLocationId());
             givenMTDList = processedRevenueDAO.findByLocationDomainAndDateBetween(storeLocationDomain, currentYearStart, currentYearMTD);
             pastMTDList = processedRevenueDAO.findByLocationDomainAndDateBetween(storeLocationDomain, priorYearStart, priorYearMTD);
         }else {

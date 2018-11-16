@@ -2,7 +2,6 @@ package com.agoldberg.hercules.controller;
 
 import com.agoldberg.hercules.dto.RegistrationDTO;
 import com.agoldberg.hercules.dto.UserDTO;
-import com.agoldberg.hercules.service.StoreLocationService;
 import com.agoldberg.hercules.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

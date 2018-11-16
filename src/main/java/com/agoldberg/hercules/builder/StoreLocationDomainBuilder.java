@@ -1,6 +1,6 @@
 package com.agoldberg.hercules.builder;
 
-import com.agoldberg.hercules.domain.StoreLocationDomain;
+import com.agoldberg.hercules.store.Store;
 
 public class StoreLocationDomainBuilder {
     private String name;
@@ -46,7 +46,7 @@ public class StoreLocationDomainBuilder {
         return this;
     }
 
-    public StoreLocationDomain createStoreLocationDomain() {
-        return new StoreLocationDomain(name, lineOne, lineTwo, city, state, zipcode, enabled);
+    public Store createStoreLocationDomain() {
+        return new Store(name, lineOne, lineTwo, city, state, zipcode, enabled);
     }
 }

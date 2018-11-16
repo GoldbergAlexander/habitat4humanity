@@ -1,5 +1,7 @@
 package com.agoldberg.hercules.domain;
 
+import com.agoldberg.hercules.store.Store;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -16,7 +18,7 @@ public class EnteredRevenueDomain extends Auditable<String> implements Serializa
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "location_id")
-    private StoreLocationDomain location;
+    private Store location;
     @Column(name = "date")
     private Date date;
 
@@ -35,7 +37,7 @@ public class EnteredRevenueDomain extends Auditable<String> implements Serializa
     public EnteredRevenueDomain() {
     }
 
-    public EnteredRevenueDomain(StoreLocationDomain location, Date date, boolean processed, long transactionCount, double cashCount, double checkCount, double cardUnit, double payoutReceipt, double cashTape, double checkTape, double cardTape, double taxTape, String memo) {
+    public EnteredRevenueDomain(Store location, Date date, boolean processed, long transactionCount, double cashCount, double checkCount, double cardUnit, double payoutReceipt, double cashTape, double checkTape, double cardTape, double taxTape, String memo) {
         this.date = date;
         this.location = location;
         this.processed = processed;
@@ -67,11 +69,11 @@ public class EnteredRevenueDomain extends Auditable<String> implements Serializa
         this.id = id;
     }
 
-    public StoreLocationDomain getLocation() {
+    public Store getLocation() {
         return location;
     }
 
-    public void setLocation(StoreLocationDomain location) {
+    public void setLocation(Store location) {
         this.location = location;
     }
 

@@ -2,8 +2,6 @@ package com.agoldberg.hercules.config;
 
 import com.agoldberg.hercules.dao.RoleDAO;
 import com.agoldberg.hercules.domain.RoleDomain;
-import com.agoldberg.hercules.service.StoreLocationService;
-import com.agoldberg.hercules.service.UserService;
 import com.agoldberg.hercules.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;

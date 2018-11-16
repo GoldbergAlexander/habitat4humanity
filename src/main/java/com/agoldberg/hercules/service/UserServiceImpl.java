@@ -3,12 +3,13 @@ package com.agoldberg.hercules.service;
 import com.agoldberg.hercules.dao.RoleDAO;
 import com.agoldberg.hercules.dao.UserDAO;
 import com.agoldberg.hercules.domain.RoleDomain;
-import com.agoldberg.hercules.domain.StoreLocationDomain;
+import com.agoldberg.hercules.store.Store;
 import com.agoldberg.hercules.domain.TokenType;
 import com.agoldberg.hercules.domain.UserDomain;
 import com.agoldberg.hercules.dto.PasswordChangeDTO;
 import com.agoldberg.hercules.dto.RoleDTO;
 import com.agoldberg.hercules.dto.UserDTO;
+import com.agoldberg.hercules.store.StoreServiceImpl;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,7 +55,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     private RoleDAO roleDAO;
 
     @Autowired
-    private StoreLocationServiceImpl storeLocationService;
+    private StoreServiceImpl storeLocationService;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -232,7 +233,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         existingUserDomain.setFirstName(dto.getFirstName());
         existingUserDomain.setLastName(dto.getLastName());
 
-        StoreLocationDomain storeLocationDomain = storeLocationService.getStoreLocation(dto.getLocationId());
+        Store storeLocationDomain = storeLocationService.getStore(dto.getLocationId());
         existingUserDomain.setLocation(storeLocationDomain);
 
         userDAO.save(existingUserDomain);

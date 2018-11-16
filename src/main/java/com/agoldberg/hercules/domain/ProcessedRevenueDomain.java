@@ -1,5 +1,6 @@
 package com.agoldberg.hercules.domain;
 
+import com.agoldberg.hercules.store.Store;
 import org.apache.commons.math3.util.Precision;
 
 import javax.persistence.*;
@@ -20,7 +21,7 @@ public class ProcessedRevenueDomain extends Auditable<String>{
 
     @ManyToOne
     @JoinColumn(name="location_id")
-    private StoreLocationDomain locationDomain;
+    private Store locationDomain;
     private Date date;
     private double actualIntake;
     private double tapeIntake;
@@ -37,7 +38,7 @@ public class ProcessedRevenueDomain extends Auditable<String>{
     public ProcessedRevenueDomain() {
     }
 
-    public ProcessedRevenueDomain(EnteredRevenueDomain enteredRevenue, Date date, StoreLocationDomain location, double actualIntake,  double tapeIntake, double overUnder, double taxCount, double valuePerTransaction, double percentageCard, double percentageCash, double percentageCheck) {
+    public ProcessedRevenueDomain(EnteredRevenueDomain enteredRevenue, Date date, Store location, double actualIntake, double tapeIntake, double overUnder, double taxCount, double valuePerTransaction, double percentageCard, double percentageCash, double percentageCheck) {
         this.locationDomain = location;
         this.date = date;
         this.enteredRevenue = enteredRevenue;
@@ -51,11 +52,11 @@ public class ProcessedRevenueDomain extends Auditable<String>{
         this.taxCount = Precision.round(taxCount,2);
     }
 
-    public StoreLocationDomain getLocationDomain() {
+    public Store getLocationDomain() {
         return locationDomain;
     }
 
-    public void setLocationDomain(StoreLocationDomain locationDomain) {
+    public void setLocationDomain(Store locationDomain) {
         this.locationDomain = locationDomain;
     }
 
