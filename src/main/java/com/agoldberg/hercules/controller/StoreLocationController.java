@@ -58,7 +58,7 @@ public class StoreLocationController {
     }
 
     @PostMapping("create")
-    public ModelAndView createStoreLocation(Model model, @Valid @ModelAttribute(NEW_LOCATION_MODEL) StoreLocationDTO storeLocation, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+    public ModelAndView createStoreLocation(Model model, @Valid @ModelAttribute(NEW_LOCATION_MODEL) StoreLocationDTO storeLocation, BindingResult bindingResult){
         if(!bindingResult.hasErrors()) {
             storeLocationService.createStoreLocation(storeLocation);
             //Add a new StoreLocationDTO to the model to allow us to create store from this page
@@ -71,7 +71,7 @@ public class StoreLocationController {
     }
 
     @PostMapping("delete")
-    public String deleteStoreLocation(Model model, @Valid @ModelAttribute(NEW_LOCATION_MODEL) StoreLocationDTO storeLocation, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+    public String deleteStoreLocation(Model model, @Valid @ModelAttribute(NEW_LOCATION_MODEL) StoreLocationDTO storeLocation, RedirectAttributes redirectAttributes){
         storeLocationService.deleteStoreLocation(storeLocation);
         redirectAttributes.addFlashAttribute(model);
         return LOCATION_REDIRECT;

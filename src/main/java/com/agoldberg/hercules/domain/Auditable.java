@@ -15,7 +15,7 @@ import java.util.Date;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-abstract class Auditable<U> implements Serializable{
+abstract public class Auditable<U> implements Serializable{
 
     @CreatedBy
     protected U createdBy;

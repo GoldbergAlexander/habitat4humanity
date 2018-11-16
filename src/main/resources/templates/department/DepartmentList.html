@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Departments</title>
+</head>
+<head th:include="fragment/bootstrap :: head"></head>
+<body th:include="fragment/bootstrap :: body"></body>
+<body>
+<div th:replace="fragment/navigation :: nav"></div>
+
+
+<div class="container">
+    <h2>Departments</h2>
+    <div class="row">
+        <div class="col-3">Audit</div>
+        <div class="col-sm-1">Name</div>
+        <div class="col">Details</div>
+        <div class="col"></div>
+    </div>
+    <div class="row mt-1" th:each="department : ${departments}">
+        <div class="col-3">
+            <div class="row">
+                <div class="col">Created By</div>
+                <div class="col" th:text="${department.createdBy}"></div>
+            </div>
+            <div class="row">
+                <div class="col">At</div>
+                <div class="col" th:text="${department.creationDate}"></div>
+            </div>
+            <div class="row" th:if="${department.lastModifiedBy != null}">
+                <div class="col">Modified By</div>
+                <div class="col" th:text="${department.lastModifiedBy}"></div>
+            </div>
+            <div class="row" th:if="${department.lastModifiedDate != null}">
+                <div class="col">At</div>
+                <div class="col" th:text="${department.lastModifiedDate}"></div>
+            </div>
+        </div>
+        <div class="col-sm-1" th:text="${department.name}"></div>
+        <div class="col" th:text="${department.details}"></div>
+        <div class="col">
+            <div class="row">
+            <form class="col" th:action="@{/department/enable}" th:object="${newDepartment}" method="post">
+                <input type="hidden" id="id" name="id" th:value="${department.id}">
+                <button style="width:90px" class="btn btn-danger" type="submit"
+                        th:text="${(department.enabled == true) ? 'Enabled' : ' Disabled '}"></button>
+            </form>
+            <div class="col">
+                <a class="btn btn-warning" th:href="@{/department/{department}(department=${department.id})}">Modify</a>
+            </div>
+            <form class="col" th:action="@{/department/delete}" th:object="${newDepartment}" method="post">
+                <input type="hidden" id="id" name="id" th:value="${department.id}"/>
+                <button class="btn btn-danger" type="submit" value="delete">Delete</button>
+            </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-primary" th:href="@{/department/create}">Create</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
