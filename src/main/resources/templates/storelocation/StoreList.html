@@ -62,7 +62,7 @@
             </form>
 
             <div class="col">
-            <a class="btn btn-warning" th:href="@{/store/{location_id}(location_id=${location.id})}">Modify</a>
+            <a class="btn btn-warning" th:href="@{/store/{store}(store=${location.id})}">Modify</a>
             </div>
 
             <form class="col" th:action="@{/store/delete}" th:object="${newLocation}" method="post">
