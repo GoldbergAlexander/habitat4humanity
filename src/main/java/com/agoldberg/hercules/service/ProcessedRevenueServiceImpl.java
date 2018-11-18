@@ -4,7 +4,7 @@ import com.agoldberg.hercules.builder.ProcessedRevenueDomainBuilder;
 import com.agoldberg.hercules.dao.ProcessedRevenueDAO;
 import com.agoldberg.hercules.domain.EnteredRevenueDomain;
 import com.agoldberg.hercules.domain.ProcessedRevenueDomain;
-import com.agoldberg.hercules.store.Store;
+import com.agoldberg.hercules.store.StoreDomain;
 import com.agoldberg.hercules.dto.EnteredSearchDTO;
 import com.agoldberg.hercules.dto.ProcessedRevenueDTO;
 import com.agoldberg.hercules.dto.ProcessedRevenueDataAndSummaryDTO;
@@ -47,7 +47,7 @@ public class ProcessedRevenueServiceImpl implements ApplicationListener<RevenueE
     public ProcessedRevenueDataAndSummaryDTO getProcessedRevenues(EnteredSearchDTO dto){
         List<ProcessedRevenueDomain> domains;
         if(dto.getLocationId() != null){
-            Store locationDomain = storeLocationService.getStore(dto.getLocationId());
+            StoreDomain locationDomain = storeLocationService.getStore(dto.getLocationId());
             domains = processedRevenueDAO.findByLocationDomainAndDateBetween(locationDomain, dto.getStartingDate(), dto.getEndingDate());
         }else if(dto.getStartingDate() != null && dto.getEndingDate() != null){
             domains = processedRevenueDAO.findByDateBetween(dto.getStartingDate(), dto.getEndingDate());
@@ -57,7 +57,7 @@ public class ProcessedRevenueServiceImpl implements ApplicationListener<RevenueE
 
         List<ProcessedRevenueDTO> dtos = new ArrayList<>();
         ProcessedRevenueDTO summary = new ProcessedRevenueDTO();
-        Set<Store> locationDomainsSet = new HashSet<>();
+        Set<StoreDomain> locationDomainsSet = new HashSet<>();
         for(ProcessedRevenueDomain domain : domains){
             locationDomainsSet.add(domain.getLocationDomain());
             dtos.add(modelMapper.map(domain, ProcessedRevenueDTO.class));

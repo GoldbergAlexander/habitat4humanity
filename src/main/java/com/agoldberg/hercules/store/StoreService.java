@@ -18,7 +18,7 @@ public interface StoreService {
 
     StoreDTO getStoreDTO(Long id);
 
-    Store getStore(Long id);
+    StoreDomain getStore(Long id);
 
     List<StoreDTO> getStores();
 

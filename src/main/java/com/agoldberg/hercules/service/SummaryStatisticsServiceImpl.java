@@ -2,7 +2,7 @@ package com.agoldberg.hercules.service;
 
 import com.agoldberg.hercules.dao.ProcessedRevenueDAO;
 import com.agoldberg.hercules.domain.ProcessedRevenueDomain;
-import com.agoldberg.hercules.store.Store;
+import com.agoldberg.hercules.store.StoreDomain;
 import com.agoldberg.hercules.dto.SummarySearchDTO;
 import com.agoldberg.hercules.dto.SummaryStatsDTO;
 import com.agoldberg.hercules.store.StoreServiceImpl;
@@ -68,7 +68,7 @@ public class SummaryStatisticsServiceImpl implements SummaryStatisticsService {
         /** Check if a location was included **/
         if(search.getLocationId() != null && search.getLocationId() != -1){
             LOGGER.info("Searching with location: {}", search.getLocationName());
-            Store storeLocationDomain = storeLocationService.getStore(search.getLocationId());
+            StoreDomain storeLocationDomain = storeLocationService.getStore(search.getLocationId());
             givenMTDList = processedRevenueDAO.findByLocationDomainAndDateBetween(storeLocationDomain, currentYearStart, currentYearMTD);
             pastMTDList = processedRevenueDAO.findByLocationDomainAndDateBetween(storeLocationDomain, priorYearStart, priorYearMTD);
         }else {

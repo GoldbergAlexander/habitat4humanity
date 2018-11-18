@@ -1,15 +1,19 @@
 package com.agoldberg.hercules.store;
 
 import com.agoldberg.hercules.domain.Auditable;
+import com.agoldberg.hercules.goal.GoalDomain;
+import com.agoldberg.hercules.tax.TaxDomain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Store extends Auditable<String> implements Serializable{
+public class StoreDomain extends Auditable<String> implements Serializable{
     @Id
     @GeneratedValue
     private Long id;
@@ -18,10 +22,10 @@ public class Store extends Auditable<String> implements Serializable{
     private String city, state, zip;
     private boolean enabled;
 
-    public Store() {
+    public StoreDomain() {
     }
 
-    public Store(String name, String lineOne, String lineTwo, String city, String state, String zip, boolean enabled) {
+    public StoreDomain(String name, String lineOne, String lineTwo, String city, String state, String zip, boolean enabled) {
         this.name = name;
         this.lineOne = lineOne;
         this.lineTwo = lineTwo;
@@ -99,7 +103,7 @@ public class Store extends Auditable<String> implements Serializable{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Store that = (Store) o;
+        StoreDomain that = (StoreDomain) o;
         return Objects.equals(name, that.name) &&
                 Objects.equals(lineOne, that.lineOne) &&
                 Objects.equals(lineTwo, that.lineTwo) &&

@@ -1,4 +1,4 @@
-package com.agoldberg.hercules.goal;
+package com.agoldberg.hercules.size;
 
 import com.agoldberg.hercules.store.StoreDomain;
 import com.agoldberg.hercules.store.StoreService;
@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class GoalService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(GoalService.class);
+public class SizeService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SizeService.class);
 
     @Autowired
-    private GoalDAO dao;
+    private SizeDAO dao;
 
     @Autowired
     private StoreService storeService;
@@ -24,7 +24,7 @@ public class GoalService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public void createGoal(GoalDTO dto){
+    public void createTax(SizeDTO dto){
         if(dto.getStoreId() == null){
             throw new IllegalArgumentException("Bad Location ID");
         }
@@ -46,14 +46,14 @@ public class GoalService {
             throw new IllegalStateException("Bad Date Range");
         }
 
-        GoalDomain domain = new GoalDomain(store, dto.getRate(), dto.getStart(), dto.getEnd());
+        SizeDomain domain = new SizeDomain(store, dto.getRate(), dto.getStart(), dto.getEnd());
         domain = dao.save(domain);
-        LOGGER.info("Created new goal domain with ID: {}, for location: {}, at rate: {}, starting: {}, ending: {}",
-                domain.getId(), domain.getStore().getName(), domain.getRate(),domain.getStart(),domain.getEnd() );
+        LOGGER.info("Created new tax domain with ID: {}, for location: {}, at rate: {}, starting: {}, ending: {}",
+                domain.getId(), domain.getStore().getName(), domain.getSize(),domain.getStart(),domain.getEnd() );
 
     }
 
-    public void modifyGoal(GoalDTO dto){
+    public void modifyTax(SizeDTO dto){
         if(dto.getId() == null){
             throw new IllegalArgumentException("Bad ID");
         }
@@ -75,53 +75,53 @@ public class GoalService {
             throw new IllegalArgumentException("Bad Date Range");
         }
 
-        GoalDomain existing = dao.findByStoreAndEndAfterOrStartBefore(store, dto.getStart(), dto.getEnd());
+        SizeDomain existing = dao.findByStoreAndEndAfterOrStartBefore(store, dto.getStart(), dto.getEnd());
 
         if(existing != null && !existing.getId().equals(dto.getId())){
             throw new IllegalStateException("Bad Date Range");
         }
 
-        GoalDomain domain = dao.getOne(dto.getId());
+        SizeDomain domain = dao.getOne(dto.getId());
 
         domain.setStore(store);
         domain.setStart(dto.getStart());
         domain.setEnd(dto.getEnd());
-        domain.setRate(dto.getRate());
+        domain.setSize(dto.getRate());
 
         domain = dao.save(domain);
-        LOGGER.info("Modified goal domain with ID: {}, for location: {}, at rate: {}, starting: {}, ending: {}",
-                domain.getId(), domain.getStore().getName(), domain.getRate(),domain.getStart(),domain.getEnd() );
+        LOGGER.info("Modified tax domain with ID: {}, for location: {}, at rate: {}, starting: {}, ending: {}",
+                domain.getId(), domain.getStore().getName(), domain.getSize(),domain.getStart(),domain.getEnd() );
 
     }
 
 
 
-    public List<GoalDTO> getGoales(Long id){
+    public List<SizeDTO> getTaxes(Long id){
         if(id == null){
             throw new IllegalArgumentException("Bad Location ID");
         }
         StoreDomain store = storeService.getStore(id);
-        List<GoalDomain> domains = dao.findByStore(store);
-        List<GoalDTO> dtos = new ArrayList<>();
-        domains.forEach(domain -> dtos.add(modelMapper.map(domain, GoalDTO.class)));
-        LOGGER.info("Got list of Goales for store: {}, size: {}", store.getName(), dtos.size());
+        List<SizeDomain> domains = dao.findByStore(store);
+        List<SizeDTO> dtos = new ArrayList<>();
+        domains.forEach(domain -> dtos.add(modelMapper.map(domain, SizeDTO.class)));
+        LOGGER.info("Got list of Taxes for store: {}, size: {}", store.getName(), dtos.size());
         return dtos;
     }
 
-    public List<GoalDTO> getGoales(){
-        List<GoalDomain> domains = dao.findAll();
-        List<GoalDTO> dtos = new ArrayList<>();
-        domains.forEach(domain -> dtos.add(modelMapper.map(domain, GoalDTO.class)));
-        LOGGER.info("Got list of Goales, size: {}", dtos.size());
+    public List<SizeDTO> getTaxes(){
+        List<SizeDomain> domains = dao.findAll();
+        List<SizeDTO> dtos = new ArrayList<>();
+        domains.forEach(domain -> dtos.add(modelMapper.map(domain, SizeDTO.class)));
+        LOGGER.info("Got list of Taxes, size: {}", dtos.size());
         return dtos;
     }
 
-    public GoalDTO getGoal(Long id){
-        return modelMapper.map(dao.getOne(id), GoalDTO.class);
+    public SizeDTO getTax(Long id){
+        return modelMapper.map(dao.getOne(id), SizeDTO.class);
     }
 
-    public void deleteGoal(GoalDTO dto){
-        dao.delete(modelMapper.map(dto, GoalDomain.class));
+    public void deleteTax(SizeDTO dto){
+        dao.delete(modelMapper.map(dto, SizeDomain.class));
     }
 
 }

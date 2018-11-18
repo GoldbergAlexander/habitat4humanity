@@ -1,6 +1,6 @@
 package com.agoldberg.hercules.tax;
 
-import com.agoldberg.hercules.store.Store;
+import com.agoldberg.hercules.store.StoreDomain;
 import com.agoldberg.hercules.store.StoreService;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -28,7 +28,7 @@ public class TaxService {
         if(dto.getStoreId() == null){
             throw new IllegalArgumentException("Bad Location ID");
         }
-        Store store = storeService.getStore(dto.getStoreId());
+        StoreDomain store = storeService.getStore(dto.getStoreId());
 
         if(dto.getRate() < 0 || dto.getRate() > 1){
             throw new IllegalArgumentException("Bad Rate");
@@ -61,7 +61,7 @@ public class TaxService {
         if(dto.getStoreId() == null){
             throw new IllegalArgumentException("Bad Location ID");
         }
-        Store store = storeService.getStore(dto.getStoreId());
+        StoreDomain store = storeService.getStore(dto.getStoreId());
 
         if(dto.getRate() < 0 || dto.getRate() > 1){
             throw new IllegalArgumentException("Bad Rate");
@@ -100,7 +100,7 @@ public class TaxService {
         if(id == null){
             throw new IllegalArgumentException("Bad Location ID");
         }
-        Store store = storeService.getStore(id);
+        StoreDomain store = storeService.getStore(id);
         List<TaxDomain> domains = dao.findByStore(store);
         List<TaxDTO> dtos = new ArrayList<>();
         domains.forEach(domain -> dtos.add(modelMapper.map(domain, TaxDTO.class)));

@@ -3,7 +3,7 @@ package com.agoldberg.hercules.service;
 import com.agoldberg.hercules.dao.RoleDAO;
 import com.agoldberg.hercules.dao.UserDAO;
 import com.agoldberg.hercules.domain.RoleDomain;
-import com.agoldberg.hercules.store.Store;
+import com.agoldberg.hercules.store.StoreDomain;
 import com.agoldberg.hercules.domain.TokenType;
 import com.agoldberg.hercules.domain.UserDomain;
 import com.agoldberg.hercules.dto.PasswordChangeDTO;
@@ -233,7 +233,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         existingUserDomain.setFirstName(dto.getFirstName());
         existingUserDomain.setLastName(dto.getLastName());
 
-        Store storeLocationDomain = storeLocationService.getStore(dto.getLocationId());
+        StoreDomain storeLocationDomain = storeLocationService.getStore(dto.getLocationId());
         existingUserDomain.setLocation(storeLocationDomain);
 
         userDAO.save(existingUserDomain);

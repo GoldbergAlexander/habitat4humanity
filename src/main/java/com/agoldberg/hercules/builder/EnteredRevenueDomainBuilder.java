@@ -1,12 +1,12 @@
 package com.agoldberg.hercules.builder;
 
-import com.agoldberg.hercules.store.Store;
+import com.agoldberg.hercules.store.StoreDomain;
 import com.agoldberg.hercules.domain.EnteredRevenueDomain;
 
 import java.util.Date;
 
 public class EnteredRevenueDomainBuilder {
-    private Store location;
+    private StoreDomain location;
     private Date date;
     private boolean processed;
     private long transactionCount;
@@ -20,7 +20,7 @@ public class EnteredRevenueDomainBuilder {
     private double taxTape;
     private String memo;
 
-    public EnteredRevenueDomainBuilder setLocation(Store location) {
+    public EnteredRevenueDomainBuilder setLocation(StoreDomain location) {
         this.location = location;
         return this;
     }

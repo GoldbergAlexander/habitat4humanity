@@ -1,7 +1,7 @@
 package com.agoldberg.hercules.tax;
 
 import com.agoldberg.hercules.domain.Auditable;
-import com.agoldberg.hercules.store.Store;
+import com.agoldberg.hercules.store.StoreDomain;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -12,7 +12,7 @@ public class TaxDomain extends Auditable<String> {
     @GeneratedValue
     private Long id;
     @ManyToOne(fetch = FetchType.EAGER)
-    private Store store;
+    private StoreDomain store;
     private double rate;
     private Date start;
     private Date end;
@@ -20,7 +20,7 @@ public class TaxDomain extends Auditable<String> {
     public TaxDomain() {
     }
 
-    public TaxDomain(Store store, double rate, Date start, Date end) {
+    public TaxDomain(StoreDomain store, double rate, Date start, Date end) {
         this.store = store;
         this.rate = rate;
         this.start = start;
@@ -35,11 +35,11 @@ public class TaxDomain extends Auditable<String> {
         this.id = id;
     }
 
-    public Store getStore() {
+    public StoreDomain getStore() {
         return store;
     }
 
-    public void setStore(Store store) {
+    public void setStore(StoreDomain store) {
         this.store = store;
     }
 

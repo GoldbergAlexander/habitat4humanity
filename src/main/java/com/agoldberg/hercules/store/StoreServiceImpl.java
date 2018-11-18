@@ -27,7 +27,7 @@ public class StoreServiceImpl implements StoreService {
     @Override
     @RolesAllowed("ROLE_ADMIN")
     public void toggleStoreEnabled(Long id){
-        Store location = dao.getOne(id);
+        StoreDomain location = dao.getOne(id);
         location.setEnabled(!location.isEnabled());
         dao.save(location);
         LOGGER.info("Location: {} enabled set to: {}", location.getName(), location.isEnabled());
@@ -36,7 +36,7 @@ public class StoreServiceImpl implements StoreService {
     @Override
     @RolesAllowed("ROLE_ADMIN")
     public void createStore(StoreDTO dto){
-        Store domain = modelMapper.map(dto, Store.class);
+        StoreDomain domain = modelMapper.map(dto, StoreDomain.class);
 
         if(domain == null){
             throw new IllegalArgumentException(MAPPING_ERROR);
@@ -55,7 +55,7 @@ public class StoreServiceImpl implements StoreService {
     @Override
     @RolesAllowed("ROLE_ADMIN")
     public void deleteStore(StoreDTO dto){
-        Store domain = modelMapper.map(dto, Store.class);
+        StoreDomain domain = modelMapper.map(dto, StoreDomain.class);
         if(domain == null){
             throw new IllegalArgumentException(MAPPING_ERROR);
         }
@@ -66,7 +66,7 @@ public class StoreServiceImpl implements StoreService {
     @Override
     @RolesAllowed("ROLE_ADMIN")
     public void modifyStore(StoreDTO dto){
-        Store domain = dao.getOne(dto.getId());
+        StoreDomain domain = dao.getOne(dto.getId());
 
         domain.setName(dto.getName());
         domain.setCity(dto.getCity());
@@ -86,16 +86,16 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public Store getStore(Long id){
+    public StoreDomain getStore(Long id){
         return dao.getOne(id);
     }
 
     @Override
     public List<StoreDTO> getStores(){
-        List<Store> domains = dao.findAll();
+        List<StoreDomain> domains = dao.findAll();
         List<StoreDTO> dtos = new ArrayList<>();
 
-        for(Store domain : domains){
+        for(StoreDomain domain : domains){
             dtos.add(modelMapper.map(domain, StoreDTO.class));
         }
 
@@ -105,10 +105,10 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public List<StoreDTO> getEnabledStores(){
-        List<Store> domains = dao.findByEnabledIsTrue();
+        List<StoreDomain> domains = dao.findByEnabledIsTrue();
         List<StoreDTO> dtos = new ArrayList<>();
 
-        for(Store domain : domains){
+        for(StoreDomain domain : domains){
             dtos.add(modelMapper.map(domain, StoreDTO.class));
         }
         LOGGER.info("Getting list of enabled locations, size: {}", dtos.size());
@@ -117,7 +117,7 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public String getStoreName(Long id){
-        Store domain = dao.findByIdAndEnabledIsTrue(id);
+        StoreDomain domain = dao.findByIdAndEnabledIsTrue(id);
         if(domain == null){
             throw new IllegalStateException(EXISTS_ERROR);
         }

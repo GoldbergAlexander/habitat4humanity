@@ -1,5 +1,6 @@
-package com.agoldberg.hercules.goal;
+package com.agoldberg.hercules.size;
 
+import com.agoldberg.hercules.department.DepartmentDomain;
 import com.agoldberg.hercules.domain.Auditable;
 import com.agoldberg.hercules.store.StoreDomain;
 
@@ -7,24 +8,35 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class GoalDomain extends Auditable<String> {
+public class SizeDomain extends Auditable<String> {
     @Id
     @GeneratedValue
     private Long id;
     @ManyToOne(fetch = FetchType.EAGER)
     private StoreDomain store;
-    private double rate;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private DepartmentDomain department;
+    private double size;
     private Date start;
     private Date end;
 
-    public GoalDomain() {
+    public SizeDomain() {
     }
 
-    public GoalDomain(StoreDomain store, double rate, Date start, Date end) {
+    public SizeDomain(StoreDomain store, DepartmentDomain department, double size, Date start, Date end) {
         this.store = store;
-        this.rate = rate;
+        this.department = department;
+        this.size = size;
         this.start = start;
         this.end = end;
+    }
+
+    public DepartmentDomain getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(DepartmentDomain department) {
+        this.department = department;
     }
 
     public Long getId() {
@@ -43,12 +55,12 @@ public class GoalDomain extends Auditable<String> {
         this.store = store;
     }
 
-    public double getRate() {
-        return rate;
+    public double getSize() {
+        return size;
     }
 
-    public void setRate(double rate) {
-        this.rate = rate;
+    public void setSize(double size) {
+        this.size = size;
     }
 
     public Date getStart() {
