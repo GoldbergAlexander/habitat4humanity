@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>sizeSize</title>
+</head>
+<head th:include="fragment/bootstrap :: head"></head>
+<body th:include="fragment/bootstrap :: body"></body>
+<body>
+<div th:replace="fragment/navigation :: nav"></div>
+
+<div class="container">
+    <h2>Size</h2>
+    <div class="row">
+        <div class="col-3">Audit</div>
+        <div class="col">Location</div>
+        <div class="col">Department</div>
+        <div class="col">Start</div>
+        <div class="col">End</div>
+        <div class="col">Size</div>
+        <div class="col-3"></div>
+    </div>
+    <div class="row mt-1" th:each="size : ${sizes}">
+
+        <div class="col-3">
+            <div class="row">
+                <div class="col">Created By</div>
+                <div class="col" th:text="${size.createdBy}"></div>
+            </div>
+            <div class="row">
+                <div class="col">At</div>
+                <div class="col" th:text="${size.creationDate}"></div>
+            </div>
+            <div class="row" th:if="${size.lastModifiedBy != null}">
+                <div class="col">Modified By</div>
+                <div class="col" th:text="${size.lastModifiedBy}"></div>
+            </div>
+            <div class="row" th:if="${size.lastModifiedDate != null}">
+                <div class="col">At</div>
+                <div class="col" th:text="${size.lastModifiedDate}"></div>
+            </div>
+        </div>
+
+        <div class="col" th:text="${size.storeName}"></div>
+        <div class="col" th:text="${size.departmentName}"></div>
+        <div class="col" th:text="${#dates.format(size.start, 'MM/dd/yyyy')}"></div>
+        <div class="col" th:text="${#dates.format(size.end, 'MM/dd/yyyy')}"></div>
+        <div class="col" th:text="${size.size}"></div>
+        <div class="col-3">
+
+            <div class="row">
+
+                <div class="col">
+                    <a class="btn btn-warning" th:href="@{/size/{size}(size=${size.id})}">Modify</a>
+                </div>
+
+                <form class="col" th:action="@{/size/delete}" th:object="${newsizeSize}" method="post">
+                    <input type="hidden" id="id" name="id" th:value="${size.id}"/>
+                    <button class="btn btn-danger" type="submit" value="delete">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-primary" th:href="@{/size/create}">Create</a>
+        </div>
+    </div>
+
+
+</body>
+</html>

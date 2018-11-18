@@ -1,5 +1,7 @@
 package com.agoldberg.hercules.size;
 
+import com.agoldberg.hercules.department.DepartmentDomain;
+import com.agoldberg.hercules.department.DepartmentService;
 import com.agoldberg.hercules.store.StoreDomain;
 import com.agoldberg.hercules.store.StoreService;
 import org.modelmapper.ModelMapper;
@@ -22,15 +24,19 @@ public class SizeService {
     private StoreService storeService;
 
     @Autowired
+    private DepartmentService departmentService;
+
+    @Autowired
     private ModelMapper modelMapper;
 
-    public void createTax(SizeDTO dto){
+    public void createSize(SizeDTO dto){
         if(dto.getStoreId() == null){
             throw new IllegalArgumentException("Bad Location ID");
         }
         StoreDomain store = storeService.getStore(dto.getStoreId());
+        DepartmentDomain department = departmentService.getDepartment(dto.getDepartmentId());
 
-        if(dto.getRate() < 0 || dto.getRate() > 1){
+        if(dto.getSize() < 0){
             throw new IllegalArgumentException("Bad Rate");
         }
 
@@ -46,14 +52,14 @@ public class SizeService {
             throw new IllegalStateException("Bad Date Range");
         }
 
-        SizeDomain domain = new SizeDomain(store, dto.getRate(), dto.getStart(), dto.getEnd());
+        SizeDomain domain = new SizeDomain(store, department, dto.getSize(), dto.getStart(), dto.getEnd());
         domain = dao.save(domain);
         LOGGER.info("Created new tax domain with ID: {}, for location: {}, at rate: {}, starting: {}, ending: {}",
                 domain.getId(), domain.getStore().getName(), domain.getSize(),domain.getStart(),domain.getEnd() );
 
     }
 
-    public void modifyTax(SizeDTO dto){
+    public void modifySize(SizeDTO dto){
         if(dto.getId() == null){
             throw new IllegalArgumentException("Bad ID");
         }
@@ -63,7 +69,7 @@ public class SizeService {
         }
         StoreDomain store = storeService.getStore(dto.getStoreId());
 
-        if(dto.getRate() < 0 || dto.getRate() > 1){
+        if(dto.getSize() < 0){
             throw new IllegalArgumentException("Bad Rate");
         }
 
@@ -86,7 +92,7 @@ public class SizeService {
         domain.setStore(store);
         domain.setStart(dto.getStart());
         domain.setEnd(dto.getEnd());
-        domain.setSize(dto.getRate());
+        domain.setSize(dto.getSize());
 
         domain = dao.save(domain);
         LOGGER.info("Modified tax domain with ID: {}, for location: {}, at rate: {}, starting: {}, ending: {}",
@@ -96,7 +102,7 @@ public class SizeService {
 
 
 
-    public List<SizeDTO> getTaxes(Long id){
+    public List<SizeDTO> getSizes(Long id){
         if(id == null){
             throw new IllegalArgumentException("Bad Location ID");
         }
@@ -108,19 +114,19 @@ public class SizeService {
         return dtos;
     }
 
-    public List<SizeDTO> getTaxes(){
+    public List<SizeDTO> getSizes(){
         List<SizeDomain> domains = dao.findAll();
         List<SizeDTO> dtos = new ArrayList<>();
         domains.forEach(domain -> dtos.add(modelMapper.map(domain, SizeDTO.class)));
-        LOGGER.info("Got list of Taxes, size: {}", dtos.size());
+        LOGGER.info("Got list of Sizes, size: {}", dtos.size());
         return dtos;
     }
 
-    public SizeDTO getTax(Long id){
+    public SizeDTO getSize(Long id){
         return modelMapper.map(dao.getOne(id), SizeDTO.class);
     }
 
-    public void deleteTax(SizeDTO dto){
+    public void deleteSize(SizeDTO dto){
         dao.delete(modelMapper.map(dto, SizeDomain.class));
     }
 

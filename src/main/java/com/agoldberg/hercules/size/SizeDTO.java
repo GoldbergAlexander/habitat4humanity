@@ -11,7 +11,7 @@ public class SizeDTO extends Auditable<String> {
     private String storeName;
     private Long departmentId;
     private String departmentName;
-    private double rate;
+    private double size;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date start;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -20,13 +20,13 @@ public class SizeDTO extends Auditable<String> {
     public SizeDTO() {
     }
 
-    public SizeDTO(Long id, Long storeId, String storeName, Long departmentId, String departmentName, double rate, Date start, Date end) {
+    public SizeDTO(Long id, Long storeId, String storeName, Long departmentId, String departmentName, double size, Date start, Date end) {
         this.id = id;
         this.storeId = storeId;
         this.storeName = storeName;
         this.departmentId = departmentId;
         this.departmentName = departmentName;
-        this.rate = rate;
+        this.size = size;
         this.start = start;
         this.end = end;
     }
@@ -71,12 +71,12 @@ public class SizeDTO extends Auditable<String> {
         this.storeId = storeId;
     }
 
-    public double getRate() {
-        return rate;
+    public double getSize() {
+        return size;
     }
 
-    public void setRate(double rate) {
-        this.rate = rate;
+    public void setSize(double size) {
+        this.size = size;
     }
 
     public Date getStart() {

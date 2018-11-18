@@ -1,5 +1,6 @@
 package com.agoldberg.hercules.size;
 
+import com.agoldberg.hercules.department.DepartmentService;
 import com.agoldberg.hercules.store.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/tax")
+@RequestMapping("/size")
 public class SizeController {
     @Autowired
     private SizeService service;
@@ -19,51 +20,58 @@ public class SizeController {
     @Autowired
     private StoreService storeService;
 
+    @Autowired
+    private DepartmentService departmentService;
+
     @GetMapping
-    public ModelAndView showTaxes(Model model){
-        model.addAttribute("newTax", new SizeDTO());
-        return new ModelAndView("tax/TaxList","taxes",service.getTaxes());
+    public ModelAndView showSizes(Model model){
+        model.addAttribute("newSize", new SizeDTO());
+        return new ModelAndView("size/SizeList","sizes",service.getSizes());
     }
 
     @GetMapping("create")
     public ModelAndView showCreateForm(Model model){
         model.addAttribute("stores", storeService.getEnabledStores());
-        return new ModelAndView("tax/CreateTaxForm","tax", new SizeDTO());
+        model.addAttribute("departments", departmentService.getEnabledDepartments());
+        return new ModelAndView("size/CreateSizeForm","size", new SizeDTO());
     }
 
     @PostMapping("create")
-    public ModelAndView createTax(Model model, @Valid @ModelAttribute("tax") SizeDTO tax, BindingResult bindingResult){
+    public ModelAndView createSize(Model model, @Valid @ModelAttribute("size") SizeDTO size, BindingResult bindingResult){
         if(!bindingResult.hasErrors()) {
-            service.createTax(tax);
-            return new ModelAndView("redirect:/tax");
+            service.createSize(size);
+            return new ModelAndView("redirect:/size");
         }else {
             model.addAttribute("stores", storeService.getEnabledStores());
-            model.addAttribute(tax);
+            model.addAttribute("departments", departmentService.getEnabledDepartments());
+            model.addAttribute(size);
         }
-        return new ModelAndView("tax/CreateTaxForm","store", tax);
+        return new ModelAndView("size/CreateSizeForm","store", size);
     }
 
-    @GetMapping("{tax_id}")
-    public ModelAndView showModifyForm(Model model,@PathVariable("tax_id") Long id){
+    @GetMapping("{size_id}")
+    public ModelAndView showModifyForm(Model model,@PathVariable("size_id") Long id){
         model.addAttribute("stores", storeService.getEnabledStores());
-        return new ModelAndView("tax/ModifyTaxForm","tax",service.getTax(id));
+        model.addAttribute("departments", departmentService.getEnabledDepartments());
+        return new ModelAndView("size/ModifySizeForm","size",service.getSize(id));
     }
 
-    @PostMapping("{tax_id}")
-    public ModelAndView modifyTax(Model model, @PathVariable("tax_id") Long id, @Valid @ModelAttribute("tax") SizeDTO tax, BindingResult bindingResult){
+    @PostMapping("{size_id}")
+    public ModelAndView modifySize(Model model, @PathVariable("size_id") Long id, @Valid @ModelAttribute("size") SizeDTO size, BindingResult bindingResult){
         if(!bindingResult.hasErrors()) {
-            service.modifyTax(tax);
-            return new ModelAndView("redirect:/tax");
+            service.modifySize(size);
+            return new ModelAndView("redirect:/size");
         }else {
             model.addAttribute("stores", storeService.getEnabledStores());
-            model.addAttribute(tax);
+            model.addAttribute("departments", departmentService.getEnabledDepartments());
+            model.addAttribute(size);
         }
-        return new ModelAndView("tax/ModifyTaxForm","tax",service.getTax(id));
+        return new ModelAndView("size/ModifySizeForm","size",service.getSize(id));
     }
 
     @PostMapping("delete")
-    public String deleteStore(Model model, @ModelAttribute("newTax") SizeDTO tax){
-        service.deleteTax(tax);
-        return "redirect:/tax";
+    public String deleteStore(Model model, @ModelAttribute("newSize") SizeDTO size){
+        service.deleteSize(size);
+        return "redirect:/size";
     }
 }
