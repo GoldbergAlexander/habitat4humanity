@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -23,6 +24,11 @@ public class TaxService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    public TaxDomain getTaxForLocationAndDate(StoreDomain store, Date date){
+        LOGGER.info("Finding tax domain for store: {}, and date: {} ", store.getName(), date.toString());
+        return dao.findByStoreAndStartBeforeAndEndAfter(store,date,date);
+    }
 
     public void createTax(TaxDTO dto){
         if(dto.getStoreId() == null){

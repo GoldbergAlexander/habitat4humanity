@@ -11,4 +11,5 @@ import java.util.List;
 public interface TaxDAO extends JpaRepository<TaxDomain,Long> {
     List<TaxDomain> findByStore(StoreDomain store);
     TaxDomain findByStoreAndEndAfterOrStartBefore(StoreDomain store, Date start, Date end);
+    TaxDomain findByStoreAndStartBeforeAndEndAfter(StoreDomain store, Date start, Date end);
 }
