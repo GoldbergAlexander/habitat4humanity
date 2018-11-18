@@ -1,5 +1,8 @@
 package com.agoldberg.hercules.store;
 
+import com.agoldberg.hercules.goal.GoalService;
+import com.agoldberg.hercules.size.SizeService;
+import com.agoldberg.hercules.tax.TaxService;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +29,15 @@ public class StoreController {
     @Autowired
     private StoreService storeLocationService;
 
+    @Autowired
+    private TaxService taxService;
+
+    @Autowired
+    private GoalService goalService;
+
+    @Autowired
+    private SizeService sizeService;
+
     @RequestMapping
     public ModelAndView showStores(Model model){
         //Add a new StoreDTO to the model to allow us to create store from this page
@@ -35,9 +47,22 @@ public class StoreController {
         return new ModelAndView(LOCATION_LIST_VIEW, LOCATIONS_MODEL, storeLocations);
     }
 
-    @GetMapping("{location_id}")
-    public ModelAndView showLocationForm(@PathVariable("location_id") Long id){
-        return new ModelAndView(LOCATION_FORM_VIEW, LOCATION_MODEL,storeLocationService.getStoreDTO(id));
+    @GetMapping("{location_id}/tax")
+    public ModelAndView showTaxesForStore(Model model, @PathVariable("location_id") Long id){
+        model.addAttribute("store", storeLocationService.getStoreDTO(id));
+        return new ModelAndView("tax/TaxList", "taxes",taxService.getTaxes(id));
+    }
+
+    @GetMapping("{location_id}/goal")
+    public ModelAndView showGoalsForStore(Model model, @PathVariable("location_id") Long id){
+        model.addAttribute("store", storeLocationService.getStoreDTO(id));
+        return new ModelAndView("goal/GoalList", "goals",goalService.getGoales(id));
+    }
+
+    @GetMapping("{location_id}/size")
+    public ModelAndView showSizesForStore(Model model, @PathVariable("location_id") Long id){
+        model.addAttribute("store", storeLocationService.getStoreDTO(id));
+        return new ModelAndView("size/SizeList", "sizes",sizeService.getSizesForStore(id));
     }
 
     @PostMapping("{location_id}")

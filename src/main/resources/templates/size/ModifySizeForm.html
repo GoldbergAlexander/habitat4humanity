@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"></meta>
-    <title>Modify sizeSize</title>
+    <title>Modify Size</title>
 </head>
 <head th:include="fragment/bootstrap :: head"></head>
 <body th:include="fragment/bootstrap :: body"></body>
@@ -10,7 +10,7 @@
 <div th:replace="fragment/navigation :: nav"></div>
 
 <div class="container">
-    <h2>Modify sizeSize</h2>
+    <h2>Modify Size</h2>
     <form th:object="${size}" th:action="@{/size/{size_id}(size_id=${size.id})}" th:method="post">
         <input type="hidden" th:field="${size.id}">
         <div class="form-group row">

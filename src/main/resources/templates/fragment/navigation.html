@@ -9,13 +9,15 @@
 <div th:fragment="nav">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="/">Hercules</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <li class="dropdown" sec:authorize="hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MANAGER')">
-                    <a class="nav-link dropdown-toggle" href="#" id="entryLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="entryLink" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
                         Entry
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="entryLink">
@@ -24,7 +26,8 @@
                     </ul>
                 </li>
                 <li class="dropdown" sec:authorize="hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_EXECUTIVE')">
-                    <a class="nav-link dropdown-toggle" href="#" id="reportingLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="reportingLink" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
                         Report
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="reportingLink">
@@ -36,18 +39,37 @@
             <ul class="navbar-nav ml-auto">
 
                 <li class="dropdown mr-sm-2" sec:authorize="hasAuthority('ROLE_ADMIN')">
-                    <a class="nav-link dropdown-toggle" href="#" id="objectLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Admin
+                    <a class="nav-link dropdown-toggle" th:href="@{/store}" id="store" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Stores
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="objectLink">
+                    <ul class="dropdown-menu" aria-labelledby="store">
                         <li><a class="dropdown-item" th:href="@{/store}">Locations</a></li>
-                        <li><a class="dropdown-item" th:href="@{/department}">Departments</a></li>
-                        <li><a class="dropdown-item" th:href="@{/user/admin}">Users</a></li>
+                        <div class="dropdown-divider"></div>
+                        <li><a class="dropdown-item" th:href="@{/tax}">Taxes</a></li>
+                        <li><a class="dropdown-item" th:href="@{/goal}">Goals</a></li>
                     </ul>
+                </li>
+                <li class="dropdown mr-sm-2" sec:authorize="hasAuthority('ROLE_ADMIN')">
+                    <a class="nav-link dropdown-toggle" th:href="@{/department}" id="department" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Departments
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="department">
+                        <li><a class="dropdown-item" th:href="@{/department}">Departments</a></li>
+                        <div class="dropdown-divider"></div>
+                        <li><a class="dropdown-item" th:href="@{/size}">Sizes</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown mr-sm-2" sec:authorize="hasAuthority('ROLE_ADMIN')">
+                    <a class="nav-link" th:href="@{/user/admin}">
+                        Users
+                    </a>
                 </li>
 
                 <li class="dropdown" sec:authorize="isAuthenticated()">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
                         <span sec:authentication="name">user</span>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">

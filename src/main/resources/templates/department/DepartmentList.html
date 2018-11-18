@@ -54,6 +54,12 @@
                 <button class="btn btn-danger" type="submit" value="delete">Delete</button>
             </form>
             </div>
+
+            <div class="row">
+                <div class="col">
+                    <a class="btn btn-link" th:href="@{/department/{department}/size(department=${department.id})}">Sizes</a>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">

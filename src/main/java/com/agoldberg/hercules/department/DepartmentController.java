@@ -1,5 +1,6 @@
 package com.agoldberg.hercules.department;
 
+import com.agoldberg.hercules.size.SizeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,11 +17,20 @@ public class DepartmentController {
     @Autowired
     private DepartmentService service;
 
+    @Autowired
+    private SizeService sizeService;
+
     @RequestMapping
     public ModelAndView showDepartments(Model model){
         model.addAttribute("newDepartment", new DepartmentDTO());
         List<DepartmentDTO> departments = service.getDepartments();
         return new ModelAndView("department/DepartmentList","departments", departments);
+    }
+
+    @GetMapping("{department_id}/size")
+    public ModelAndView showSizesForDepartment(Model model, @PathVariable("department_id") Long id){
+        model.addAttribute("department", service.getDepartment(id));
+        return new ModelAndView("size/SizeList", "sizes", sizeService.getSizesForDepartment(id));
     }
 
     @GetMapping("{department_id}")

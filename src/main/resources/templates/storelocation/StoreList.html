@@ -53,8 +53,8 @@
             </div>
         </div>
 
+        <div class="col">
         <div class="row">
-
             <form class="col" th:action="@{/store/enable}" method="post">
                 <input type="hidden" id="id" name="id" th:value="${location.id}"/>
                 <button style="width:90px" class="btn btn-danger" type="submit"
@@ -69,6 +69,18 @@
                 <input type="hidden" id="id" name="id" th:value="${location.id}"/>
                 <button class="btn btn-danger" type="submit" value="delete">Delete</button>
             </form>
+        </div>
+        <div class="row mt-1">
+            <div class="col">
+                <a class="btn btn-link" th:href="@{/store/{store}/tax(store=${location.id})}">Taxes</a>
+            </div>
+            <div class="col">
+                <a class="btn btn-link" th:href="@{/store/{store}/goal(store=${location.id})}">Goals</a>
+            </div>
+            <div class="col">
+                <a class="btn btn-link" th:href="@{/store/{store}/size(store=${location.id})}">Sizes</a>
+            </div>
+        </div>
         </div>
     </div>
     <div class="row">

@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"></meta>
-    <title>Goales</title>
+    <title>Goals</title>
 </head>
 <head th:include="fragment/bootstrap :: head"></head>
 <body th:include="fragment/bootstrap :: body"></body>
@@ -10,7 +10,7 @@
 <div th:replace="fragment/navigation :: nav"></div>
 
 <div class="container">
-    <h2>Goales</h2>
+    <h2><a th:if="${store != null}" th:href="@{/store}" th:text="${store.name}"></a></span><span th:if="${store != null}"> > </span><span> Goals</span></h2>
     <div class="row">
         <div class="col-3">Audit</div>
         <div class="col">Location</div>
@@ -19,7 +19,7 @@
         <div class="col">Rate</div>
         <div class="col-3"></div>
     </div>
-    <div class="row mt-1" th:each="goal : ${goales}">
+    <div class="row mt-1" th:each="goal : ${goals}">
 
         <div class="col-3">
             <div class="row">

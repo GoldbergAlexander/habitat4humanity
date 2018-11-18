@@ -102,7 +102,7 @@ public class SizeService {
 
 
 
-    public List<SizeDTO> getSizes(Long id){
+    public List<SizeDTO> getSizesForStore(Long id){
         if(id == null){
             throw new IllegalArgumentException("Bad Location ID");
         }
@@ -111,6 +111,18 @@ public class SizeService {
         List<SizeDTO> dtos = new ArrayList<>();
         domains.forEach(domain -> dtos.add(modelMapper.map(domain, SizeDTO.class)));
         LOGGER.info("Got list of Taxes for store: {}, size: {}", store.getName(), dtos.size());
+        return dtos;
+    }
+
+    public List<SizeDTO> getSizesForDepartment(Long id){
+        if(id == null){
+            throw new IllegalArgumentException("Bad Location ID");
+        }
+        DepartmentDomain department = departmentService.getDepartment(id);
+        List<SizeDomain> domains = dao.findByDepartment(department);
+        List<SizeDTO> dtos = new ArrayList<>();
+        domains.forEach(domain -> dtos.add(modelMapper.map(domain, SizeDTO.class)));
+        LOGGER.info("Got list of Taxes for department: {}, size: {}", department.getName(), dtos.size());
         return dtos;
     }
 
