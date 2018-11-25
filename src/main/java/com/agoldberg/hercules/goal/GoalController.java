@@ -22,7 +22,7 @@ public class GoalController {
     @GetMapping
     public ModelAndView showGoales(Model model){
         model.addAttribute("newGoal", new GoalDTO());
-        return new ModelAndView("goal/GoalList","goales",service.getGoales());
+        return new ModelAndView("goal/GoalList","goals",service.getGoales());
     }
 
     @GetMapping("create")

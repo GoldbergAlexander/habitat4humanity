@@ -6,6 +6,7 @@ import com.agoldberg.hercules.store.StoreDomain;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 public class SizeDomain extends Auditable<String> {
@@ -77,5 +78,22 @@ public class SizeDomain extends Auditable<String> {
 
     public void setEnd(Date end) {
         this.end = end;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SizeDomain that = (SizeDomain) o;
+        return Double.compare(that.getSize(), getSize()) == 0 &&
+                Objects.equals(getStore(), that.getStore()) &&
+                Objects.equals(getDepartment(), that.getDepartment()) &&
+                Objects.equals(getStart(), that.getStart()) &&
+                Objects.equals(getEnd(), that.getEnd());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getStore(), getDepartment(), getSize(), getStart(), getEnd());
     }
 }

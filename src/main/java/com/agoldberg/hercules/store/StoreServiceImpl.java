@@ -87,7 +87,12 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public StoreDomain getStore(Long id){
-        return dao.getOne(id);
+        StoreDomain domain = dao.findByIdAndEnabledIsTrue(id);
+        if(domain == null){
+            throw new IllegalArgumentException("Store with the given ID does not exist");
+        }
+        LOGGER.info("Got enabled store with ID: {}", id);
+        return domain;
     }
 
     @Override

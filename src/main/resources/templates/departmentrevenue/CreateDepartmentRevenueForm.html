@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Create Department Revenue Entry</title>
+</head>
+<head th:include="fragment/bootstrap :: head"></head>
+<body th:include="fragment/bootstrap :: body"></body>
+<body>
+<div th:replace="fragment/navigation :: nav"></div>
+
+<div class="container">
+    <h2>Create Department Revenue Entry</h2>
+    <form th:object="${departmentRevenue}" th:action="@{/departmentrevenue/create}" th:method="post">
+        <div class="row">
+        <label for="storeId" class="col-sm-2 col-form-label">Location & Department</label>
+        <div class="col">
+            <select class="form-control custom-select" th:field="*{storeId}">
+                <option th:each="location : ${stores}"
+                        th:value="${location.id}"
+                        th:text="${location.name}"
+                        th:selected="${departmentRevenue.storeId == location.id}">
+                </option>
+            </select>
+        </div>
+        <div class="col">
+            <select class="form-control custom-select" th:field="*{departmentId}">
+                <option th:each="department : ${departments}"
+                        th:value="${department.id}"
+                        th:text="${department.name}"
+                        th:selected="${departmentRevenue.departmentId == department.id}">
+                </option>
+            </select>
+        </div>
+        </div>
+        <div class="form-group row">
+            <label for="date" class="col-sm-2 col-form-label">Date</label>
+            <div class="col-sm-10">
+                <input class="form-control form-date" type="date" th:field="*{date}"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="amount" class="col-sm-2 col-form-label">Amount</label>
+            <div class="col-sm-10">
+                <input class="form-control" type="text" th:field="*{amount}"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-10">
+                <button type="submit"  class="btn btn-primary" value="Submit">Enter</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+</body>
+</html>

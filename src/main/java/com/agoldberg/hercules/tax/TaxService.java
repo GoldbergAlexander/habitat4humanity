@@ -48,9 +48,10 @@ public class TaxService {
             throw new IllegalArgumentException("Bad Date Range");
         }
 
-        if(dao.findByStoreAndEndAfterOrStartBefore(store, dto.getStart(), dto.getEnd()) != null){
-            throw new IllegalStateException("Bad Date Range");
+        if(dao.findByStoreAndStartLessThanEqualAndEndGreaterThanEqual(store, dto.getEnd(), dto.getStart()) != null){
+            throw new IllegalStateException("Date Overlaps with Existing Entry");
         }
+
 
         TaxDomain domain = new TaxDomain(store, dto.getRate(), dto.getStart(), dto.getEnd());
         domain = dao.save(domain);
@@ -81,10 +82,10 @@ public class TaxService {
             throw new IllegalArgumentException("Bad Date Range");
         }
 
-        TaxDomain existing = dao.findByStoreAndEndAfterOrStartBefore(store, dto.getStart(), dto.getEnd());
+        TaxDomain existing = dao.findByIdNotAndStoreAndStartLessThanEqualAndEndGreaterThanEqual(dto.getId(), store, dto.getEnd(), dto.getStart());
 
         if(existing != null && !existing.getId().equals(dto.getId())){
-            throw new IllegalStateException("Bad Date Range");
+            throw new IllegalStateException("Overlapping Date Range");
         }
 
         TaxDomain domain = dao.getOne(dto.getId());

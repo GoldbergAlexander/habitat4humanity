@@ -5,6 +5,7 @@ import com.agoldberg.hercules.store.StoreDomain;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 public class TaxDomain extends Auditable<String> {
@@ -65,5 +66,21 @@ public class TaxDomain extends Auditable<String> {
 
     public void setEnd(Date end) {
         this.end = end;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TaxDomain domain = (TaxDomain) o;
+        return Double.compare(domain.getRate(), getRate()) == 0 &&
+                Objects.equals(getStore(), domain.getStore()) &&
+                Objects.equals(getStart(), domain.getStart()) &&
+                Objects.equals(getEnd(), domain.getEnd());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getStore(), getRate(), getStart(), getEnd());
     }
 }

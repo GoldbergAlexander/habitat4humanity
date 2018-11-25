@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -48,9 +49,10 @@ public class SizeService {
             throw new IllegalArgumentException("Bad Date Range");
         }
 
-        if(dao.findByStoreAndEndAfterOrStartBefore(store, dto.getStart(), dto.getEnd()) != null){
-            throw new IllegalStateException("Bad Date Range");
+        if(dao.findByStoreAndDepartmentAndStartLessThanEqualAndEndGreaterThanEqual(store, department, dto.getEnd(), dto.getStart()) != null){
+            throw new IllegalStateException("Date Overlaps with Existing Entry");
         }
+
 
         SizeDomain domain = new SizeDomain(store, department, dto.getSize(), dto.getStart(), dto.getEnd());
         domain = dao.save(domain);
@@ -69,6 +71,8 @@ public class SizeService {
         }
         StoreDomain store = storeService.getStore(dto.getStoreId());
 
+        DepartmentDomain department = departmentService.getDepartment(dto.getDepartmentId());
+
         if(dto.getSize() < 0){
             throw new IllegalArgumentException("Bad Rate");
         }
@@ -81,10 +85,10 @@ public class SizeService {
             throw new IllegalArgumentException("Bad Date Range");
         }
 
-        SizeDomain existing = dao.findByStoreAndEndAfterOrStartBefore(store, dto.getStart(), dto.getEnd());
+        SizeDomain existing = dao.findByIdNotAndStoreAndDepartmentAndStartLessThanEqualAndEndGreaterThanEqual(dto.getId(),store, department, dto.getEnd(), dto.getStart());
 
         if(existing != null && !existing.getId().equals(dto.getId())){
-            throw new IllegalStateException("Bad Date Range");
+            throw new IllegalStateException("Overlapping Date Range");
         }
 
         SizeDomain domain = dao.getOne(dto.getId());
@@ -133,6 +137,22 @@ public class SizeService {
         LOGGER.info("Got list of Sizes, size: {}", dtos.size());
         return dtos;
     }
+
+    public SizeDTO getSizeForStoreDepartmentDate(Long storeId, Long departmentId, Date date) {
+        StoreDomain store = storeService.getStore(storeId);
+        DepartmentDomain department = departmentService.getDepartment(departmentId);
+        if (date == null) {
+            throw new IllegalArgumentException("Bad Date");
+        }
+        SizeDomain domain = dao.findByStoreAndDepartmentAndStartLessThanEqualAndEndGreaterThanEqual(store, department, date, date);
+        if (domain == null) {
+            throw new IllegalStateException("Could not find size for specified store, department, and date");
+        } else {
+            LOGGER.info("Got Size: {}, for Store: {}, Department: {}, Date: {}", store.getName(), department.getName(), date.toString());
+            return modelMapper.map(domain, SizeDTO.class);
+        }
+    }
+
 
     public SizeDTO getSize(Long id){
         return modelMapper.map(dao.getOne(id), SizeDTO.class);

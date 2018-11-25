@@ -42,9 +42,10 @@ public class GoalService {
             throw new IllegalArgumentException("Bad Date Range");
         }
 
-        if(dao.findByStoreAndEndAfterOrStartBefore(store, dto.getStart(), dto.getEnd()) != null){
-            throw new IllegalStateException("Bad Date Range");
+        if(dao.findByStoreAndStartLessThanEqualAndEndGreaterThanEqual(store, dto.getEnd(), dto.getStart()) != null){
+            throw new IllegalStateException("Date Overlaps with Existing Entry");
         }
+
 
         GoalDomain domain = new GoalDomain(store, dto.getRate(), dto.getStart(), dto.getEnd());
         domain = dao.save(domain);
@@ -75,7 +76,11 @@ public class GoalService {
             throw new IllegalArgumentException("Bad Date Range");
         }
 
-        GoalDomain existing = dao.findByStoreAndEndAfterOrStartBefore(store, dto.getStart(), dto.getEnd());
+        GoalDomain existing = dao.findByIdNotAndStoreAndStartLessThanEqualAndEndGreaterThanEqual(dto.getStoreId(),store, dto.getEnd(), dto.getStart());
+
+        if(existing == null){
+            existing = dao.findByStoreAndEndAfterOrStartBefore(store, dto.getEnd(), dto.getEnd());
+        }
 
         if(existing != null && !existing.getId().equals(dto.getId())){
             throw new IllegalStateException("Bad Date Range");

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Department Revenue Entry Confirmation</title>
+</head>
+<head th:include="fragment/bootstrap :: head"></head>
+<body th:include="fragment/bootstrap :: body"></body>
+<body>
+<div th:replace="fragment/navigation :: nav"></div>
+
+<div class="container">
+    <h2>Department Revenue Entry Confirmation</h2>
+    <div class="row">
+        <h6 class="col-sm-3">Created By</h6>
+        <div class="col">
+            <div class="row">
+                <div class="col" th:text="${departmentRevenue.createdBy}">
+                </div>
+                <div class="col" th:text="${departmentRevenue.creationDate}">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <h6 class="col-sm-3">Modified By</h6>
+        <div class="col">
+            <div class="row">
+                <div class="col" th:text="${departmentRevenue.lastModifiedBy}">
+                </div>
+                <div class="col" th:text="${departmentRevenue.lastModifiedDate}">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <h6 class="col-sm-3">Location & Department</h6>
+        <div class="col">
+            <div class="row">
+                <div class="col" th:text="${departmentRevenue.storeName}">
+                </div>
+                <div class="col" th:text="${departmentRevenue.departmentName}">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <h6 class="col-sm-3">Active Size</h6>
+        <div class="col" th:text="${size.size}">
+        </div>
+    </div>
+    <div class="row">
+        <h6 class="col-sm-3">Size Date Range</h6>
+        <div class="col">
+            <div class="row">
+                <div class="col" th:text="${size.start}">
+                </div>
+                <div class="col" th:text="${size.end}">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <h6 class="col-sm-3">Date</h6>
+        <div class="col" th:text="${departmentRevenue.date}">
+        </div>
+    </div>
+    <div class="row">
+        <h6 class="col-sm-3">Amount</h6>
+        <div class="col" th:text="${departmentRevenue.amount}">
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
