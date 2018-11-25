@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"></meta>
-    <title>sizeSize</title>
+    <title>Size</title>
 </head>
 <head th:include="fragment/bootstrap :: head"></head>
 <body th:include="fragment/bootstrap :: body"></body>
@@ -14,12 +14,12 @@
 
     <h2><a th:if="${department != null}" th:href="@{/department}" th:text="${department.name}"></a><a th:if="${store != null}" th:href="@{/store}" th:text="${store.name}"></a><span th:if="${department != null || store != null}"> > </span><span> Size</span></h2>
     <div class="row">
-        <div class="col-3">Audit</div>
-        <div class="col">Location</div>
-        <div class="col">Department</div>
-        <div class="col">Start</div>
-        <div class="col">End</div>
-        <div class="col">Size</div>
+        <div class="col-3"><h5>Audit</h5></div>
+        <div class="col"><h5>Location</h5></div>
+        <div class="col"><h5>Department</h5></div>
+        <div class="col"><h5>Start</h5></div>
+        <div class="col"><h5>End</h5></div>
+        <div class="col"><h5>Size</h5></div>
         <div class="col-3"></div>
     </div>
     <div class="row mt-1" th:each="size : ${sizes}">

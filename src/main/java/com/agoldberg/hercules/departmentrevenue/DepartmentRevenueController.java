@@ -1,7 +1,6 @@
 package com.agoldberg.hercules.departmentrevenue;
 
 import com.agoldberg.hercules.department.DepartmentService;
-import com.agoldberg.hercules.session.DepartmentRevenueStaging;
 import com.agoldberg.hercules.size.SizeService;
 import com.agoldberg.hercules.store.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +31,6 @@ public class DepartmentRevenueController {
     @Autowired
     private SizeService sizeService;
 
-    @GetMapping
-    public ModelAndView showDepartmentRevenueList(){
-        return new ModelAndView("departmentrevenue/DepartmentRevenueList", "departmentRevenues", service.findAll());
-    }
-
     @GetMapping("create")
     public ModelAndView showCreateDepartmentRevenueEntry(Model model){
         model.addAttribute("stores", storeService.getEnabledStores());
@@ -48,6 +42,7 @@ public class DepartmentRevenueController {
     @PostMapping("create")
     public ModelAndView CreateDepartmentRevenueEntry(Model model, @Valid @ModelAttribute("departmentRevenue") DepartmentRevenueDTO departmentRevenue, BindingResult result){
         if(!result.hasErrors()){
+            model.addAttribute("oldDepartmentRevenue", service.getExistingDepartmentRevenue(departmentRevenue));
             departmentRevenue = service.createDepartmentRevenueEntry(departmentRevenue);
             model.addAttribute("size", sizeService.getSizeForStoreDepartmentDate(departmentRevenue.getStoreId(), departmentRevenue.getDepartmentId(), departmentRevenue.getDate()));
             return new ModelAndView("departmentrevenue/DepartmentRevenueConfirmation", "departmentRevenue", departmentRevenue);
@@ -57,6 +52,25 @@ public class DepartmentRevenueController {
             return new ModelAndView("departmentrevenue/CreateDepartmentRevenueForm", "departmentRevenue", departmentRevenue);
         }
     }
+
+    @GetMapping
+    public ModelAndView showDepartmentRevenueEntries(Model model, @ModelAttribute("search") SearchDTO dto, BindingResult result){
+        if(dto == null){
+            dto = new SearchDTO();
+        }
+        model.addAttribute("search", dto);
+        model.addAttribute("stores", storeService.getEnabledStores());
+        model.addAttribute("departments", departmentService.getEnabledDepartments());
+        return new ModelAndView("departmentrevenue/DepartmentRevenueList", "departmentRevenues", service.searchDepartmentEntries(dto));
+    }
+
+//    @GetMapping
+//    public ModelAndView showDepartmentRevenueEntries(Model model){
+//        model.addAttribute("search", new SearchDTO());
+//        model.addAttribute("stores", storeService.getEnabledStores());
+//        model.addAttribute("departments", departmentService.getEnabledDepartments());
+//        return new ModelAndView("departmentrevenue/DepartmentRevenueList","departmentRevenues", service.getRecent());
+//    }
 
 
 

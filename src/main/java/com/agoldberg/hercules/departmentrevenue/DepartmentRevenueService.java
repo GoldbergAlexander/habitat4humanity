@@ -2,6 +2,9 @@ package com.agoldberg.hercules.departmentrevenue;
 
 import com.agoldberg.hercules.department.DepartmentDomain;
 import com.agoldberg.hercules.department.DepartmentService;
+import com.agoldberg.hercules.size.SizeDTO;
+import com.agoldberg.hercules.size.SizeDomain;
+import com.agoldberg.hercules.size.SizeService;
 import com.agoldberg.hercules.store.StoreDomain;
 import com.agoldberg.hercules.store.StoreService;
 import org.modelmapper.ModelMapper;
@@ -26,9 +29,83 @@ public class DepartmentRevenueService {
     private DepartmentService departmentService;
 
     @Autowired
+    private SizeService sizeService;
+
+    @Autowired
     private ModelMapper modelMapper;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DepartmentRevenueService.class);
+
+    public List<DepartmentRevenueDTO> getRecent(){
+        List<DepartmentRevenueDTO> dtos = new ArrayList<>();
+        dao.findAll().forEach(domain -> dtos.add(modelMapper.map(domain, DepartmentRevenueDTO.class)));
+        LOGGER.info("Got list of Department Revenue Entires, size: {}", dtos.size());
+        return dtos;
+    }
+
+
+    public List<DepartmentRevenueExtendedAnalysesDTO> searchDepartmentEntries(SearchDTO dto){
+        List<DepartmentRevenueDomain> domains = null;
+        StoreDomain store = null;
+        DepartmentDomain department = null;
+
+        if(dto.getDepartmentId() != null && dto.getDepartmentId() == (-1)){
+            dto.setDepartmentId(null);
+        }
+
+        if(dto.getStoreId() != null && dto.getStoreId() == (-1)){
+            dto.setStoreId(null);
+        }
+
+        if(dto.getStart() == null || dto.getEnd() == null) {
+            //Dateless Pattern
+            if(dto.getStoreId() == null && dto.getDepartmentId() == null){
+                domains = dao.findAll();
+            }else if(dto.getStoreId() != null && dto.getDepartmentId() == null){
+                store = storeService.getStore(dto.getStoreId());
+                domains = dao.findByStore(store);
+            }else if(dto.getStoreId() == null && dto.getDepartmentId() != null){
+                department = departmentService.getDepartment(dto.getDepartmentId());
+                domains = dao.findByDepartment(department);
+            }else if(dto.getStoreId() != null && dto.getDepartmentId() != null){
+                store = storeService.getStore(dto.getStoreId());
+                department = departmentService.getDepartment(dto.getDepartmentId());
+                domains = dao.findByStoreAndDepartment(store, department);
+            }
+        }else {
+            //Date Pattern
+            if (dto.getStoreId() == null && dto.getDepartmentId() == null) {
+                domains = dao.findByDateGreaterThanEqualAndDateLessThanEqual(dto.getStart(), dto.getEnd());
+            } else if (dto.getStoreId() != null && dto.getDepartmentId() == null) {
+                store = storeService.getStore(dto.getStoreId());
+                domains = dao.findByStoreAndDateGreaterThanEqualAndDateLessThanEqual(store, dto.getStart(), dto.getEnd());
+            } else if (dto.getStoreId() == null && dto.getDepartmentId() != null) {
+                department = departmentService.getDepartment(dto.getDepartmentId());
+                domains = dao.findByDepartmentAndDateGreaterThanEqualAndDateLessThanEqual(department, dto.getStart(), dto.getEnd());
+            } else if (dto.getStoreId() != null && dto.getDepartmentId() != null) {
+                store = storeService.getStore(dto.getStoreId());
+                department = departmentService.getDepartment(dto.getDepartmentId());
+                domains = dao.findByStoreAndDepartmentAndDateGreaterThanEqualAndDateLessThanEqual(store, department, dto.getStart(), dto.getEnd());
+            }
+        }
+
+
+        List<DepartmentRevenueExtendedAnalysesDTO> dtos = new ArrayList<>();
+        if(domains != null){
+            for (DepartmentRevenueDomain domain: domains) {
+                DepartmentRevenueExtendedAnalysesDTO resultDTO = modelMapper.map(domain, DepartmentRevenueExtendedAnalysesDTO.class);
+                try {
+                    SizeDTO size = sizeService.getSizeForStoreDepartmentDate(domain.getStore().getId(), domain.getDepartment().getId(), domain.getDate());
+                    resultDTO.setSize(size.getSize());
+                    resultDTO.setRevenuePerSize(resultDTO.getAmount() / resultDTO.getSize());
+                }catch (IllegalStateException e){
+                    LOGGER.warn("Could not find a size for entry");
+                }
+                dtos.add(resultDTO);
+            }
+        }
+        return dtos;
+    }
 
     public DepartmentRevenueDTO createDepartmentRevenueEntry(DepartmentRevenueDTO dto){
         StoreDomain store = storeService.getStore(dto.getStoreId());
@@ -53,12 +130,21 @@ public class DepartmentRevenueService {
         return modelMapper.map(domain, DepartmentRevenueDTO.class);
     }
 
-    public List<DepartmentRevenueDTO> findAll(){
-        List<DepartmentRevenueDTO> dtos = new ArrayList<>();
-        dao.findAll().forEach(domain -> dtos.add(modelMapper.map(domain, DepartmentRevenueDTO.class)));
-        LOGGER.info("Returning all department revenue entries, size{}", dtos.size());
-        return dtos;
+    public DepartmentRevenueDTO getExistingDepartmentRevenue(DepartmentRevenueDTO dto){
+        StoreDomain store = storeService.getStore(dto.getStoreId());
+        DepartmentDomain department = departmentService.getDepartment(dto.getDepartmentId());
+
+        //Validate and modify date
+        Date date = dto.getDate();
+        date = normalizeDate(date);
+
+        DepartmentRevenueDomain domain = dao.findByStoreAndDepartmentAndDate(store, department, date);
+        if(domain != null){
+            return modelMapper.map(domain, DepartmentRevenueDTO.class);
+        }
+        return null;
     }
+
 
     private Date normalizeDate(Date date) {
         if(date == null){

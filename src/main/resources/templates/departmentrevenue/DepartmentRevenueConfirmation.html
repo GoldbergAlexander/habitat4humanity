@@ -71,6 +71,97 @@
         </div>
     </div>
 
+    <div class="mt-1" th:if="${oldDepartmentRevenue != null}">
+        <h2>Data Overwritten: Old Entry</h2>
+        <div class="row">
+            <h6 class="col-sm-3">Created By</h6>
+            <div class="col">
+                <div class="row">
+                    <div class="col" th:text="${oldDepartmentRevenue.createdBy}">
+                    </div>
+                    <div class="col" th:text="${oldDepartmentRevenue.creationDate}">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <h6 class="col-sm-3">Modified By</h6>
+            <div class="col">
+                <div class="row">
+                    <div class="col" th:text="${oldDepartmentRevenue.lastModifiedBy}">
+                    </div>
+                    <div class="col" th:text="${oldDepartmentRevenue.lastModifiedDate}">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <h6 class="col-sm-3">Location & Department</h6>
+            <div class="col">
+                <div class="row">
+                    <div class="col" th:text="${oldDepartmentRevenue.storeName}">
+                    </div>
+                    <div class="col" th:text="${oldDepartmentRevenue.departmentName}">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <h6 class="col-sm-3">Active Size</h6>
+            <div class="col" th:text="${size.size}">
+            </div>
+        </div>
+        <div class="row">
+            <h6 class="col-sm-3">Size Date Range</h6>
+            <div class="col">
+                <div class="row">
+                    <div class="col" th:text="${size.start}">
+                    </div>
+                    <div class="col" th:text="${size.end}">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <h6 class="col-sm-3">Date</h6>
+            <div class="col" th:text="${oldDepartmentRevenue.date}">
+            </div>
+        </div>
+        <div class="row">
+            <h6 class="col-sm-3">Amount</h6>
+            <div class="col" th:text="${oldDepartmentRevenue.amount}">
+            </div>
+        </div>
+        <div class="row">
+            <form th:object="${oldDepartmentRevenue}" th:action="@{/departmentrevenue/create}" th:method="post">
+                <div class="row">
+                    <div class="col">
+                        <input type="hidden" th:field="*{storeId}">
+                    </div>
+                    <div class="col">
+                        <input type="hidden" th:field="*{departmentId}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <input class="form-control form-date" type="hidden" th:field="*{date}"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <input class="form-control" type="hidden" th:field="*{amount}"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <button type="submit"  class="btn btn-warning" value="Submit">Revert to Old Entry</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
 </div>
 </body>
 </html>

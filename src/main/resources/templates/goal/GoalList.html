@@ -12,11 +12,11 @@
 <div class="container">
     <h2><a th:if="${store != null}" th:href="@{/store}" th:text="${store.name}"></a></span><span th:if="${store != null}"> > </span><span> Goals</span></h2>
     <div class="row">
-        <div class="col-3">Audit</div>
-        <div class="col">Location</div>
-        <div class="col">Start</div>
-        <div class="col">End</div>
-        <div class="col">Rate</div>
+        <div class="col-3"><h5>Audit</h5></div>
+        <div class="col"><h5>Location</h5></div>
+        <div class="col"><h5>Start</h5></div>
+        <div class="col"><h5>End</h5></div>
+        <div class="col"><h5>Rate</h5></div>
         <div class="col-3"></div>
     </div>
     <div class="row mt-1" th:each="goal : ${goals}">
