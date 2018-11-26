@@ -64,13 +64,6 @@ public class DepartmentRevenueController {
         return new ModelAndView("departmentrevenue/DepartmentRevenueList", "departmentRevenues", service.searchDepartmentEntries(dto));
     }
 
-//    @GetMapping
-//    public ModelAndView showDepartmentRevenueEntries(Model model){
-//        model.addAttribute("search", new SearchDTO());
-//        model.addAttribute("stores", storeService.getEnabledStores());
-//        model.addAttribute("departments", departmentService.getEnabledDepartments());
-//        return new ModelAndView("departmentrevenue/DepartmentRevenueList","departmentRevenues", service.getRecent());
-//    }
 
 
 

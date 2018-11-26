@@ -30,4 +30,6 @@ public class DepartmentRevenueExtendedAnalysesDTO extends DepartmentRevenueDTO{
     public void setRevenuePerSize(double revenuePerSize) {
         this.revenuePerSize = revenuePerSize;
     }
+
+
 }

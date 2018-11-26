@@ -65,6 +65,13 @@ public class StoreController {
         return new ModelAndView("size/SizeList", "sizes",sizeService.getSizesForStore(id));
     }
 
+    @GetMapping("{location_id}")
+    public ModelAndView showModifyLocationForm(@PathVariable("location_id") Long id){
+
+            return new ModelAndView(LOCATION_FORM_VIEW, LOCATION_MODEL, storeLocationService.getStore(id));
+
+    }
+
     @PostMapping("{location_id}")
     public ModelAndView modifyLocation(@PathVariable("location_id") Long id, @Valid @ModelAttribute(LOCATION_MODEL) StoreDTO location, BindingResult bindingResult){
         if(location.getId() == null || !location.getId().equals(id)){
