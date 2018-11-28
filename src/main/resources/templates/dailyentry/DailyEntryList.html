@@ -52,45 +52,61 @@
         </div>
     </form>
 
-    <div class="row">
-        <div class="col-3"><h5>Audit</h5></div>
-        <div class="col"><h5>Location</h5></div>
-        <div class="col"><h5>Date</h5></div>
-        <div class="col"><h5>Actual</h5></div>
-        <div class="col"><h5>Tape</h5></div>
-        <div class="col"><h5>Over/Under</h5></div>
-        <div class="col"><h5>Amount Per Transactions</h5></div>
-        <div class="col"><h5>Calculated Tax</h5></div>
-    </div>
-    <div class="row mt-1" th:each="entry : ${entries}">
+    <table id="dailyentry">
 
-        <div class="col-3">
-            <div class="row">
-                <div class="col">Created By</div>
-                <div class="col" th:text="${entry.createdBy}"></div>
-            </div>
-            <div class="row">
-                <div class="col">At</div>
-                <div class="col" th:text="${entry.creationDate}"></div>
-            </div>
-            <div class="row" th:if="${entry.lastModifiedBy != null}">
-                <div class="col">Modified By</div>
-                <div class="col" th:text="${entry.lastModifiedBy}"></div>
-            </div>
-            <div class="row" th:if="${entry.lastModifiedDate != null}">
-                <div class="col">At</div>
-                <div class="col" th:text="${entry.lastModifiedDate}"></div>
-            </div>
-        </div>
+   <thead>
+    <tr>
+        <th class="audit"><h5>Created By</h5></th>
+        <th class="audit"><h5>Created At</h5></th>
+        <th class="audit"><h5>Modified By</h5></th>
+        <th class="audit"><h5>Modified At</h5></th>
+        <th ><h5>Location</h5></th>
+        <th ><h5>Date</h5></th>
+        <th ><h5>Actual</h5></th>
+        <th ><h5>Tape</h5></th>
+        <th ><h5>Over/Under</h5></th>
+        <th ><h5>Amount Per Transactions</h5></th>
+        <th ><h5>Calculated Tax</h5></th>
+        <th class="detail">Transaction Count</th>
+        <th class="detail">Cash Count</th>
+        <th class="detail">Check Count</th>
+        <th class="detail">Card Unit</th>
+        <th class="detail">Cash Tape</th>
+        <th class="detail">Check Tape</th>
+        <th class="detail">Card Tape</th>
+        <th class="detail">Tax Tape</th>
+        <th class="detail">Payout Receipt</th>
+        <th class="detail">Memo</th>
+    </tr>
+   </thead>
+        <tbody>
+    <tr th:each="entry : ${entries}">
 
-        <div class="col" th:text="${entry.storeName}"></div>
-        <div class="col" th:text="${#dates.format(entry.date, 'MM/dd/YYYY')}"></div>
-        <div class="col" th:text="${entry.actual}"></div>
-        <div class="col" th:text="${entry.recorded}"></div>
-        <div class="col" th:text="${entry.overUnder}"></div>
-        <div class="col" th:text="${entry.valuePerTranscation}"></div>
-        <div class="col" th:text="${entry.calculatedTax}"></div>
-    </div>
+                <td class="audit" th:text="${entry.createdBy}"></td>
+                <td class="audit" th:text="${entry.creationDate}"></td>
+                <td class="audit" th:text="${entry.lastModifiedBy}"></td>
+                <td class="audit" th:text="${entry.lastModifiedDate}"></td>
+        <td th:text="${entry.storeName}"></td>
+        <td th:text="${#dates.format(entry.date, 'MM/dd/YYYY')}"></td>
+        <td th:text="${entry.actual}"></td>
+        <td th:text="${entry.recorded}"></td>
+        <td th:text="${entry.overUnder}"></td>
+        <td th:text="${entry.valuePerTranscation}"></td>
+        <td th:text="${entry.calculatedTax}"></td>
+
+        <th class="detail" th:text="${entry.transactionCount}">transactionCount</th>
+        <th class="detail" th:text="${entry.cashCount}">cash</th>
+        <th class="detail" th:text="${entry.checkCount}">Check Count</th>
+        <th class="detail" th:text="${entry.cardUnit}">Card Unit</th>
+        <th class="detail" th:text="${entry.cashTape}">Cash Tape</th>
+        <th class="detail" th:text="${entry.checkTape}">Check Tape</th>
+        <th class="detail" th:text="${entry.cardTape}">Card Tape</th>
+        <th class="detail" th:text="${entry.taxTape}">Tax Tape</th>
+        <th class="detail" th:text="${entry.payoutReceipt}">Payout Receipt</th>
+        <th class="detail" th:text="${entry.memo}">Memo</th>
+    </tr>
+        </tbody>
+    </table>
 </div>
 
 </body>
