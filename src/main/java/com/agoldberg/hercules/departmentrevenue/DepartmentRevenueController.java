@@ -43,9 +43,8 @@ public class DepartmentRevenueController {
     public ModelAndView CreateDepartmentRevenueEntry(Model model, @Valid @ModelAttribute("departmentRevenue") DepartmentRevenueDTO departmentRevenue, BindingResult result){
         if(!result.hasErrors()){
             model.addAttribute("oldDepartmentRevenue", service.getExistingDepartmentRevenue(departmentRevenue));
-            departmentRevenue = service.createDepartmentRevenueEntry(departmentRevenue);
-            model.addAttribute("size", sizeService.getSizeForStoreDepartmentDate(departmentRevenue.getStoreId(), departmentRevenue.getDepartmentId(), departmentRevenue.getDate()));
-            return new ModelAndView("departmentrevenue/DepartmentRevenueConfirmation", "departmentRevenue", departmentRevenue);
+            DepartmentRevenueExtendedAnalysesDTO departmentRevenueExtendedAnalysesDTO = service.createDepartmentRevenueEntry(departmentRevenue);
+            return new ModelAndView("departmentrevenue/DepartmentRevenueConfirmation", "departmentRevenue", departmentRevenueExtendedAnalysesDTO);
         }else{
             model.addAttribute("stores", storeService.getEnabledStores());
             model.addAttribute("departments", departmentService.getEnabledDepartments());

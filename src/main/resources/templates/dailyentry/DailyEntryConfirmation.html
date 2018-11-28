@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Daily Revenue Entry Confirmation</title>
+</head>
+<head th:include="fragment/bootstrap :: head"></head>
+<body th:include="fragment/bootstrap :: body"></body>
+<body>
+<div th:replace="fragment/navigation :: nav"></div>
+
+<div class="container">
+    <div th:if="${oldEntry != null}" class="alert alert-warning mt-3" role="alert">
+        Data Overwrite Warning -- Your entry has replaced an existing entry
+    </div>
+    <h2>Daily Revenue Entry Confirmation</h2>
+    <div class="row">
+        <h6 class="col-sm-3">Created By</h6>
+        <div class="col">
+            <div class="row">
+                <div class="col" th:text="${entry.createdBy}">
+                </div>
+                <div class="col" th:text="${entry.creationDate}">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <h6 class="col-sm-3">Modified By</h6>
+        <div class="col">
+            <div class="row">
+                <div class="col" th:text="${entry.lastModifiedBy}">
+                </div>
+                <div class="col" th:text="${entry.lastModifiedDate}">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <h6 class="col-sm-3">Location</h6>
+        <div class="col">
+            <div class="row">
+                <div class="col" th:text="${entry.storeName}">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <h6 class="col-sm-3">Date</h6>
+        <div class="col" th:text="${entry.date}">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                <h4 class="col">Summary</h4>
+            </div>
+            <div class="row">
+                <h6 class="col">Actual</h6>
+                <div class="col" th:text="${entry.actual}">
+                </div>
+            </div>
+            <div class="row">
+                <h6 class="col">Recorded</h6>
+                <div class="col" th:text="${entry.recorded}">
+                </div>
+            </div>
+            <div class="row">
+                <h6 class="col">Over Under</h6>
+                <div class="col" th:text="${entry.overUnder}">
+                </div>
+            </div>
+            <div class="row">
+                <h6 class="col">Value Per Transcation</h6>
+                <div class="col" th:text="${entry.valuePerTranscation}">
+                </div>
+            </div>
+            <div class="row">
+                <h6 class="col">Percentage Sales on Card</h6>
+                <div class="col" th:text="${entry.percentageCard}">
+                </div>
+            </div>
+            <div class="row">
+                <h6 class="col">Percentage Sales in Cash</h6>
+                <div class="col" th:text="${entry.percentageCash}">
+                </div>
+            </div>
+            <div class="row">
+                <h6 class="col">Percentage Sales by Check</h6>
+                <div class="col" th:text="${entry.percentageCheck}">
+                </div>
+            </div>
+            <div class="row" th:if="${entry.taxDTO != null}">
+                <h6 class="row">Tax Rate</h6>
+                <div class="col" th:text="${entry.taxDTO.rate}"></div>
+            </div>
+            <div class="row" th:if="${entry.taxDTO != null}">
+                <h6 class="row">Tax Rate</h6>
+                <div class="col" th:text="${entry.taxDTO.rate}"></div>
+            </div>
+            <div class="row">
+                <h6 class="col">Calculated Tax</h6>
+                <div class="col" th:text="${entry.calculatedTax}">
+                </div>
+            </div>
+            <div class="row">
+                <h6 class="col">Memo</h6>
+                <div class="col" th:text="${entry.memo}">
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="row">
+                <h4 class="col">Details</h4>
+            </div>
+            <div class="row">
+                <h6 class="col">Transaction Count</h6>
+                <div class="col" th:text="${entry.transactionCount}">
+                </div>
+            </div>
+            <div class="row">
+                <h6 class="col">Cash Count</h6>
+                <div class="col" th:text="${entry.cashCount}">
+                </div>
+            </div>
+            <div class="row">
+                <h6 class="col">Check Count</h6>
+                <div class="col" th:text="${entry.checkCount}">
+                </div>
+            </div>
+            <div class="row">
+                <h6 class="col">Card Unit</h6>
+                <div class="col" th:text="${entry.cardUnit}">
+                </div>
+            </div>
+            <div class="row">
+                <h6 class="col">Cash Tape</h6>
+                <div class="col" th:text="${entry.cashTape}">
+                </div>
+            </div>
+            <div class="row">
+                <h6 class="col">Card Tape</h6>
+                <div class="col" th:text="${entry.cardTape}">
+                </div>
+            </div>
+            <div class="row">
+                <h6 class="col">Check Tape</h6>
+                <div class="col" th:text="${entry.checkTape}">
+                </div>
+            </div>
+
+            <div class="row">
+                <h6 class="col">Tax Tape</h6>
+                <div class="col" th:text="${entry.taxTape}">
+                </div>
+            </div>
+            <div class="row">
+                <h6 class="col">Payout Receipt</h6>
+                <div class="col" th:text="${entry.payoutReceipt}">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row mt-3" th:if="${oldEntry != null}">
+        <h2 class="col">Prior Daily Entry</h2>
+    </div>
+    <div class="row" th:if="${oldEntry != null}">
+            <div class="col">
+                <div class="row">
+                    <h4 class="col">Summary</h4>
+                </div>
+                <div class="row">
+                    <h6 class="col">Actual</h6>
+                    <div class="col" th:text="${oldEntry.actual}">
+                    </div>
+                </div>
+                <div class="row">
+                    <h6 class="col">Recorded</h6>
+                    <div class="col" th:text="${oldEntry.recorded}">
+                    </div>
+                </div>
+                <div class="row">
+                    <h6 class="col">Over Under</h6>
+                    <div class="col" th:text="${oldEntry.overUnder}">
+                    </div>
+                </div>
+                <div class="row">
+                    <h6 class="col">Value Per Transcation</h6>
+                    <div class="col" th:text="${oldEntry.valuePerTranscation}">
+                    </div>
+                </div>
+                <div class="row">
+                    <h6 class="col">Percentage Sales on Card</h6>
+                    <div class="col" th:text="${oldEntry.percentageCard}">
+                    </div>
+                </div>
+                <div class="row">
+                    <h6 class="col">Percentage Sales in Cash</h6>
+                    <div class="col" th:text="${oldEntry.percentageCash}">
+                    </div>
+                </div>
+                <div class="row">
+                    <h6 class="col">Percentage Sales by Check</h6>
+                    <div class="col" th:text="${oldEntry.percentageCheck}">
+                    </div>
+                </div>
+                <div class="row" th:if="${oldEntry.taxDTO != null}">
+                    <h6 class="row">Tax Rate</h6>
+                    <div class="col" th:text="${oldEntry.taxDTO.rate}"></div>
+                </div>
+                <div class="row" th:if="${oldEntry.taxDTO != null}">
+                    <h6 class="row">Tax Rate</h6>
+                    <div class="col" th:text="${oldEntry.taxDTO.rate}"></div>
+                </div>
+                <div class="row">
+                    <h6 class="col">Calculated Tax</h6>
+                    <div class="col" th:text="${oldEntry.calculatedTax}">
+                    </div>
+                </div>
+                <div class="row">
+                    <h6 class="col">Memo</h6>
+                    <div class="col" th:text="${oldEntry.memo}">
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="row">
+                    <h4 class="col">Details</h4>
+                </div>
+                <div class="row">
+                    <h6 class="col">Transaction Count</h6>
+                    <div class="col" th:text="${oldEntry.transactionCount}">
+                    </div>
+                </div>
+                <div class="row">
+                    <h6 class="col">Cash Count</h6>
+                    <div class="col" th:text="${oldEntry.cashCount}">
+                    </div>
+                </div>
+                <div class="row">
+                    <h6 class="col">Check Count</h6>
+                    <div class="col" th:text="${oldEntry.checkCount}">
+                    </div>
+                </div>
+                <div class="row">
+                    <h6 class="col">Card Unit</h6>
+                    <div class="col" th:text="${oldEntry.cardUnit}">
+                    </div>
+                </div>
+                <div class="row">
+                    <h6 class="col">Cash Tape</h6>
+                    <div class="col" th:text="${oldEntry.cashTape}">
+                    </div>
+                </div>
+                <div class="row">
+                    <h6 class="col">Card Tape</h6>
+                    <div class="col" th:text="${oldEntry.cardTape}">
+                    </div>
+                </div>
+                <div class="row">
+                    <h6 class="col">Check Tape</h6>
+                    <div class="col" th:text="${oldEntry.checkTape}">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <h6 class="col">Tax Tape</h6>
+                    <div class="col" th:text="${oldEntry.taxTape}">
+                    </div>
+                </div>
+                <div class="row">
+                    <h6 class="col">Payout Receipt</h6>
+                    <div class="col" th:text="${oldEntry.payoutReceipt}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    <form th:object="${oldEntry}" th:action="@{/dailyentry/create}" th:method="post">
+                  <input type="hidden" th:field="${oldEntry.storeId}">
+                <input class="form-control form-date" type="hidden" th:field="*{date}"/>
+                <input class="form-control" type="hidden" th:field="*{transactionCount}"/>
+                <input class="form-control" type="hidden" th:field="*{cashCount}"/>
+                <input class="form-control" type="hidden" th:field="*{checkCount}"/>
+                <input class="form-control" type="hidden" th:field="*{cardUnit}"/>
+                <input class="form-control" type="hidden" th:field="*{cashTape}"/>
+                <input class="form-control" type="hidden" th:field="*{cardTape}"/>
+                <input class="form-control" type="hidden" th:field="*{checkTape}"/>
+                <input class="form-control" type="hidden" th:field="*{taxTape}"/>
+                <input class="form-control" type="hidden" th:field="*{payoutReceipt}"/>
+                <input class="form-control" type="hidden" th:field="*{memo}"/>
+
+        <div class="form-group row">
+            <div class="col-sm-10">
+                <button type="submit"  class="btn btn-warning" value="Submit">Revert to Old Entry</button>
+            </div>
+
+    </div>
+    </form>
+</div>
+</body>
+</html>

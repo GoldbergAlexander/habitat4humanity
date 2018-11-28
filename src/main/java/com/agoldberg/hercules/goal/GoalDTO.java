@@ -16,6 +16,7 @@ public class GoalDTO extends Auditable<String> {
     private Date end;
 
     public GoalDTO() {
+
     }
 
     public GoalDTO(Long id, Long storeId, String storeName, double rate, Date start, Date end) {

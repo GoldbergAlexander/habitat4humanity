@@ -21,7 +21,6 @@ public class DailyEntryDomain extends Auditable<String> implements Serializable{
     @ManyToOne(fetch = FetchType.EAGER)
     private StoreDomain store;
     private Date date;
-    private boolean processed;
     private long transactionCount;
     private double cashCount;
     private double checkCount;
@@ -40,7 +39,6 @@ public class DailyEntryDomain extends Auditable<String> implements Serializable{
     public DailyEntryDomain(StoreDomain store, Date date, boolean processed, long transactionCount, double cashCount, double checkCount, double cardUnit, double payoutReceipt, double cashTape, double checkTape, double cardTape, double taxTape, boolean calculated, String memo) {
         this.store = store;
         this.date = date;
-        this.processed = processed;
         this.transactionCount = transactionCount;
         this.cashCount = cashCount;
         this.checkCount = checkCount;
@@ -92,14 +90,6 @@ public class DailyEntryDomain extends Auditable<String> implements Serializable{
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public boolean isProcessed() {
-        return processed;
-    }
-
-    public void setProcessed(boolean processed) {
-        this.processed = processed;
     }
 
     public long getTransactionCount() {

@@ -9,17 +9,12 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-//@Table(
-//        uniqueConstraints = @UniqueConstraint(columnNames = {"location_id", "date"})
-//)
-
 public class DailyEntryDTO extends Auditable<String> implements Serializable{
     private Long id;
     private String storeName;
     private Long storeId;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
-    private boolean processed;
     private long transactionCount;
     private double cashCount;
     private double checkCount;
@@ -35,12 +30,11 @@ public class DailyEntryDTO extends Auditable<String> implements Serializable{
     public DailyEntryDTO() {
     }
 
-    public DailyEntryDTO(Long id, String storeName, Long storeId, Date date, boolean processed, long transactionCount, double cashCount, double checkCount, double cardUnit, double payoutReceipt, double cashTape, double checkTape, double cardTape, double taxTape, boolean calculated, String memo) {
+    public DailyEntryDTO(Long id, String storeName, Long storeId, Date date, long transactionCount, double cashCount, double checkCount, double cardUnit, double payoutReceipt, double cashTape, double checkTape, double cardTape, double taxTape, boolean calculated, String memo) {
         this.id = id;
         this.storeName = storeName;
         this.storeId = storeId;
         this.date = date;
-        this.processed = processed;
         this.transactionCount = transactionCount;
         this.cashCount = cashCount;
         this.checkCount = checkCount;
@@ -101,14 +95,6 @@ public class DailyEntryDTO extends Auditable<String> implements Serializable{
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public boolean isProcessed() {
-        return processed;
-    }
-
-    public void setProcessed(boolean processed) {
-        this.processed = processed;
     }
 
     public long getTransactionCount() {

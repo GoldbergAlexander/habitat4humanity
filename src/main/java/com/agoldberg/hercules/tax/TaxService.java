@@ -1,5 +1,6 @@
 package com.agoldberg.hercules.tax;
 
+import com.agoldberg.hercules.store.StoreDTO;
 import com.agoldberg.hercules.store.StoreDomain;
 import com.agoldberg.hercules.store.StoreService;
 import org.modelmapper.ModelMapper;
@@ -24,6 +25,16 @@ public class TaxService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    public TaxDTO getTaxDTOForLocationAndDate(Long storeId, Date date){
+        StoreDomain store = storeService.getStore(storeId);
+        LOGGER.info("Finding tax domain for store: {}, and date: {} ", store.getName(), date.toString());
+        TaxDomain domain = dao.findByStoreAndStartBeforeAndEndAfter(store,date,date);
+        if(domain == null){
+            throw new IllegalArgumentException("Could not find Tax for Store and Date");
+        }
+        return modelMapper.map(domain,TaxDTO.class);
+    }
 
     public TaxDomain getTaxForLocationAndDate(StoreDomain store, Date date){
         LOGGER.info("Finding tax domain for store: {}, and date: {} ", store.getName(), date.toString());

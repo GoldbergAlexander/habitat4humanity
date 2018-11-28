@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Create Daily Revenue Entry</title>
+</head>
+<head th:include="fragment/bootstrap :: head"></head>
+<body th:include="fragment/bootstrap :: body"></body>
+<body>
+<div th:replace="fragment/navigation :: nav"></div>
+
+<div class="container">
+    <h2>Create Daily Revenue Entry</h2>
+    <form th:object="${entry}" th:action="@{/dailyentry/create}" th:method="post">
+        <div class="row">
+        <label for="storeId" class="col-sm-2 col-form-label">Location & Department</label>
+        <div class="col">
+            <select class="form-control custom-select" th:field="*{storeId}">
+                <option th:each="location : ${stores}"
+                        th:value="${location.id}"
+                        th:text="${location.name}"
+                        th:selected="${entry.storeId == location.id}">
+                </option>
+            </select>
+        </div>
+        </div>
+        <div class="form-group row">
+            <label for="date" class="col-sm-2 col-form-label">Date</label>
+            <div class="col-sm-10">
+                <input class="form-control form-date" type="date" th:field="*{date}"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="transactionCount" class="col-sm-2 col-form-label">Transaction Count</label>
+            <div class="col-sm-10">
+                <input class="form-control" type="number" step="0.01" th:field="*{transactionCount}"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="cashCount" class="col-sm-2 col-form-label">Cash Count</label>
+            <div class="col-sm-10">
+                <input class="form-control" type="number" step="0.01" th:field="*{cashCount}"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="checkCount" class="col-sm-2 col-form-label">Check Count</label>
+            <div class="col-sm-10">
+                <input class="form-control" type="number" step="0.01" th:field="*{checkCount}"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="cardUnit" class="col-sm-2 col-form-label">Card Unit</label>
+            <div class="col-sm-10">
+                <input class="form-control" type="number" step="0.01" th:field="*{cardUnit}"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="cashTape" class="col-sm-2 col-form-label">Cash Tape</label>
+            <div class="col-sm-10">
+                <input class="form-control" type="number" step="0.01" th:field="*{cashTape}"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="cardTape" class="col-sm-2 col-form-label">Card Tape</label>
+            <div class="col-sm-10">
+                <input class="form-control" type="number" step="0.01" th:field="*{cardTape}"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="checkTape" class="col-sm-2 col-form-label">Check Tape</label>
+            <div class="col-sm-10">
+                <input class="form-control" type="number" step="0.01" th:field="*{checkTape}"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="taxTape" class="col-sm-2 col-form-label">Tax Tape</label>
+            <div class="col-sm-10">
+                <input class="form-control" type="number" step="0.01" th:field="*{taxTape}"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="payoutReceipt" class="col-sm-2 col-form-label">Payout Receipt</label>
+            <div class="col-sm-10">
+                <input class="form-control" type="number" step="0.01" th:field="*{payoutReceipt}"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="memo" class="col-sm-2 col-form-label">Memorandum</label>
+            <div class="col-sm-10">
+                <textarea class="form-control" th:field="*{memo}"></textarea>
+            </div>
+        </div>
+
+
+        <div class="form-group row">
+            <div class="col-sm-10">
+                <button type="submit"  class="btn btn-primary" value="Submit">Enter</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+</body>
+</html>

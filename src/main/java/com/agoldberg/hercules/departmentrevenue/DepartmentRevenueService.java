@@ -36,13 +36,6 @@ public class DepartmentRevenueService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DepartmentRevenueService.class);
 
-    public List<DepartmentRevenueDTO> getRecent(){
-        List<DepartmentRevenueDTO> dtos = new ArrayList<>();
-        dao.findAll().forEach(domain -> dtos.add(modelMapper.map(domain, DepartmentRevenueDTO.class)));
-        LOGGER.info("Got list of Department Revenue Entires, size: {}", dtos.size());
-        return dtos;
-    }
-
 
     public List<DepartmentRevenueExtendedAnalysesDTO> searchDepartmentEntries(SearchDTO dto){
         List<DepartmentRevenueDomain> domains = null;
@@ -107,7 +100,7 @@ public class DepartmentRevenueService {
         return dtos;
     }
 
-    public DepartmentRevenueDTO createDepartmentRevenueEntry(DepartmentRevenueDTO dto){
+    public DepartmentRevenueExtendedAnalysesDTO createDepartmentRevenueEntry(DepartmentRevenueDTO dto){
         StoreDomain store = storeService.getStore(dto.getStoreId());
         DepartmentDomain department = departmentService.getDepartment(dto.getDepartmentId());
 
@@ -127,7 +120,7 @@ public class DepartmentRevenueService {
         domain = dao.save(domain);
         LOGGER.info("Writing Department Revenue Entry: {}, store: {}, department: {}, date: {}, amount: {}",
                 domain.getId(), domain.getStore().getName(), domain.getDepartment().getName(), domain.getDate().toString(), domain.getAmount());
-        return modelMapper.map(domain, DepartmentRevenueDTO.class);
+        return calculateDepartmentRevenueDTO(modelMapper.map(domain, DepartmentRevenueExtendedAnalysesDTO.class));
     }
 
     public DepartmentRevenueDTO getExistingDepartmentRevenue(DepartmentRevenueDTO dto){
@@ -140,9 +133,22 @@ public class DepartmentRevenueService {
 
         DepartmentRevenueDomain domain = dao.findByStoreAndDepartmentAndDate(store, department, date);
         if(domain != null){
-            return modelMapper.map(domain, DepartmentRevenueDTO.class);
+            return calculateDepartmentRevenueDTO(modelMapper.map(domain, DepartmentRevenueExtendedAnalysesDTO.class));
         }
         return null;
+    }
+
+    private DepartmentRevenueExtendedAnalysesDTO calculateDepartmentRevenueDTO(DepartmentRevenueExtendedAnalysesDTO basic){
+        try {
+            SizeDTO size = sizeService.getSizeForStoreDepartmentDate(basic.getStoreId(), basic.getDepartmentId(), basic.getDate());
+            basic.setSizeDTO(size);
+            basic.setSize(size.getSize());
+            basic.setRevenuePerSize(basic.getAmount()/basic.getSize());
+
+        }catch (IllegalStateException e){
+            LOGGER.warn("Could not get size for department, date, location when calculating Extended Analyses");
+        }
+        return basic;
     }
 
 

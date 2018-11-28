@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -23,6 +24,16 @@ public class GoalService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    public GoalDTO getGoalDTOforStoreAndDate(Long storeId, Date date){
+        StoreDomain store = storeService.getStore(storeId);
+        LOGGER.info("Finding Goal domain for store: {}, and date: {} ", store.getName(), date.toString());
+        GoalDomain domain = dao.findByStoreAndStartBeforeAndEndAfter(store,date,date);
+        if(domain == null){
+            throw new IllegalArgumentException("Could not find Goal for Store and Date");
+        }
+        return modelMapper.map(domain,GoalDTO.class);
+    }
 
     public void createGoal(GoalDTO dto){
         if(dto.getStoreId() == null){
