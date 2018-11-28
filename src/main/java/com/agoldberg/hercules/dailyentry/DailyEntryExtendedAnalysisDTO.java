@@ -5,7 +5,7 @@ import com.agoldberg.hercules.tax.TaxDTO;
 
 import java.util.Date;
 
-public class DailyEntryExtendedAnalysisDOT extends DailyEntryDTO{
+public class DailyEntryExtendedAnalysisDTO extends DailyEntryDTO{
     private TaxDTO taxDTO;
     private GoalDTO goalDTO;
     private double actual;
@@ -17,15 +17,15 @@ public class DailyEntryExtendedAnalysisDOT extends DailyEntryDTO{
     private double percentageCheck;
     private double calculatedTax;
 
-    public DailyEntryExtendedAnalysisDOT() {
+    public DailyEntryExtendedAnalysisDTO() {
     }
 
 
-    public DailyEntryExtendedAnalysisDOT(Long id, String storeName, Long storeId, Date date, long transactionCount, double cashCount, double checkCount, double cardUnit, double payoutReceipt, double cashTape, double checkTape, double cardTape, double taxTape, boolean calculated, String memo) {
+    public DailyEntryExtendedAnalysisDTO(Long id, String storeName, Long storeId, Date date, long transactionCount, double cashCount, double checkCount, double cardUnit, double payoutReceipt, double cashTape, double checkTape, double cardTape, double taxTape, boolean calculated, String memo) {
         super(id, storeName, storeId, date, transactionCount, cashCount, checkCount, cardUnit, payoutReceipt, cashTape, checkTape, cardTape, taxTape, calculated, memo);
     }
 
-    public DailyEntryExtendedAnalysisDOT(TaxDTO taxDTO, GoalDTO goalDTO, double actual, double tape, double overUnder, double valuePerTranscation, double percentageCard, double percentageCash, double percentageCheck, double calculatedTax) {
+    public DailyEntryExtendedAnalysisDTO(TaxDTO taxDTO, GoalDTO goalDTO, double actual, double tape, double overUnder, double valuePerTranscation, double percentageCard, double percentageCash, double percentageCheck, double calculatedTax) {
         this.taxDTO = taxDTO;
         this.goalDTO = goalDTO;
         this.actual = actual;
@@ -38,7 +38,7 @@ public class DailyEntryExtendedAnalysisDOT extends DailyEntryDTO{
         this.calculatedTax = calculatedTax;
     }
 
-    public DailyEntryExtendedAnalysisDOT(Long id, String storeName, Long storeId, Date date, long transactionCount, double cashCount, double checkCount, double cardUnit, double payoutReceipt, double cashTape, double checkTape, double cardTape, double taxTape, boolean calculated, String memo, TaxDTO taxDTO, GoalDTO goalDTO, double actual, double tape, double overUnder, double valuePerTranscation, double percentageCard, double percentageCash, double percentageCheck, double calculatedTax) {
+    public DailyEntryExtendedAnalysisDTO(Long id, String storeName, Long storeId, Date date, long transactionCount, double cashCount, double checkCount, double cardUnit, double payoutReceipt, double cashTape, double checkTape, double cardTape, double taxTape, boolean calculated, String memo, TaxDTO taxDTO, GoalDTO goalDTO, double actual, double tape, double overUnder, double valuePerTranscation, double percentageCard, double percentageCash, double percentageCheck, double calculatedTax) {
         super(id, storeName, storeId, date, transactionCount, cashCount, checkCount, cardUnit, payoutReceipt, cashTape, checkTape, cardTape, taxTape, calculated, memo);
         this.taxDTO = taxDTO;
         this.goalDTO = goalDTO;

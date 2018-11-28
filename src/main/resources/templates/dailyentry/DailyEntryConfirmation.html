@@ -279,7 +279,7 @@
                 </div>
             </div>
         </div>
-    <form th:object="${oldEntry}" th:action="@{/dailyentry/create}" th:method="post">
+    <form th:if="${oldEntry != null}" th:object="${oldEntry}" th:action="@{/dailyentry/create}" th:method="post">
                   <input type="hidden" th:field="${oldEntry.storeId}">
                 <input class="form-control form-date" type="hidden" th:field="*{date}"/>
                 <input class="form-control" type="hidden" th:field="*{transactionCount}"/>

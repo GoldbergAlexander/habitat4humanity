@@ -13,7 +13,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class DailyEntryService {
@@ -34,7 +36,39 @@ public class DailyEntryService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DailyEntryService.class);
 
-    public DailyEntryExtendedAnalysisDOT createDailyEntry(DailyEntryDTO dto){
+    public List<DailyEntryExtendedAnalysisDTO> searchDailyEntry(SearchDTO dto){
+        List<DailyEntryDomain> domains;
+        StoreDomain store = null;
+        if(dto.getStoreId() != null && dto.getStoreId() == (-1)){
+            dto.setStoreId(null);
+        }
+        if(dto.getStart() == null || dto.getEnd() == null){
+            if(dto.getStoreId() != null){
+                store = storeService.getStore(dto.getStoreId());
+                domains = dao.findByStore(store);
+            }else{
+                domains = dao.findAll();
+            }
+        }else{
+            if(dto.getStoreId() != null){
+                store = storeService.getStore(dto.getStoreId());
+                domains = dao.findByStoreAndDateGreaterThanEqualAndDateLessThanEqual(store,dto.getStart(), dto.getEnd());
+            }else{
+                domains = dao.findByDateGreaterThanEqualAndDateLessThanEqual(dto.getStart(), dto.getEnd());
+            }
+        }
+        List<DailyEntryExtendedAnalysisDTO> dtos = new ArrayList<>();
+        domains.forEach(domain ->
+                dtos.add(
+                        calculateExtendedAnalysis(
+                                modelMapper.map(domain, DailyEntryExtendedAnalysisDTO.class)
+                        )
+                ));
+        LOGGER.info("Returning Search List of Size: {}", dtos.size());
+        return dtos;
+    }
+
+    public DailyEntryExtendedAnalysisDTO createDailyEntry(DailyEntryDTO dto){
         StoreDomain store = storeService.getStore(dto.getStoreId());
         Date date = dto.getDate();
         if(date == null){
@@ -81,10 +115,10 @@ public class DailyEntryService {
 
         domain = dao.save(domain);
 
-        return calculateExtendedAnalysis(modelMapper.map(domain, DailyEntryExtendedAnalysisDOT.class));
+        return calculateExtendedAnalysis(modelMapper.map(domain, DailyEntryExtendedAnalysisDTO.class));
     }
 
-    public DailyEntryExtendedAnalysisDOT getExistingDailyEntry(DailyEntryDTO dto){
+    public DailyEntryExtendedAnalysisDTO getExistingDailyEntry(DailyEntryDTO dto){
         StoreDomain store = storeService.getStore(dto.getStoreId());
         Date date = dto.getDate();
         if(date == null){
@@ -92,14 +126,14 @@ public class DailyEntryService {
         }
         DailyEntryDomain domain;
         if((domain = dao.findByStoreAndDate(store, date)) != null){
-            return calculateExtendedAnalysis(modelMapper.map(domain, DailyEntryExtendedAnalysisDOT.class));
+            return calculateExtendedAnalysis(modelMapper.map(domain, DailyEntryExtendedAnalysisDTO.class));
         }else{
             return null;
         }
     }
 
 
-    private DailyEntryExtendedAnalysisDOT calculateExtendedAnalysis(DailyEntryExtendedAnalysisDOT extended){
+    private DailyEntryExtendedAnalysisDTO calculateExtendedAnalysis(DailyEntryExtendedAnalysisDTO extended){
         try {
             TaxDTO tax = taxService.getTaxDTOForLocationAndDate(extended.getStoreId(), extended.getDate());
             extended.setTaxDTO(tax);

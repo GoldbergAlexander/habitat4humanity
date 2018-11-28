@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"></meta>
-    <title>Department Revenue Entries</title>
+    <title>Daily Entries</title>
 </head>
 <head th:include="fragment/bootstrap :: head"></head>
 <body th:include="fragment/bootstrap :: body"></body>
@@ -11,15 +11,12 @@
 
 <div class="container">
 
-    <h2>Department Revenue Entries</h2>
+    <h2>Daily Entries</h2>
 
-    <form class="container m-5" th:action="@{/departmentrevenue}" method="get" th:object="${search}">
+    <form class="container m-5" th:action="@{/dailyentry}" method="get" th:object="${search}">
         <div class="row">
             <div class="col">
                 <h5>Store</h5>
-            </div>
-            <div class="col">
-                <h5>Department</h5>
             </div>
             <div class="col">
                 <h5>Start</h5>
@@ -44,18 +41,6 @@
                 </select>
             </div>
             <div class="col">
-                <select class="form-control custom-select" th:field="*{departmentId}">
-                    <option value="-1">
-                        All
-                    </option>
-                    <option th:each="department : ${departments}"
-                            th:value="${department.id}"
-                            th:text="${department.name}"
-                            th:selected="${search.departmentId == department.id}">
-                    </option>
-                </select>
-            </div>
-            <div class="col">
                <input type="date" class="form-control form-date" th:field="*{start}">
             </div>
             <div class="col">
@@ -70,13 +55,14 @@
     <div class="row">
         <div class="col-3"><h5>Audit</h5></div>
         <div class="col"><h5>Location</h5></div>
-        <div class="col"><h5>Department</h5></div>
         <div class="col"><h5>Date</h5></div>
-        <div class="col"><h5>Amount</h5></div>
-        <div class="col"><h5>Size</h5></div>
-        <div class="col"><h5>Amount/Size</h5></div>
+        <div class="col"><h5>Actual</h5></div>
+        <div class="col"><h5>Tape</h5></div>
+        <div class="col"><h5>Over/Under</h5></div>
+        <div class="col"><h5>Amount Per Transactions</h5></div>
+        <div class="col"><h5>Calculated Tax</h5></div>
     </div>
-    <div class="row mt-1" th:each="entry : ${departmentRevenues}">
+    <div class="row mt-1" th:each="entry : ${entries}">
 
         <div class="col-3">
             <div class="row">
@@ -98,11 +84,12 @@
         </div>
 
         <div class="col" th:text="${entry.storeName}"></div>
-        <div class="col" th:text="${entry.departmentName}"></div>
-        <div class="col" th:text="${#dates.format(entry.date, 'MM/YYYY')}"></div>
-        <div class="col" th:text="${entry.amount}"></div>
-        <div class="col" th:text="${entry.size}"></div>
-        <div class="col" th:text="${entry.revenuePerSize}"></div>
+        <div class="col" th:text="${#dates.format(entry.date, 'MM/dd/YYYY')}"></div>
+        <div class="col" th:text="${entry.actual}"></div>
+        <div class="col" th:text="${entry.recorded}"></div>
+        <div class="col" th:text="${entry.overUnder}"></div>
+        <div class="col" th:text="${entry.valuePerTranscation}"></div>
+        <div class="col" th:text="${entry.calculatedTax}"></div>
     </div>
 </div>
 

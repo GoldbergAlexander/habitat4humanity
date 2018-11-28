@@ -1,9 +1,6 @@
 package com.agoldberg.hercules.dailyentry;
 
-import com.agoldberg.hercules.departmentrevenue.DepartmentRevenueDTO;
-import com.agoldberg.hercules.goal.GoalService;
 import com.agoldberg.hercules.store.StoreService;
-import com.agoldberg.hercules.tax.TaxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,11 +33,21 @@ public class DailyEntryController {
     public ModelAndView createDailyEntry(Model model, @Valid @ModelAttribute("entry") DailyEntryDTO entry, BindingResult result){
         if(!result.hasErrors()){
             model.addAttribute("oldEntry", service.getExistingDailyEntry(entry));
-            DailyEntryExtendedAnalysisDOT entryExtended = service.createDailyEntry(entry);
+            DailyEntryExtendedAnalysisDTO entryExtended = service.createDailyEntry(entry);
             return new ModelAndView("dailyentry/DailyEntryConfirmation", "entry", entryExtended);
         }else{
             model.addAttribute("stores", storeService.getEnabledStores());
             return new ModelAndView("dailyentry/CreateDailyEntryForm", "entry", entry);
         }
+    }
+
+    @GetMapping
+    public ModelAndView showDailyEntries(Model model, @ModelAttribute("search") SearchDTO search, BindingResult result){
+        if(search == null){
+            search = new SearchDTO();
+        }
+        model.addAttribute("search", search);
+        model.addAttribute("stores", storeService.getEnabledStores());
+        return new ModelAndView("dailyentry/DailyEntryList", "entries", service.searchDailyEntry(search));
     }
 }

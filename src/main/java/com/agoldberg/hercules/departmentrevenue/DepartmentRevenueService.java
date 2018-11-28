@@ -97,6 +97,7 @@ public class DepartmentRevenueService {
                 dtos.add(resultDTO);
             }
         }
+        LOGGER.info("Returning Search List of Size: {}", dtos.size());
         return dtos;
     }
 
