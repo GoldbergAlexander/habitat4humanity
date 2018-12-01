@@ -18,10 +18,11 @@
                 <li class="dropdown" sec:authorize="hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MANAGER')">
                     <a class="nav-link dropdown-toggle" href="#" id="entryLink" data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">
-                        Entry
+                        Daily Entry
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="entryLink">
-                        <li><a class="dropdown-item" href="/revenue/daily/entry">Daily Revenue Entry</a></li>
+                        <li><a class="dropdown-item" href="/dailyentry">List</a></li>
+                        <li><a class="dropdown-item" href="/dailyentry/create">Create</a></li>
                     </ul>
                 </li>
                 <li class="dropdown" sec:authorize="hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MANAGER')">
@@ -39,10 +40,10 @@
                        aria-haspopup="true" aria-expanded="false">
                         Report
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="reportingLink">
-                        <li><a class="dropdown-item" href="/revenue/daily">Processed Daily Revenue</a></li>
-                        <li><a class="dropdown-item" href="/summarystats">Summary Stats</a></li>
-                    </ul>
+                    <!--<ul class="dropdown-menu" aria-labelledby="reportingLink">-->
+                        <!--<li><a class="dropdown-item" href="/revenue/daily">Processed Daily Revenue</a></li>-->
+                        <!--<li><a class="dropdown-item" href="/summarystats">Summary Stats</a></li>-->
+                    <!--</ul>-->
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">

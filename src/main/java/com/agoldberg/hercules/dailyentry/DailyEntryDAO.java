@@ -10,7 +10,8 @@ import java.util.List;
 @Repository
 public interface DailyEntryDAO extends JpaRepository<DailyEntryDomain,Long> {
     DailyEntryDomain findByStoreAndDate(StoreDomain store, Date date);
-    List<DailyEntryDomain> findByStore(StoreDomain storeDomain);
-    List<DailyEntryDomain> findByStoreAndDateGreaterThanEqualAndDateLessThanEqual(StoreDomain storeDomain, Date start, Date end);
-    List<DailyEntryDomain> findByDateGreaterThanEqualAndDateLessThanEqual(Date start, Date end);
+    List<DailyEntryDomain> findByStoreOrderByDate(StoreDomain storeDomain);
+    List<DailyEntryDomain> findByStoreAndDateGreaterThanEqualAndDateLessThanEqualOrderByDate(StoreDomain storeDomain, Date start, Date end);
+    List<DailyEntryDomain> findByDateGreaterThanEqualAndDateLessThanEqualOrderByDate(Date start, Date end);
+    List<DailyEntryDomain> findByOrderByDate();
 }

@@ -18,8 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
-@Controller
-@RequestMapping("/revenue/daily")
+//@Controller
+//@RequestMapping("/revenue/daily")
 public class EnteredRevenueController {
 
     private static final String ENTERED_REVENUE_MODEL = "enteredRevenue";

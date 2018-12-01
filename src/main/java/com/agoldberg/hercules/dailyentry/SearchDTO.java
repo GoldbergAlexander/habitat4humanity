@@ -13,6 +13,7 @@ public class SearchDTO {
     private Date start;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date end;
+    private LOD lod;
 
     public SearchDTO() {
     }
@@ -22,6 +23,22 @@ public class SearchDTO {
         this.storeId = storeId;
         this.start = start;
         this.end = end;
+    }
+
+    public SearchDTO(String storeName, Long storeId, Date start, Date end, LOD lod) {
+        this.storeName = storeName;
+        this.storeId = storeId;
+        this.start = start;
+        this.end = end;
+        this.lod = lod;
+    }
+
+    public LOD getLod() {
+        return lod;
+    }
+
+    public void setLod(LOD lod) {
+        this.lod = lod;
     }
 
     public String getStoreName() {

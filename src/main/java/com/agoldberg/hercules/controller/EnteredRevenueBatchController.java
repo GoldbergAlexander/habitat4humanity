@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-@Controller
-@RequestMapping("/revenue/daily/batch")
+//@Controller
+//@RequestMapping("/revenue/daily/batch")
 public class EnteredRevenueBatchController {
 
     @Autowired

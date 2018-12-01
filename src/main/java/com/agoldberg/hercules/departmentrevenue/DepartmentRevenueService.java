@@ -3,7 +3,6 @@ package com.agoldberg.hercules.departmentrevenue;
 import com.agoldberg.hercules.department.DepartmentDomain;
 import com.agoldberg.hercules.department.DepartmentService;
 import com.agoldberg.hercules.size.SizeDTO;
-import com.agoldberg.hercules.size.SizeDomain;
 import com.agoldberg.hercules.size.SizeService;
 import com.agoldberg.hercules.store.StoreDomain;
 import com.agoldberg.hercules.store.StoreService;
@@ -53,32 +52,32 @@ public class DepartmentRevenueService {
         if(dto.getStart() == null || dto.getEnd() == null) {
             //Dateless Pattern
             if(dto.getStoreId() == null && dto.getDepartmentId() == null){
-                domains = dao.findAll();
+                domains = dao.findByOrderByDate();
             }else if(dto.getStoreId() != null && dto.getDepartmentId() == null){
                 store = storeService.getStore(dto.getStoreId());
-                domains = dao.findByStore(store);
+                domains = dao.findByStoreOrderByDate(store);
             }else if(dto.getStoreId() == null && dto.getDepartmentId() != null){
                 department = departmentService.getDepartment(dto.getDepartmentId());
-                domains = dao.findByDepartment(department);
+                domains = dao.findByDepartmentOrderByDate(department);
             }else if(dto.getStoreId() != null && dto.getDepartmentId() != null){
                 store = storeService.getStore(dto.getStoreId());
                 department = departmentService.getDepartment(dto.getDepartmentId());
-                domains = dao.findByStoreAndDepartment(store, department);
+                domains = dao.findByStoreAndDepartmentOrderByDate(store, department);
             }
         }else {
             //Date Pattern
             if (dto.getStoreId() == null && dto.getDepartmentId() == null) {
-                domains = dao.findByDateGreaterThanEqualAndDateLessThanEqual(dto.getStart(), dto.getEnd());
+                domains = dao.findByDateGreaterThanEqualAndDateLessThanEqualOrderByDate(dto.getStart(), dto.getEnd());
             } else if (dto.getStoreId() != null && dto.getDepartmentId() == null) {
                 store = storeService.getStore(dto.getStoreId());
-                domains = dao.findByStoreAndDateGreaterThanEqualAndDateLessThanEqual(store, dto.getStart(), dto.getEnd());
+                domains = dao.findByStoreAndDateGreaterThanEqualAndDateLessThanEqualOrderByDate(store, dto.getStart(), dto.getEnd());
             } else if (dto.getStoreId() == null && dto.getDepartmentId() != null) {
                 department = departmentService.getDepartment(dto.getDepartmentId());
-                domains = dao.findByDepartmentAndDateGreaterThanEqualAndDateLessThanEqual(department, dto.getStart(), dto.getEnd());
+                domains = dao.findByDepartmentAndDateGreaterThanEqualAndDateLessThanEqualOrderByDate(department, dto.getStart(), dto.getEnd());
             } else if (dto.getStoreId() != null && dto.getDepartmentId() != null) {
                 store = storeService.getStore(dto.getStoreId());
                 department = departmentService.getDepartment(dto.getDepartmentId());
-                domains = dao.findByStoreAndDepartmentAndDateGreaterThanEqualAndDateLessThanEqual(store, department, dto.getStart(), dto.getEnd());
+                domains = dao.findByStoreAndDepartmentAndDateGreaterThanEqualAndDateLessThanEqualOrderByDate(store, department, dto.getStart(), dto.getEnd());
             }
         }
 

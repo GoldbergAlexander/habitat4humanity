@@ -93,12 +93,9 @@
                 </div>
             </div>
             <div class="row" th:if="${entry.taxDTO != null}">
-                <h6 class="row">Tax Rate</h6>
-                <div class="col" th:text="${entry.taxDTO.rate}"></div>
-            </div>
-            <div class="row" th:if="${entry.taxDTO != null}">
-                <h6 class="row">Tax Rate</h6>
-                <div class="col" th:text="${entry.taxDTO.rate}"></div>
+                <h6 class="col">Tax Rate</h6>
+                <div class="col" th:text="${entry.taxDTO.rate}">
+                </div>
             </div>
             <div class="row">
                 <h6 class="col">Calculated Tax</h6>
@@ -209,11 +206,7 @@
                     </div>
                 </div>
                 <div class="row" th:if="${oldEntry.taxDTO != null}">
-                    <h6 class="row">Tax Rate</h6>
-                    <div class="col" th:text="${oldEntry.taxDTO.rate}"></div>
-                </div>
-                <div class="row" th:if="${oldEntry.taxDTO != null}">
-                    <h6 class="row">Tax Rate</h6>
+                    <h6 class="col">Tax Rate</h6>
                     <div class="col" th:text="${oldEntry.taxDTO.rate}"></div>
                 </div>
                 <div class="row">

@@ -67,6 +67,10 @@
         </div>
     </form>
 
+    <div th:if="${search.storeId != null && search.storeId > -1 && search.departmentId != null && search.departmentId > -1}" class="container" id="chart">
+    </div>
+
+
     <table id="departmententry" class="table">
         <thead>
         <tr>
@@ -90,7 +94,7 @@
             <td class="audit" th:text="${entry.lastModifiedDate}"></td>
             <td th:text="${entry.storeName}"></td>
             <td th:text="${entry.departmentName}"></td>
-            <td th:text="${#dates.format(entry.date, 'MM/YYYY')}"></td>
+            <td th:text="${#dates.format(entry.date, 'MM/yyyy')}"></td>
             <td th:text="${entry.amount}"></td>
             <td th:text="${entry.size}"></td>
             <td th:text="${entry.revenuePerSize}"></td>
@@ -101,3 +105,27 @@
 
 </body>
 </html>
+
+<script>
+    Highcharts.chart('chart', {
+        data: {
+            table: 'departmententry',
+            startColumn: 6,
+            endColumn:7,
+            dateFormat: "MM/YYYY",
+        },
+        chart: {
+            type: 'column',
+            grouping:true
+        },
+        title: {
+            text: 'Department Revenue'
+        },
+        yAxis: {
+            allowDecimals: false,
+            title: {
+                text: '$'
+            }
+        }
+    });
+</script>

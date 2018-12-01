@@ -8,9 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class GoalService {
@@ -49,6 +47,7 @@ public class GoalService {
             throw new IllegalArgumentException("Null Dates");
         }
 
+
         if(dto.getStart().after(dto.getEnd())){
             throw new IllegalArgumentException("Bad Date Range");
         }
@@ -82,6 +81,7 @@ public class GoalService {
         if(dto.getStart() == null || dto.getEnd() == null){
             throw new IllegalArgumentException("Null Dates");
         }
+
 
         if(dto.getStart().after(dto.getEnd())){
             throw new IllegalArgumentException("Bad Date Range");
@@ -139,5 +139,6 @@ public class GoalService {
     public void deleteGoal(GoalDTO dto){
         dao.delete(modelMapper.map(dto, GoalDomain.class));
     }
+
 
 }

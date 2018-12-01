@@ -52,6 +52,9 @@
         </div>
     </form>
 
+    <div th:if="${search.storeId != null && search.storeId > -1}" class="container" id="chart">
+
+    </div>
     <table id="dailyentry">
 
    <thead>
@@ -87,7 +90,7 @@
                 <td class="audit" th:text="${entry.lastModifiedBy}"></td>
                 <td class="audit" th:text="${entry.lastModifiedDate}"></td>
         <td th:text="${entry.storeName}"></td>
-        <td th:text="${#dates.format(entry.date, 'MM/dd/YYYY')}"></td>
+        <td th:text="${#dates.format(entry.date, 'MM/dd/yyyy')}"></td>
         <td th:text="${entry.actual}"></td>
         <td th:text="${entry.recorded}"></td>
         <td th:text="${entry.overUnder}"></td>
@@ -111,3 +114,27 @@
 
 </body>
 </html>
+
+<script>
+    Highcharts.chart('chart', {
+        data: {
+            table: 'dailyentry',
+            startColumn: 5,
+            endColumn:6,
+            dateFormat: "MM/dd/YYYY",
+        },
+        chart: {
+            type: 'line',
+            grouping:true
+        },
+        title: {
+            text: 'Daily Revenue'
+        },
+        yAxis: {
+            allowDecimals: false,
+            title: {
+                text: '$'
+            }
+        }
+    });
+</script>

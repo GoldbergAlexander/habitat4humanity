@@ -45,16 +45,16 @@ public class DailyEntryService {
         if(dto.getStart() == null || dto.getEnd() == null){
             if(dto.getStoreId() != null){
                 store = storeService.getStore(dto.getStoreId());
-                domains = dao.findByStore(store);
+                domains = dao.findByStoreOrderByDate(store);
             }else{
-                domains = dao.findAll();
+                domains = dao.findByOrderByDate();
             }
         }else{
             if(dto.getStoreId() != null){
                 store = storeService.getStore(dto.getStoreId());
-                domains = dao.findByStoreAndDateGreaterThanEqualAndDateLessThanEqual(store,dto.getStart(), dto.getEnd());
+                domains = dao.findByStoreAndDateGreaterThanEqualAndDateLessThanEqualOrderByDate(store,dto.getStart(), dto.getEnd());
             }else{
-                domains = dao.findByDateGreaterThanEqualAndDateLessThanEqual(dto.getStart(), dto.getEnd());
+                domains = dao.findByDateGreaterThanEqualAndDateLessThanEqualOrderByDate(dto.getStart(), dto.getEnd());
             }
         }
         List<DailyEntryExtendedAnalysisDTO> dtos = new ArrayList<>();
@@ -149,10 +149,12 @@ public class DailyEntryService {
         extended.setActual(extended.getCardUnit() + extended.getCashCount() + extended.getCheckCount());
         extended.setRecorded(extended.getCardTape() + extended.getCashTape() + extended.getCheckTape());
         extended.setOverUnder(extended.getActual() - extended.getRecorded());
-        extended.setValuePerTranscation(extended.getActual()/extended.getTransactionCount());
-        extended.setPercentageCash(extended.getCashCount()/extended.getActual());
-        extended.setPercentageCard(extended.getCardUnit()/extended.getActual());
-        extended.setPercentageCheck(extended.getCheckCount()/extended.getActual());
+
+
+        extended.setValuePerTranscation(nanToZero(extended.getActual()/extended.getTransactionCount()));
+        extended.setPercentageCash(nanToZero(extended.getCashCount()/extended.getActual()));
+        extended.setPercentageCard(nanToZero(extended.getCardUnit()/extended.getActual()));
+        extended.setPercentageCheck(nanToZero(extended.getCheckCount()/extended.getActual()));
 
         if(extended.getTaxDTO() != null) {
             extended.setCalculatedTax(extended.getActual() * extended.getTaxDTO().getRate());
@@ -160,5 +162,11 @@ public class DailyEntryService {
         return extended;
     }
 
+    private double nanToZero(double number){
+        if(Double.isNaN(number)){
+            number = 0;
+        }
+        return number;
+    }
 
 }
