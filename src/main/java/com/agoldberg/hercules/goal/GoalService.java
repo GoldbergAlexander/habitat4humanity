@@ -8,9 +8,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
+@Transactional
 public class GoalService {
     private static final Logger LOGGER = LoggerFactory.getLogger(GoalService.class);
 
@@ -24,7 +26,12 @@ public class GoalService {
     private ModelMapper modelMapper;
 
     public GoalDTO getGoalDTOforStoreAndDate(Long storeId, Date date){
+        //TODO try to search by store ID instead of getting the store;
+
+        //Not checking if store exists, just searching with object;
         StoreDomain store = storeService.getStore(storeId);
+//        StoreDomain store = new StoreDomain();
+//        store.setId(storeId);
         LOGGER.info("Finding Goal domain for store: {}, and date: {} ", store.getName(), date.toString());
         GoalDomain domain = dao.findByStoreAndStartBeforeAndEndAfter(store,date,date);
         if(domain == null){
@@ -32,6 +39,8 @@ public class GoalService {
         }
         return modelMapper.map(domain,GoalDTO.class);
     }
+
+
 
     public void createGoal(GoalDTO dto){
         if(dto.getStoreId() == null){
@@ -117,7 +126,7 @@ public class GoalService {
             throw new IllegalArgumentException("Bad Location ID");
         }
         StoreDomain store = storeService.getStore(id);
-        List<GoalDomain> domains = dao.findByStore(store);
+        List<GoalDomain> domains = dao.findByStoreOrderByStart(store);
         List<GoalDTO> dtos = new ArrayList<>();
         domains.forEach(domain -> dtos.add(modelMapper.map(domain, GoalDTO.class)));
         LOGGER.info("Got list of Goales for store: {}, size: {}", store.getName(), dtos.size());

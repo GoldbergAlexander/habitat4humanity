@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface GoalDAO extends JpaRepository<GoalDomain,Long> {
-    List<GoalDomain> findByStore(StoreDomain store);
+    List<GoalDomain> findByStoreOrderByStart(StoreDomain store);
     GoalDomain findByStoreAndEndAfterOrStartBefore(StoreDomain store, Date start, Date end);
     GoalDomain findByStoreAndStartBeforeAndEndAfter(StoreDomain store, Date start, Date end);
     GoalDomain findByStoreAndStartLessThanEqualAndEndGreaterThanEqual(StoreDomain store, Date end, Date start);
