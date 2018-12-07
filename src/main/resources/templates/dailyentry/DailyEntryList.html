@@ -80,6 +80,7 @@
         <th class="detail">Tax Tape</th>
         <th class="detail">Payout Receipt</th>
         <th class="detail">Memo</th>
+        <th></th>
     </tr>
    </thead>
         <tbody>
@@ -90,23 +91,25 @@
                 <td class="audit" th:text="${entry.lastModifiedBy}"></td>
                 <td class="audit" th:text="${entry.lastModifiedDate}"></td>
         <td th:text="${entry.storeName}"></td>
-        <td th:text="${#dates.format(entry.date, 'MM/dd/yyyy')}"></td>
+        <td th:text="${#dates.format(entry.date, 'yyyy-MM-dd')}"></td>
         <td th:text="${entry.actual}"></td>
         <td th:text="${entry.recorded}"></td>
         <td th:text="${entry.overUnder}"></td>
         <td th:text="${entry.valuePerTranscation}"></td>
         <td th:text="${entry.calculatedTax}"></td>
 
-        <th class="detail" th:text="${entry.transactionCount}">transactionCount</th>
-        <th class="detail" th:text="${entry.cashCount}">cash</th>
-        <th class="detail" th:text="${entry.checkCount}">Check Count</th>
-        <th class="detail" th:text="${entry.cardUnit}">Card Unit</th>
-        <th class="detail" th:text="${entry.cashTape}">Cash Tape</th>
-        <th class="detail" th:text="${entry.checkTape}">Check Tape</th>
-        <th class="detail" th:text="${entry.cardTape}">Card Tape</th>
-        <th class="detail" th:text="${entry.taxTape}">Tax Tape</th>
-        <th class="detail" th:text="${entry.payoutReceipt}">Payout Receipt</th>
-        <th class="detail" th:text="${entry.memo}">Memo</th>
+        <td class="detail" th:text="${entry.transactionCount}">transactionCount</td>
+        <td class="detail" th:text="${entry.cashCount}">cash</td>
+        <td class="detail" th:text="${entry.checkCount}">Check Count</td>
+        <td class="detail" th:text="${entry.cardUnit}">Card Unit</td>
+        <td class="detail" th:text="${entry.cashTape}">Cash Tape</td>
+        <td class="detail" th:text="${entry.checkTape}">Check Tape</td>
+        <td class="detail" th:text="${entry.cardTape}">Card Tape</td>
+        <td class="detail" th:text="${entry.taxTape}">Tax Tape</td>
+        <td class="detail" th:text="${entry.payoutReceipt}">Payout Receipt</td>
+        <td class="detail" th:text="${entry.memo}">Memo</td>
+        <td><a class="btn btn-link" th:href="@{/dailyentry/modify/{id}(id=${entry.id})}">Something looks off?</a>
+        </td>
     </tr>
         </tbody>
     </table>

@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+import org.apache.commons.math3.util.Precision;
 
 public class DailyEntryDTO extends Auditable<String> implements Serializable{
     private Long id;
@@ -106,7 +107,7 @@ public class DailyEntryDTO extends Auditable<String> implements Serializable{
     }
 
     public double getCashCount() {
-        return cashCount;
+        return Precision.round(cashCount,2);
     }
 
     public void setCashCount(double cashCount) {
@@ -114,7 +115,7 @@ public class DailyEntryDTO extends Auditable<String> implements Serializable{
     }
 
     public double getCheckCount() {
-        return checkCount;
+        return Precision.round(checkCount,2);
     }
 
     public void setCheckCount(double checkCount) {
@@ -122,7 +123,7 @@ public class DailyEntryDTO extends Auditable<String> implements Serializable{
     }
 
     public double getCardUnit() {
-        return cardUnit;
+        return Precision.round(cardUnit,2);
     }
 
     public void setCardUnit(double cardUnit) {
@@ -130,7 +131,7 @@ public class DailyEntryDTO extends Auditable<String> implements Serializable{
     }
 
     public double getPayoutReceipt() {
-        return payoutReceipt;
+        return Precision.round(payoutReceipt,2);
     }
 
     public void setPayoutReceipt(double payoutReceipt) {
@@ -138,7 +139,7 @@ public class DailyEntryDTO extends Auditable<String> implements Serializable{
     }
 
     public double getCashTape() {
-        return cashTape;
+        return Precision.round(cashTape,2);
     }
 
     public void setCashTape(double cashTape) {
@@ -146,7 +147,7 @@ public class DailyEntryDTO extends Auditable<String> implements Serializable{
     }
 
     public double getCheckTape() {
-        return checkTape;
+        return Precision.round(checkTape,2);
     }
 
     public void setCheckTape(double checkTape) {
@@ -154,7 +155,7 @@ public class DailyEntryDTO extends Auditable<String> implements Serializable{
     }
 
     public double getCardTape() {
-        return cardTape;
+        return Precision.round(cardTape,2);
     }
 
     public void setCardTape(double cardTape) {
@@ -162,7 +163,7 @@ public class DailyEntryDTO extends Auditable<String> implements Serializable{
     }
 
     public double getTaxTape() {
-        return taxTape;
+        return Precision.round(taxTape,2);
     }
 
     public void setTaxTape(double taxTape) {

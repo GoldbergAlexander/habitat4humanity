@@ -158,6 +158,11 @@
                 <div class="col" th:text="${entry.payoutReceipt}">
                 </div>
             </div>
+            <div class="row">
+                <div class="col">
+                    <a class="btn btn-link" th:href="@{/dailyentry/modify/{id}(id=${entry.id})}">Something looks off?</a>
+                </div>
+            </div>
         </div>
     </div>
 

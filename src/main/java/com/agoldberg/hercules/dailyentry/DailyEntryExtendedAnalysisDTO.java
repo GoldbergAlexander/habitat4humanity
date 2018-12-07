@@ -2,6 +2,7 @@ package com.agoldberg.hercules.dailyentry;
 
 import com.agoldberg.hercules.goal.GoalDTO;
 import com.agoldberg.hercules.tax.TaxDTO;
+import org.apache.commons.math3.util.Precision;
 
 import java.util.Date;
 
@@ -71,7 +72,7 @@ public class DailyEntryExtendedAnalysisDTO extends DailyEntryDTO{
     }
 
     public double getActual() {
-        return actual;
+        return Precision.round(actual,2);
     }
 
     public void setActual(double actual) {
@@ -79,7 +80,7 @@ public class DailyEntryExtendedAnalysisDTO extends DailyEntryDTO{
     }
 
     public double getRecorded() {
-        return recorded;
+        return  Precision.round(recorded,2);
     }
 
     public void setRecorded(double recorded) {
@@ -87,7 +88,7 @@ public class DailyEntryExtendedAnalysisDTO extends DailyEntryDTO{
     }
 
     public double getOverUnder() {
-        return overUnder;
+        return  Precision.round(overUnder,2);
     }
 
     public void setOverUnder(double overUnder) {
@@ -95,7 +96,7 @@ public class DailyEntryExtendedAnalysisDTO extends DailyEntryDTO{
     }
 
     public double getValuePerTranscation() {
-        return valuePerTranscation;
+        return  Precision.round(valuePerTranscation,2);
     }
 
     public void setValuePerTranscation(double valuePerTranscation) {
@@ -103,7 +104,7 @@ public class DailyEntryExtendedAnalysisDTO extends DailyEntryDTO{
     }
 
     public double getPercentageCard() {
-        return percentageCard;
+        return  Precision.round(percentageCard,2);
     }
 
     public void setPercentageCard(double percentageCard) {
@@ -111,7 +112,7 @@ public class DailyEntryExtendedAnalysisDTO extends DailyEntryDTO{
     }
 
     public double getPercentageCash() {
-        return percentageCash;
+        return  Precision.round(percentageCash,2);
     }
 
     public void setPercentageCash(double percentageCash) {
@@ -119,7 +120,7 @@ public class DailyEntryExtendedAnalysisDTO extends DailyEntryDTO{
     }
 
     public double getPercentageCheck() {
-        return percentageCheck;
+        return  Precision.round(percentageCheck,2);
     }
 
     public void setPercentageCheck(double percentageCheck) {
@@ -127,7 +128,7 @@ public class DailyEntryExtendedAnalysisDTO extends DailyEntryDTO{
     }
 
     public double getCalculatedTax() {
-        return calculatedTax;
+        return  Precision.round(calculatedTax,2);
     }
 
     public void setCalculatedTax(double calculatedTax) {

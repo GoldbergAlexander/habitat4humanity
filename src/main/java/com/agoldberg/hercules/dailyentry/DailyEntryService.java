@@ -266,4 +266,9 @@ public class DailyEntryService {
         return dtos;
     }
 
+    public DailyEntryDTO getDailyEntry(Long id){
+        LOGGER.info("Getting single Daily Entry by ID: {}", id);
+        return modelMapper.map(dao.getOne(id), DailyEntryDTO.class);
+    }
+
 }
