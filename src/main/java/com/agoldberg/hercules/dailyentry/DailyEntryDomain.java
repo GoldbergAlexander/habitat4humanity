@@ -15,7 +15,7 @@ import java.util.Objects;
 public class DailyEntryDomain extends Auditable<String> implements Serializable{
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)

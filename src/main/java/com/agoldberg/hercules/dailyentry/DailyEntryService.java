@@ -201,25 +201,29 @@ public class DailyEntryService {
 
                 LOGGER.debug("Entry at top of stack starts: {} and ends: {}", taxStack.peek().getStart(), taxStack.peek().getEnd());
                 LOGGER.debug("Current entry date is: {}", extendedDTO.getDate().toString());
-                while(extendedDTO.getDate().before(taxStack.peek().getStart()) || extendedDTO.getDate().after(taxStack.peek().getEnd())){
-                    LOGGER.debug("Current entry with date: {}, is before the start of the entry at the top of the stack: {}", extendedDTO.getDate(), taxStack.peek().getStart());
+                while(!taxStack.empty() && extendedDTO.getDate().before(taxStack.peek().getStart()) || extendedDTO.getDate().after(taxStack.peek().getEnd())){
+                    LOGGER.debug("Current entry with date: {}, is before the start or after the end of the entry at the top of the stack: {}", extendedDTO.getDate(), taxStack.peek().getStart());
                     taxStack.pop();
                     LOGGER.debug("Popping Stack");
+                    if(taxStack.empty()){
+                        break;
+                    }
                 }
 
-                if(taxStack.peek().getStart().before(extendedDTO.getDate()) && taxStack.peek().getEnd().after(extendedDTO.getDate())) {
+                if(!taxStack.empty() && taxStack.peek().getStart().before(extendedDTO.getDate()) && taxStack.peek().getEnd().after(extendedDTO.getDate())) {
                     LOGGER.debug("Preparing to assign top of stack to dto");
                     LOGGER.debug("Entry at top of stack starts: {} and ends: {}", taxStack.peek().getStart(), taxStack.peek().getEnd());
                     extendedDTO.setTaxDTO(taxStack.peek());
 
-                } else{
+                } else if (!taxStack.empty()){
 
-                    LOGGER.warn("Could not assign Tax to Entry:");
-                    LOGGER.warn("Entry at top of stack starts: {} and ends: {}", taxStack.peek().getStart(), taxStack.peek().getStart());
-                    LOGGER.warn("Current entry date is: {}", extendedDTO.getDate().toString());
+                    LOGGER.debug("Could not assign Tax to Entry:");
+                    LOGGER.debug("Entry at top of stack starts: {} and ends: {}", taxStack.peek().getStart(), taxStack.peek().getStart());
+                    LOGGER.debug("Current entry date is: {}", extendedDTO.getDate().toString());
+                }else{
+                    LOGGER.debug("Stack Empty");
                 }
 
-                dtos.add(calculateExtendedAnalysis(extendedDTO));
             }else{
                 LOGGER.debug("Tax Stack is Empty");
             }
@@ -229,28 +233,34 @@ public class DailyEntryService {
 
                 LOGGER.debug("Entry at top of stack starts: {} and ends: {}", goalStack.peek().getStart(), goalStack.peek().getEnd());
                 LOGGER.debug("Current entry date is: {}", extendedDTO.getDate().toString());
-                while(extendedDTO.getDate().before(goalStack.peek().getStart()) || extendedDTO.getDate().after(goalStack.peek().getEnd())){
+                while(!goalStack.empty() && extendedDTO.getDate().before(goalStack.peek().getStart()) || extendedDTO.getDate().after(goalStack.peek().getEnd())){
                     LOGGER.debug("Current entry with date: {}, is before the start of the entry at the top of the stack: {}", extendedDTO.getDate(), goalStack.peek().getStart());
                     goalStack.pop();
                     LOGGER.debug("Popping Stack");
+                    if(goalStack.empty()){
+                        break;
+                    }
                 }
 
-                if(goalStack.peek().getStart().before(extendedDTO.getDate()) && goalStack.peek().getEnd().after(extendedDTO.getDate())) {
+                if(!goalStack.empty() && goalStack.peek().getStart().before(extendedDTO.getDate()) && goalStack.peek().getEnd().after(extendedDTO.getDate())) {
                     LOGGER.debug("Preparing to assign top of stack to dto");
                     LOGGER.debug("Entry at top of stack starts: {} and ends: {}", goalStack.peek().getStart(), goalStack.peek().getEnd());
                     extendedDTO.setGoalDTO(goalStack.peek());
 
-                } else{
+                } else if (!goalStack.empty()){
 
-                    LOGGER.warn("Could not assign Goal to Entry:");
-                    LOGGER.warn("Entry at top of stack starts: {} and ends: {}", goalStack.peek().getStart(), goalStack.peek().getStart());
-                    LOGGER.warn("Current entry date is: {}", extendedDTO.getDate().toString());
+                    LOGGER.debug("Could not assign Goal to Entry:");
+                    LOGGER.debug("Entry at top of stack starts: {} and ends: {}", goalStack.peek().getStart(), goalStack.peek().getStart());
+                    LOGGER.debug("Current entry date is: {}", extendedDTO.getDate().toString());
+                }else{
+                    LOGGER.debug("Stack Empty");
                 }
 
-                dtos.add(calculateExtendedAnalysis(extendedDTO));
             }else{
                 LOGGER.debug("Goal Stack is Empty");
             }
+
+            dtos.add(calculateExtendedAnalysis(extendedDTO));
 
         }
         return dtos;

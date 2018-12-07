@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Date;
 
 @Controller
 @RequestMapping("dailyentry")
@@ -43,8 +44,12 @@ public class DailyEntryController {
 
     @GetMapping
     public ModelAndView showDailyEntries(Model model, @ModelAttribute("search") SearchDTO search, BindingResult result){
-        if(search == null){
-            search = new SearchDTO();
+        if(search.getStoreId() == null){
+            Date end = new Date();
+            Date start = new Date();
+            start.setDate(1);
+            search.setStart(start);
+            search.setEnd(end);
         }
         model.addAttribute("search", search);
         model.addAttribute("stores", storeService.getEnabledStores());
