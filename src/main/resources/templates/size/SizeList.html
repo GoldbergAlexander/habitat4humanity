@@ -13,8 +13,10 @@
 
 
     <h2><a th:if="${department != null}" th:href="@{/department}" th:text="${department.name}"></a><a th:if="${store != null}" th:href="@{/store}" th:text="${store.name}"></a><span th:if="${department != null || store != null}"> > </span><span> Size</span></h2>
+    <div class="container" id="chart"></div>
+
     <div class="row">
-        <div class="col-3"><h5>Audit</h5></div>
+        <!--<div class="col-3"><h5>Audit</h5></div>-->
         <div class="col"><h5>Location</h5></div>
         <div class="col"><h5>Department</h5></div>
         <div class="col"><h5>Start</h5></div>
@@ -24,24 +26,24 @@
     </div>
     <div class="row mt-1" th:each="size : ${sizes}">
 
-        <div class="col-3">
-            <div class="row">
-                <div class="col">Created By</div>
-                <div class="col" th:text="${size.createdBy}"></div>
-            </div>
-            <div class="row">
-                <div class="col">At</div>
-                <div class="col" th:text="${size.creationDate}"></div>
-            </div>
-            <div class="row" th:if="${size.lastModifiedBy != null}">
-                <div class="col">Modified By</div>
-                <div class="col" th:text="${size.lastModifiedBy}"></div>
-            </div>
-            <div class="row" th:if="${size.lastModifiedDate != null}">
-                <div class="col">At</div>
-                <div class="col" th:text="${size.lastModifiedDate}"></div>
-            </div>
-        </div>
+        <!--<div class="col-3">-->
+            <!--<div class="row">-->
+                <!--<div class="col">Created By</div>-->
+                <!--<div class="col" th:text="${size.createdBy}"></div>-->
+            <!--</div>-->
+            <!--<div class="row">-->
+                <!--<div class="col">At</div>-->
+                <!--<div class="col" th:text="${size.creationDate}"></div>-->
+            <!--</div>-->
+            <!--<div class="row" th:if="${size.lastModifiedBy != null}">-->
+                <!--<div class="col">Modified By</div>-->
+                <!--<div class="col" th:text="${size.lastModifiedBy}"></div>-->
+            <!--</div>-->
+            <!--<div class="row" th:if="${size.lastModifiedDate != null}">-->
+                <!--<div class="col">At</div>-->
+                <!--<div class="col" th:text="${size.lastModifiedDate}"></div>-->
+            <!--</div>-->
+        <!--</div>-->
 
         <div class="col" th:text="${size.storeName}"></div>
         <div class="col" th:text="${size.departmentName}"></div>
@@ -52,11 +54,11 @@
 
             <div class="row">
 
-                <div class="col">
+                <div class="col m-1">
                     <a class="btn btn-warning" th:href="@{/size/{size}(size=${size.id})}">Modify</a>
                 </div>
 
-                <form class="col" th:action="@{/size/delete}" th:object="${newSize}" method="post">
+                <form class="col m-1" th:action="@{/size/delete}" th:object="${newSize}" method="post">
                     <input type="hidden" id="id" name="id" th:value="${size.id}"/>
                     <button class="btn btn-danger" type="submit" value="delete">Delete</button>
                 </form>
@@ -71,4 +73,18 @@
 </div>
 
 </body>
+<script th:inline="javascript">
+    var data = [(${js})];
+    Highcharts.ganttChart('chart', {
+        title: {
+            text: 'Sizes'
+        }, tooltip: {
+            headerFormat:'<span>{point.name}</span>',
+            pointFormat: '<span>Store: {point.storeName}</span><br/><span>Department: {point.name}</span><br/><span>Rate: {point.size}</span><br/><span>From: {point.start:%e. %b %Y}</span><br/><span>To: {point.end:%e. %b %Y}</span>'
+        },
+
+        series: data,
+
+    });
+</script>
 </html>

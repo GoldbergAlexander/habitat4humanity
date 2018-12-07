@@ -1,6 +1,7 @@
 package com.agoldberg.hercules.size;
 
 import com.agoldberg.hercules.domain.Auditable;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -8,8 +9,10 @@ import java.util.Date;
 public class SizeDTO extends Auditable<String> {
     private Long id;
     private Long storeId;
+    @JsonProperty("storeName")
     private String storeName;
     private Long departmentId;
+    @JsonProperty("name")
     private String departmentName;
     private double size;
     @DateTimeFormat(pattern = "yyyy-MM-dd")

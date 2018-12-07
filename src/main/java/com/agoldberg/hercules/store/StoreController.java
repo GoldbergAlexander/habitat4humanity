@@ -1,8 +1,13 @@
 package com.agoldberg.hercules.store;
 
+import com.agoldberg.hercules.goal.GoalDTO;
 import com.agoldberg.hercules.goal.GoalService;
+import com.agoldberg.hercules.size.SizeDTO;
 import com.agoldberg.hercules.size.SizeService;
+import com.agoldberg.hercules.tax.TaxDTO;
 import com.agoldberg.hercules.tax.TaxService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +18,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/store")
@@ -38,6 +45,9 @@ public class StoreController {
     @Autowired
     private SizeService sizeService;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @RequestMapping
     public ModelAndView showStores(Model model){
         //Add a new StoreDTO to the model to allow us to create store from this page
@@ -50,19 +60,49 @@ public class StoreController {
     @GetMapping("{location_id}/tax")
     public ModelAndView showTaxesForStore(Model model, @PathVariable("location_id") Long id){
         model.addAttribute("store", storeLocationService.getStoreDTO(id));
-        return new ModelAndView("tax/TaxList", "taxes",taxService.getTaxes(id));
+        List<TaxDTO> taxes = taxService.getTaxes(id);
+        Map<String, List<TaxDTO>> map = new HashMap<>();
+        map.put("data", taxes);
+        try {
+            String js = objectMapper.writeValueAsString(map);
+            js = '[' + js +']';
+            model.addAttribute("js",js);
+        }catch (JsonProcessingException e){
+            System.out.println(e);
+        }
+        return new ModelAndView("tax/TaxList", "taxes",taxes);
     }
 
     @GetMapping("{location_id}/goal")
     public ModelAndView showGoalsForStore(Model model, @PathVariable("location_id") Long id){
         model.addAttribute("store", storeLocationService.getStoreDTO(id));
-        return new ModelAndView("goal/GoalList", "goals",goalService.getGoales(id));
+        List<GoalDTO> goals = goalService.getGoales(id);
+        Map<String, List<GoalDTO>> map = new HashMap<>();
+        map.put("data", goals);
+        try {
+            String js = objectMapper.writeValueAsString(map);
+            js = '[' + js +']';
+            model.addAttribute("js",js);
+        }catch (JsonProcessingException e){
+            System.out.println(e);
+        }
+        return new ModelAndView("goal/GoalList", "goals",goals);
     }
 
     @GetMapping("{location_id}/size")
     public ModelAndView showSizesForStore(Model model, @PathVariable("location_id") Long id){
         model.addAttribute("store", storeLocationService.getStoreDTO(id));
-        return new ModelAndView("size/SizeList", "sizes",sizeService.getSizesForStore(id));
+        List<SizeDTO> sizes = sizeService.getSizesForStore(id);
+        Map<String, List<SizeDTO>> map = new HashMap<>();
+        map.put("data", sizes);
+        try {
+            String js = objectMapper.writeValueAsString(map);
+            js = '[' + js +']';
+            model.addAttribute("js",js);
+        }catch (JsonProcessingException e){
+            System.out.println(e);
+        }
+        return new ModelAndView("size/SizeList", "sizes",sizes);
     }
 
     @GetMapping("{location_id}")

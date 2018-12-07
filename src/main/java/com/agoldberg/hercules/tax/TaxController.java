@@ -1,6 +1,8 @@
 package com.agoldberg.hercules.tax;
 
 import com.agoldberg.hercules.store.StoreService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/tax")
@@ -19,10 +24,24 @@ public class TaxController {
     @Autowired
     private StoreService storeService;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @GetMapping
     public ModelAndView showTaxes(Model model){
         model.addAttribute("newTax", new TaxDTO());
-        return new ModelAndView("tax/TaxList","taxes",service.getTaxes());
+        List<TaxDTO> taxes = service.getTaxes();
+        Map<String, List<TaxDTO>> map = new HashMap<>();
+        map.put("data", taxes);
+        try {
+            String js = objectMapper.writeValueAsString(map);
+            js = '[' + js +']';
+            model.addAttribute("js",js);
+        }catch (JsonProcessingException e){
+            System.out.println(e);
+        }
+
+        return new ModelAndView("tax/TaxList","taxes",taxes);
     }
 
     @GetMapping("create")

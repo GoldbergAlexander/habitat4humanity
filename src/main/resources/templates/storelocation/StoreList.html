@@ -12,31 +12,31 @@
 <div class="container">
     <h2>Stores</h2>
     <div class="row">
-        <div class="col-3"><h5>Audit</h5></div>
+        <!--<div class="col-3"><h5>Audit</h5></div>-->
         <div class="col-sm-2"><h5>Name</h5></div>
         <div class="col"><h5>Address</h5></div>
         <div class="col"></div>
     </div>
     <div class="row mt-1" th:each="location : ${locations}">
 
-        <div class="col-3">
-            <div class="row">
-                <div class="col">Created By</div>
-                <div class="col" th:text="${location.createdBy}"></div>
-            </div>
-            <div class="row">
-                <div class="col">At</div>
-                <div class="col" th:text="${location.creationDate}"></div>
-            </div>
-            <div class="row" th:if="${location.lastModifiedBy != null}">
-                <div class="col">Modified By</div>
-                <div class="col" th:text="${location.lastModifiedBy}"></div>
-            </div>
-            <div class="row" th:if="${location.lastModifiedDate != null}">
-                <div class="col">At</div>
-                <div class="col" th:text="${location.lastModifiedDate}"></div>
-            </div>
-        </div>
+        <!--<div class="col-3">-->
+            <!--<div class="row">-->
+                <!--<div class="col">Created By</div>-->
+                <!--<div class="col" th:text="${location.createdBy}"></div>-->
+            <!--</div>-->
+            <!--<div class="row">-->
+                <!--<div class="col">At</div>-->
+                <!--<div class="col" th:text="${location.creationDate}"></div>-->
+            <!--</div>-->
+            <!--<div class="row" th:if="${location.lastModifiedBy != null}">-->
+                <!--<div class="col">Modified By</div>-->
+                <!--<div class="col" th:text="${location.lastModifiedBy}"></div>-->
+            <!--</div>-->
+            <!--<div class="row" th:if="${location.lastModifiedDate != null}">-->
+                <!--<div class="col">At</div>-->
+                <!--<div class="col" th:text="${location.lastModifiedDate}"></div>-->
+            <!--</div>-->
+        <!--</div>-->
 
         <div class="col-sm-2" th:text="${location.name}"></div>
         <div class="col">
@@ -55,29 +55,29 @@
 
         <div class="col">
         <div class="row">
-            <form class="col" th:action="@{/store/enable}" method="post">
+            <form class="col m-1" th:action="@{/store/enable}" method="post">
                 <input type="hidden" id="id" name="id" th:value="${location.id}"/>
                 <button style="width:90px" class="btn btn-danger" type="submit"
                         th:text="${location.enabled == true ? 'Enabled' : ' Disabled '}"></button>
             </form>
 
-            <div class="col">
+            <div class="col m-1">
             <a class="btn btn-warning" th:href="@{/store/{store}(store=${location.id})}">Modify</a>
             </div>
 
-            <form class="col" th:action="@{/store/delete}" th:object="${newLocation}" method="post">
+            <form class="col m-1" th:action="@{/store/delete}" th:object="${newLocation}" method="post">
                 <input type="hidden" id="id" name="id" th:value="${location.id}"/>
                 <button class="btn btn-danger" type="submit" value="delete">Delete</button>
             </form>
         </div>
         <div class="row mt-1">
-            <div class="col">
+            <div class="col m-1">
                 <a class="btn btn-link" th:href="@{/store/{store}/tax(store=${location.id})}">Taxes</a>
             </div>
-            <div class="col">
+            <div class="col m-1">
                 <a class="btn btn-link" th:href="@{/store/{store}/goal(store=${location.id})}">Goals</a>
             </div>
-            <div class="col">
+            <div class="col m-1">
                 <a class="btn btn-link" th:href="@{/store/{store}/size(store=${location.id})}">Sizes</a>
             </div>
         </div>

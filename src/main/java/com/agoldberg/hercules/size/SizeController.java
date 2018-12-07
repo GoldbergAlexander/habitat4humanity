@@ -1,7 +1,10 @@
 package com.agoldberg.hercules.size;
 
 import com.agoldberg.hercules.department.DepartmentService;
+import com.agoldberg.hercules.goal.GoalDTO;
 import com.agoldberg.hercules.store.StoreService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/size")
@@ -23,10 +29,23 @@ public class SizeController {
     @Autowired
     private DepartmentService departmentService;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @GetMapping
     public ModelAndView showSizes(Model model){
         model.addAttribute("newSize", new SizeDTO());
-        return new ModelAndView("size/SizeList","sizes",service.getSizes());
+        List<SizeDTO> sizes = service.getSizes();
+        Map<String, List<SizeDTO>> map = new HashMap<>();
+        map.put("data", sizes);
+        try {
+            String js = objectMapper.writeValueAsString(map);
+            js = '[' + js +']';
+            model.addAttribute("js",js);
+        }catch (JsonProcessingException e){
+            System.out.println(e);
+        }
+        return new ModelAndView("size/SizeList","sizes",sizes);
     }
 
     @GetMapping("create")

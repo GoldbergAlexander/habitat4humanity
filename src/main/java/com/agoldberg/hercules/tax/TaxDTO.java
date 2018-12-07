@@ -1,15 +1,24 @@
 package com.agoldberg.hercules.tax;
 
 import com.agoldberg.hercules.domain.Auditable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
 
+@JsonSerialize(as=TaxDTO.class)
 public class TaxDTO extends Auditable<String> {
+    @JsonIgnore
     private Long id;
+    @JsonIgnore
     private Long storeId;
+
+    @JsonProperty("name")
     private String storeName;
+
     private double rate;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date start;

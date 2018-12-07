@@ -11,8 +11,10 @@
 
 <div class="container">
     <h2><a th:if="${store != null}" th:href="@{/store}" th:text="${store.name}"></a></span><span th:if="${store != null}"> > </span><span> Goals</span></h2>
+    <div class="container" id="chart"></div>
+
     <div class="row">
-        <div class="col-3"><h5>Audit</h5></div>
+        <!--<div class="col-3"><h5>Audit</h5></div>-->
         <div class="col"><h5>Location</h5></div>
         <div class="col"><h5>Start</h5></div>
         <div class="col"><h5>End</h5></div>
@@ -21,24 +23,24 @@
     </div>
     <div class="row mt-1" th:each="goal : ${goals}">
 
-        <div class="col-3">
-            <div class="row">
-                <div class="col">Created By</div>
-                <div class="col" th:text="${goal.createdBy}"></div>
-            </div>
-            <div class="row">
-                <div class="col">At</div>
-                <div class="col" th:text="${goal.creationDate}"></div>
-            </div>
-            <div class="row" th:if="${goal.lastModifiedBy != null}">
-                <div class="col">Modified By</div>
-                <div class="col" th:text="${goal.lastModifiedBy}"></div>
-            </div>
-            <div class="row" th:if="${goal.lastModifiedDate != null}">
-                <div class="col">At</div>
-                <div class="col" th:text="${goal.lastModifiedDate}"></div>
-            </div>
-        </div>
+        <!--<div class="col-3">-->
+            <!--<div class="row">-->
+                <!--<div class="col">Created By</div>-->
+                <!--<div class="col" th:text="${goal.createdBy}"></div>-->
+            <!--</div>-->
+            <!--<div class="row">-->
+                <!--<div class="col">At</div>-->
+                <!--<div class="col" th:text="${goal.creationDate}"></div>-->
+            <!--</div>-->
+            <!--<div class="row" th:if="${goal.lastModifiedBy != null}">-->
+                <!--<div class="col">Modified By</div>-->
+                <!--<div class="col" th:text="${goal.lastModifiedBy}"></div>-->
+            <!--</div>-->
+            <!--<div class="row" th:if="${goal.lastModifiedDate != null}">-->
+                <!--<div class="col">At</div>-->
+                <!--<div class="col" th:text="${goal.lastModifiedDate}"></div>-->
+            <!--</div>-->
+        <!--</div>-->
 
         <div class="col" th:text="${goal.storeName}"></div>
         <div class="col" th:text="${#dates.format(goal.start, 'MM/dd/yyyy')}"></div>
@@ -64,7 +66,20 @@
             <a class="btn btn-primary" th:href="@{/goal/create}">Create</a>
         </div>
     </div>
-
-
+</div>
 </body>
+<script th:inline="javascript">
+    var data = [(${js})];
+    Highcharts.ganttChart('chart', {
+        title: {
+            text: 'Goal Rates'
+        }, tooltip: {
+            headerFormat:'<span>{point.name}</span>',
+            pointFormat: '<span>Rate: {point.rate}</span><br/><span>From: {point.start:%e. %b %Y}</span><br/><span>To: {point.end:%e. %b %Y}</span>'
+        },
+
+        series: data,
+
+    });
+</script>
 </html>

@@ -1,5 +1,6 @@
 package com.agoldberg.hercules.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -18,17 +19,21 @@ import java.util.Date;
 abstract public class Auditable<U> implements Serializable{
 
     @CreatedBy
+    @JsonIgnore
     protected U createdBy;
 
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonIgnore
     protected Date creationDate;
 
     @LastModifiedBy
+    @JsonIgnore
     protected U lastModifiedBy;
 
     @LastModifiedDate
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonIgnore
     protected Date lastModifiedDate;
 
     public U getCreatedBy() {

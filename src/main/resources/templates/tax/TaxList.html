@@ -11,8 +11,11 @@
 
 <div class="container">
     <h2><a th:if="${store != null}" th:href="@{/store}" th:text="${store.name}"></a><span th:if="${store != null}"> > </span><span> Taxes</span></h2>
+
+    <div class="container" id="chart"></div>
+
     <div class="row">
-        <div class="col-3"><h5>Audit</h5></div>
+        <!--<div class="col-3"><h5>Audit</h5></div>-->
         <div class="col"><h5>Location</h5></div>
         <div class="col"><h5>Start</h5></div>
         <div class="col"><h5>End</h5></div>
@@ -25,24 +28,24 @@
     </div>
     <div class="row mt-1" th:each="tax : ${taxes}">
 
-        <div class="col-3">
-            <div class="row">
-                <div class="col">Created By</div>
-                <div class="col" th:text="${tax.createdBy}"></div>
-            </div>
-            <div class="row">
-                <div class="col">At</div>
-                <div class="col" th:text="${tax.creationDate}"></div>
-            </div>
-            <div class="row" th:if="${tax.lastModifiedBy != null}">
-                <div class="col">Modified By</div>
-                <div class="col" th:text="${tax.lastModifiedBy}"></div>
-            </div>
-            <div class="row" th:if="${tax.lastModifiedDate != null}">
-                <div class="col">At</div>
-                <div class="col" th:text="${tax.lastModifiedDate}"></div>
-            </div>
-        </div>
+        <!--<div class="col-3">-->
+            <!--<div class="row">-->
+                <!--<div class="col">Created By</div>-->
+                <!--<div class="col" th:text="${tax.createdBy}"></div>-->
+            <!--</div>-->
+            <!--<div class="row">-->
+                <!--<div class="col">At</div>-->
+                <!--<div class="col" th:text="${tax.creationDate}"></div>-->
+            <!--</div>-->
+            <!--<div class="row" th:if="${tax.lastModifiedBy != null}">-->
+                <!--<div class="col">Modified By</div>-->
+                <!--<div class="col" th:text="${tax.lastModifiedBy}"></div>-->
+            <!--</div>-->
+            <!--<div class="row" th:if="${tax.lastModifiedDate != null}">-->
+                <!--<div class="col">At</div>-->
+                <!--<div class="col" th:text="${tax.lastModifiedDate}"></div>-->
+            <!--</div>-->
+        <!--</div>-->
 
         <div class="col" th:text="${tax.storeName}"></div>
         <div class="col" th:text="${#dates.format(tax.start, 'MM/dd/yyyy')}"></div>
@@ -52,11 +55,11 @@
 
             <div class="row">
 
-                <div class="col">
+                <div class="col m-1">
                     <a class="btn btn-warning" th:href="@{/tax/{tax}(tax=${tax.id})}">Modify</a>
                 </div>
 
-                <form class="col" th:action="@{/tax/delete}" th:object="${newTax}" method="post">
+                <form class="col m-1" th:action="@{/tax/delete}" th:object="${newTax}" method="post">
                     <input type="hidden" id="id" name="id" th:value="${tax.id}"/>
                     <button class="btn btn-danger" type="submit" value="delete">Delete</button>
                 </form>
@@ -68,7 +71,21 @@
             <a class="btn btn-primary" th:href="@{/tax/create}">Create</a>
         </div>
     </div>
-
-
+</div>
 </body>
+<script th:inline="javascript">
+    var data = [(${js})];
+    Highcharts.ganttChart('chart', {
+        title: {
+            text: 'Tax Rates'
+        }, tooltip: {
+            headerFormat:'<span>{point.name}</span>',
+            pointFormat: '<span>Rate: {point.rate}</span><br/><span>From: {point.start:%e. %b %Y}</span><br/><span>To: {point.end:%e. %b %Y}</span>'
+        },
+
+        series: data,
+
+    });
+</script>
 </html>
+

@@ -1,6 +1,7 @@
 package com.agoldberg.hercules.goal;
 
 import com.agoldberg.hercules.domain.Auditable;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -8,6 +9,7 @@ import java.util.Date;
 public class GoalDTO extends Auditable<String> {
     private Long id;
     private Long storeId;
+    @JsonProperty("name")
     private String storeName;
     private double rate;
     @DateTimeFormat(pattern = "yyyy-MM-dd")

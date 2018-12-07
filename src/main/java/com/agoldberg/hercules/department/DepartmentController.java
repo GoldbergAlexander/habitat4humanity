@@ -1,6 +1,9 @@
 package com.agoldberg.hercules.department;
 
+import com.agoldberg.hercules.size.SizeDTO;
 import com.agoldberg.hercules.size.SizeService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/department")
@@ -19,6 +24,9 @@ public class DepartmentController {
 
     @Autowired
     private SizeService sizeService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @RequestMapping
     public ModelAndView showDepartments(Model model){
@@ -30,7 +38,17 @@ public class DepartmentController {
     @GetMapping("{department_id}/size")
     public ModelAndView showSizesForDepartment(Model model, @PathVariable("department_id") Long id){
         model.addAttribute("department", service.getDepartment(id));
-        return new ModelAndView("size/SizeList", "sizes", sizeService.getSizesForDepartment(id));
+        List<SizeDTO> sizes = sizeService.getSizesForDepartment(id);
+        Map<String, List<SizeDTO>> map = new HashMap<>();
+        map.put("data", sizes);
+        try {
+            String js = objectMapper.writeValueAsString(map);
+            js = '[' + js +']';
+            model.addAttribute("js",js);
+        }catch (JsonProcessingException e){
+            System.out.println(e);
+        }
+        return new ModelAndView("size/SizeList", "sizes", sizes);
     }
 
     @GetMapping("{department_id}")
