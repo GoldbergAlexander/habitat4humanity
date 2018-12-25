@@ -25,6 +25,9 @@
                 <h5>End</h5>
             </div>
             <div class="col">
+                <h5>Level of Detail</h5>
+            </div>
+            <div class="col">
             </div>
         </div>
         <div class="row">
@@ -47,12 +50,23 @@
                 <input type="date" class="form-control form-date" th:field="*{end}">
             </div>
             <div class="col">
+                <select class="form-control custom-select" th:field="*{lod}">
+                    <option th:each="lod : ${T(com.agoldberg.hercules.dailyentry.LOD).values()}"
+                            th:value="${lod}"
+                            th:text="${lod}"
+                            th:selected="${search.lod == lod}">>
+
+                    </option>
+                </select>
+            </div>
+            <div class="col">
                 <button type="submit"  class="btn btn-primary" value="Submit">Search</button>
             </div>
         </div>
     </form>
 
-    <div th:if="${search.storeId != null && search.storeId > -1}" class="container" id="chart">
+    <div th:if="${(search.storeId != null && search.storeId > -1) || search.lod != T(com.agoldberg.hercules.dailyentry.LOD).ENTRY}" class="container" id="chart">
+
 
     </div>
     <table id="dailyentry">
@@ -116,6 +130,9 @@
 </div>
 
 </body>
+<script >
+
+</script>
 </html>
 
 <script>
@@ -127,7 +144,7 @@
             dateFormat: "MM/dd/YYYY",
         },
         chart: {
-            type: 'line',
+            type: 'area',
             grouping:true
         },
         title: {

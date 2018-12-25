@@ -54,6 +54,7 @@ public class DailyEntryController {
             start.setDate(1);
             search.setStart(start);
             search.setEnd(end);
+            search.setLod(LOD.ENTRY);
         }
         model.addAttribute("search", search);
         model.addAttribute("stores", storeService.getEnabledStores());

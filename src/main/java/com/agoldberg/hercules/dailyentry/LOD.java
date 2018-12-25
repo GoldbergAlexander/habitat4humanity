@@ -1,7 +1,7 @@
 package com.agoldberg.hercules.dailyentry;
 
 public enum LOD {
-    UNIQUE,
+    ENTRY,
     DAY,
     MONTH,
     YEAR

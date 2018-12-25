@@ -41,6 +41,9 @@ public class DailyEntryService {
         if(dto.getStoreId() != null && dto.getStoreId() == (-1)){
             dto.setStoreId(null);
         }
+        if(dto.getLod() == null){
+            dto.setLod(LOD.ENTRY);
+        }
         if(dto.getStart() == null || dto.getEnd() == null){
             if(dto.getStoreId() != null){
                 store = storeService.getStore(dto.getStoreId());
@@ -56,8 +59,16 @@ public class DailyEntryService {
                 domains = dao.findByDateGreaterThanEqualAndDateLessThanEqualOrderByDate(dto.getStart(), dto.getEnd());
             }
         }
+
         List<DailyEntryExtendedAnalysisDTO> dtos = fastGoalAndTaxAssignment(domains);
         LOGGER.info("Returning Search List of Size: {}", dtos.size());
+
+        if(dto.getLod() != LOD.ENTRY){
+            LOGGER.info("Grouping entries by LOD: {}", dto.getLod());
+            dtos = groupDTOS(dtos, dto.getLod());
+            LOGGER.info("Grouped Entries, finals size: {}" , dtos.size());
+        }
+
         return dtos;
     }
 
@@ -264,6 +275,107 @@ public class DailyEntryService {
 
         }
         return dtos;
+    }
+
+    private List<DailyEntryExtendedAnalysisDTO> groupDTOS(List<DailyEntryExtendedAnalysisDTO> dtos, LOD lod){
+        LOGGER.debug("Grouping entries by LOD: {}", lod);
+        Stack<DailyEntryExtendedAnalysisDTO> grouping = new Stack<>();
+        int count = 0;
+        for(DailyEntryExtendedAnalysisDTO dto : dtos){
+            if(grouping.empty()){
+                grouping.push(smoothDate(dto, lod));
+            }else{
+                switch (lod){
+                    case ENTRY:
+                        grouping.push(dto);
+                        break;
+                    case DAY:
+                        if(grouping.peek().getDate().getDate() == dto.getDate().getDate()){
+                            DailyEntryExtendedAnalysisDTO current = grouping.pop();
+                            count++;
+                            DailyEntryExtendedAnalysisDTO newGrouping = groupEntries(current, dto, count);
+                            grouping.push(smoothDate(newGrouping, lod));
+                        }else{
+                            LOGGER.debug("Dates are {} and {} which do not match for this LOD. Pushing to stack as new entry", grouping.peek().getDate(), dto.getDate());
+                            count = 1;
+                            grouping.push(smoothDate(dto, lod));
+                        }
+                        break;
+                    case MONTH:
+                        if(grouping.peek().getDate().getMonth() == dto.getDate().getMonth()){
+                            DailyEntryExtendedAnalysisDTO current = grouping.pop();
+                            count++;
+                            DailyEntryExtendedAnalysisDTO newGrouping = groupEntries(current, dto, count);
+                            grouping.push(smoothDate(newGrouping, lod));
+                        }else{
+                            LOGGER.debug("Dates are {} and {} which do not match for this LOD. Pushing to stack as new entry", grouping.peek().getDate(), dto.getDate());
+                            count = 1;
+                            grouping.push(smoothDate(dto, lod));
+                        }
+                        break;
+                    case YEAR:
+                        if(grouping.peek().getDate().getYear() == dto.getDate().getYear()){
+                            DailyEntryExtendedAnalysisDTO current = grouping.pop();
+                            count++;
+                            DailyEntryExtendedAnalysisDTO newGrouping = groupEntries(current, dto, count);
+                            grouping.push(smoothDate(newGrouping, lod));
+                        }else{
+                            LOGGER.debug("Dates are {} and {} which do not match for this LOD. Pushing to stack as new entry", grouping.peek().getDate(), dto.getDate());
+                            count = 1;
+                            grouping.push(smoothDate(dto, lod));
+                        }
+                        break;
+                }
+
+            }
+        }
+
+        return new ArrayList<DailyEntryExtendedAnalysisDTO>(grouping);
+    }
+
+    private DailyEntryExtendedAnalysisDTO groupEntries(DailyEntryExtendedAnalysisDTO existing, DailyEntryExtendedAnalysisDTO adding, int size){
+        //Basic DTO
+
+        existing.setTransactionCount(existing.getTransactionCount()+ adding.getTransactionCount());
+        existing.setCashCount(existing.getCashCount()+adding.getCashCount());
+        existing.setCheckCount(existing.getCheckCount()+existing.getCheckCount());
+        existing.setCardUnit(existing.getCardUnit() + adding.getCardUnit());
+        existing.setPayoutReceipt(existing.getPayoutReceipt()+adding.getPayoutReceipt());
+        existing.setCashTape(existing.getCashTape()+adding.getCashTape());
+        existing.setCardTape(existing.getCardTape()+adding.getCardTape());
+        existing.setTaxTape(existing.getTaxTape()+adding.getTaxTape());
+
+        //Extended DTO
+        existing.setActual(existing.getActual() + adding.getActual());
+        existing.setRecorded(existing.getRecorded() + adding.getRecorded());
+        existing.setOverUnder(existing.getOverUnder() + adding.getOverUnder());
+        existing.setCalculatedTax(existing.getCalculatedTax()+adding.getCalculatedTax());
+
+        //Exiting AVGs
+        existing.setValuePerTranscation(avg(existing.getValuePerTranscation(), adding.getValuePerTranscation(),size));
+        existing.setPercentageCard(avg(existing.getPercentageCard(), adding.getPercentageCard(),size));
+        existing.setPercentageCash(avg(existing.getPercentageCash(),adding.getPercentageCash(),size));
+        existing.setPercentageCheck(avg(existing.getPercentageCheck(),adding.getPercentageCheck(),size));
+
+        return existing;
+    }
+
+    private double avg(double avg, double add, int count){
+        return avg + ((add-avg)/count);
+    }
+    private DailyEntryExtendedAnalysisDTO smoothDate(DailyEntryExtendedAnalysisDTO entry, LOD lod){
+        switch (lod){
+            case MONTH:
+                entry.getDate().setDate(1);
+                break;
+            case YEAR:
+                entry.getDate().setDate(1);
+                entry.getDate().setMonth(1);
+                break;
+                default:
+                    break;
+        }
+        return entry;
     }
 
     public DailyEntryDTO getDailyEntry(Long id){
