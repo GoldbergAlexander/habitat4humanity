@@ -73,7 +73,19 @@
     Highcharts.ganttChart('chart', {
         title: {
             text: 'Goal Rates'
-        }, tooltip: {
+
+        },
+        xAxis: {
+            grid: {
+                enabled: false
+            },
+
+        },
+        yAxis:{
+            type: 'treegrid',
+            uniqueNames: true
+        },
+        tooltip: {
             headerFormat:'<span>{point.name}</span>',
             pointFormat: '<span>Rate: {point.rate}</span><br/><span>From: {point.start:%e. %b %Y}</span><br/><span>To: {point.end:%e. %b %Y}</span>'
         },

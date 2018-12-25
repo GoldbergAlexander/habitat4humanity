@@ -78,7 +78,17 @@
     Highcharts.ganttChart('chart', {
         title: {
             text: 'Sizes'
-        }, tooltip: {
+        },
+        xAxis: {
+            grid: {
+                enabled: false
+            },
+
+        },
+        yAxis:{
+            type: 'treegrid',
+            uniqueNames: true
+        },tooltip: {
             headerFormat:'<span>{point.name}</span>',
             pointFormat: '<span>Store: {point.storeName}</span><br/><span>Department: {point.name}</span><br/><span>Rate: {point.size}</span><br/><span>From: {point.start:%e. %b %Y}</span><br/><span>To: {point.end:%e. %b %Y}</span>'
         },

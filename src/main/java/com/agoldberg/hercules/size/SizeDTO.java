@@ -12,7 +12,7 @@ public class SizeDTO extends Auditable<String> {
     @JsonProperty("storeName")
     private String storeName;
     private Long departmentId;
-    @JsonProperty("name")
+    @JsonProperty("departmentName")
     private String departmentName;
     private double size;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -32,6 +32,11 @@ public class SizeDTO extends Auditable<String> {
         this.size = size;
         this.start = start;
         this.end = end;
+    }
+
+    @JsonProperty("name")
+    public String getName(){
+        return storeName + " | " + departmentName;
     }
 
     public Long getDepartmentId() {
