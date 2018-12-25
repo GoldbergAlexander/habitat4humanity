@@ -73,10 +73,12 @@
 
    <thead>
     <tr>
+
         <th class="audit"><h5>Created By</h5></th>
         <th class="audit"><h5>Created At</h5></th>
         <th class="audit"><h5>Modified By</h5></th>
         <th class="audit"><h5>Modified At</h5></th>
+
         <th ><h5>Location</h5></th>
         <th ><h5>Date</h5></th>
         <th ><h5>Actual</h5></th>
@@ -100,10 +102,10 @@
         <tbody>
     <tr th:each="entry : ${entries}">
 
-                <td class="audit" th:text="${entry.createdBy}"></td>
-                <td class="audit" th:text="${entry.creationDate}"></td>
-                <td class="audit" th:text="${entry.lastModifiedBy}"></td>
-                <td class="audit" th:text="${entry.lastModifiedDate}"></td>
+        <td class="audit" th:text="${entry.createdBy}"></td>
+        <td class="audit" th:text="${entry.creationDate}"></td>
+        <td class="audit" th:text="${entry.lastModifiedBy}"></td>
+        <td class="audit" th:text="${entry.lastModifiedDate}"></td>
         <td th:text="${entry.storeName}"></td>
         <td th:text="${#dates.format(entry.date, 'yyyy-MM-dd')}"></td>
         <td th:text="${entry.actual}"></td>

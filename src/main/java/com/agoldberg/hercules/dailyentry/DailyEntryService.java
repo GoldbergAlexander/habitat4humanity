@@ -334,8 +334,9 @@ public class DailyEntryService {
     }
 
     private DailyEntryExtendedAnalysisDTO groupEntries(DailyEntryExtendedAnalysisDTO existing, DailyEntryExtendedAnalysisDTO adding, int size){
-        //Basic DTO
+        existing.setStoreName("Grouped");
 
+        //Basic DTO
         existing.setTransactionCount(existing.getTransactionCount()+ adding.getTransactionCount());
         existing.setCashCount(existing.getCashCount()+adding.getCashCount());
         existing.setCheckCount(existing.getCheckCount()+existing.getCheckCount());
@@ -370,7 +371,7 @@ public class DailyEntryService {
                 break;
             case YEAR:
                 entry.getDate().setDate(1);
-                entry.getDate().setMonth(1);
+                entry.getDate().setMonth(0);
                 break;
                 default:
                     break;
