@@ -35,11 +35,6 @@ public class AdminUserDataLoader implements ApplicationListener<ContextRefreshed
                     roleDAO.save(managerRole);
                 }
 
-                if(roleDAO.findByName("ROLE_EXECUTIVE") == null) {
-                    RoleDomain executiveRole = new RoleDomain("ROLE_EXECUTIVE");
-                    roleDAO.save(executiveRole);
-                }
-
                 userService.createAdmin();
 
                 loaded = true;

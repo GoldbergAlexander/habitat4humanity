@@ -8,7 +8,6 @@ import javax.annotation.security.RolesAllowed;
 public interface EnteredRevenueService {
 
 
-    @RolesAllowed({"ROLE_MANAGER", "ROLE_ADMIN"})
     EnteredRevenueDTO createRevenueEntry(EnteredRevenueDTO dto);
 
     List<EnteredRevenueDTO> createRevenueEntry(List<EnteredRevenueDTO> dtos);
@@ -18,6 +17,6 @@ public interface EnteredRevenueService {
      * @param dto
      * @return
      */
-    @RolesAllowed({"ROLE_MANAGER", "ROLE_ADMIN"})
+
     EnteredRevenueDTO checkForExistingEntry(EnteredRevenueDTO dto);
 }

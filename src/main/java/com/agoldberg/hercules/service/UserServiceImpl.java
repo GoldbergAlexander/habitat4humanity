@@ -161,7 +161,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         LOGGER.info("Saved User: {}", userDomain.getUsername());
 
         LOGGER.debug("Handing off to token service");
-        tokenService.createToken(userDomain, TokenType.CONFRIM);
+        tokenService.createToken(userDomain, TokenType.CONFIRM);
 
 
         return dto;
@@ -170,7 +170,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public UserDTO confirmUser(String token){
-        UserDomain user = tokenService.validateToken(token, TokenType.CONFRIM);
+        UserDomain user = tokenService.validateToken(token, TokenType.CONFIRM);
         if(user == null){
             throw new IllegalArgumentException("The token provided is not valid.");
         }

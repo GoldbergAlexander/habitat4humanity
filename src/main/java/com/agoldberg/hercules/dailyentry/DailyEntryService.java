@@ -334,7 +334,9 @@ public class DailyEntryService {
     }
 
     private DailyEntryExtendedAnalysisDTO groupEntries(DailyEntryExtendedAnalysisDTO existing, DailyEntryExtendedAnalysisDTO adding, int size){
-        existing.setStoreName("Grouped");
+        if(!existing.getStoreName().equals(adding.getStoreName())){
+            existing.setStoreName("Grouped");
+        }
 
         //Basic DTO
         existing.setTransactionCount(existing.getTransactionCount()+ adding.getTransactionCount());
