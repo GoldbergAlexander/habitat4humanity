@@ -65,9 +65,9 @@
         </div>
     </form>
 
-    <div th:if="${(search.storeId != null && search.storeId > -1) || search.lod != T(com.agoldberg.hercules.dailyentry.LOD).ENTRY}" class="container" id="chart">
-
-
+    <div th:if="${(search.storeId != null && search.storeId > -1) || (search.lod != T(com.agoldberg.hercules.dailyentry.LOD).ENTRY && search.lod != T(com.agoldberg.hercules.dailyentry.LOD).DAY_OF_WEEK)}" class="container" id="chart">
+    </div>
+    <div th:if="${((search.storeId != null && search.storeId > -1) || search.lod != T(com.agoldberg.hercules.dailyentry.LOD).ENTRY) && search.lod == T(com.agoldberg.hercules.dailyentry.LOD).DAY_OF_WEEK}" class="container" id="bar_chart">
     </div>
     <table id="dailyentry">
 
@@ -107,7 +107,8 @@
         <td class="audit" th:text="${entry.lastModifiedBy}"></td>
         <td class="audit" th:text="${entry.lastModifiedDate}"></td>
         <td th:text="${entry.storeName}"></td>
-        <td th:text="${#dates.format(entry.date, 'yyyy-MM-dd')}"></td>
+        <td th:if="${search.lod != T(com.agoldberg.hercules.dailyentry.LOD).DAY_OF_WEEK}" th:text="${#dates.format(entry.date, 'yyyy-MM-dd')}"></td>
+        <td th:if="${search.lod == T(com.agoldberg.hercules.dailyentry.LOD).DAY_OF_WEEK}" th:text="${#dates.dayOfWeekName(entry.date)}"></td>
         <td th:text="${entry.actual}"></td>
         <td th:text="${entry.recorded}"></td>
         <td th:text="${entry.overUnder}"></td>
@@ -132,9 +133,6 @@
 </div>
 
 </body>
-<script >
-
-</script>
 </html>
 
 <script>
@@ -147,6 +145,29 @@
         },
         chart: {
             type: 'area',
+            grouping:true
+        },
+        title: {
+            text: 'Daily Revenue'
+        },
+        yAxis: {
+            allowDecimals: false,
+            title: {
+                text: '$'
+            }
+        }
+    });
+</script>
+<script>
+    Highcharts.chart('bar_chart', {
+        data: {
+            table: 'dailyentry',
+            startColumn: 5,
+            endColumn:6,
+            dateFormat: "MM/dd/YYYY",
+        },
+        chart: {
+            type: 'column',
             grouping:true
         },
         title: {

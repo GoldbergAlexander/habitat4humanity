@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -63,9 +64,15 @@ public class DailyEntryService {
         List<DailyEntryExtendedAnalysisDTO> dtos = fastGoalAndTaxAssignment(domains);
         LOGGER.info("Returning Search List of Size: {}", dtos.size());
 
-        if(dto.getLod() != LOD.ENTRY){
+        if(dto.getLod() == LOD.ENTRY) {
+            //do nothing
+            LOGGER.info("LOD: ENTRY, doing nothing");
+        }else if(dto.getLod() == LOD.DAY_OF_WEEK){
+            LOGGER.info("Performing advanced grouping: DAY_OF_WEEK");
+            dtos = bucketDTOS(dtos, dto.getLod());
+        }else{
             LOGGER.info("Grouping entries by LOD: {}", dto.getLod());
-            dtos = groupDTOS(dtos, dto.getLod());
+            dtos = collapseDTOS(dtos, dto.getLod());
             LOGGER.info("Grouped Entries, finals size: {}" , dtos.size());
         }
 
@@ -277,7 +284,32 @@ public class DailyEntryService {
         return dtos;
     }
 
-    private List<DailyEntryExtendedAnalysisDTO> groupDTOS(List<DailyEntryExtendedAnalysisDTO> dtos, LOD lod){
+    private List<DailyEntryExtendedAnalysisDTO> bucketDTOS(List<DailyEntryExtendedAnalysisDTO> dtos, LOD lod){
+        LOGGER.debug("Grouping entries by LOD: {}", lod);
+        //Add case statement for other grouping options (see collapseDTOS)
+        Map<String, DailyEntryExtendedAnalysisDTO> entryMap = new HashMap<>();
+        //Need to track number of entries making up each bucket for percentage calcs
+        Map<String, Integer> countMap = new HashMap<>();
+
+        SimpleDateFormat DayOfWeekFormat = new SimpleDateFormat("EEEE");
+        for(DailyEntryExtendedAnalysisDTO dto: dtos){
+            String weekdayString = DayOfWeekFormat.format(dto.getDate());
+            if(entryMap.containsKey(weekdayString)){
+               DailyEntryExtendedAnalysisDTO existing = entryMap.remove(weekdayString);
+               dto = groupEntries(existing,dto, countMap.get(weekdayString)+1);
+               entryMap.put(weekdayString, dto);
+               countMap.put(weekdayString, countMap.get(weekdayString)+1);
+            }else{
+                entryMap.put(weekdayString, dto);
+                countMap.put(weekdayString,1);
+            }
+        }
+        ArrayList<DailyEntryExtendedAnalysisDTO> list = new ArrayList<>(entryMap.values());
+        list.sort(Comparator.comparing(DailyEntryExtendedAnalysisDTO::getDate));
+        return list;
+    }
+
+    private List<DailyEntryExtendedAnalysisDTO> collapseDTOS(List<DailyEntryExtendedAnalysisDTO> dtos, LOD lod){
         LOGGER.debug("Grouping entries by LOD: {}", lod);
         Stack<DailyEntryExtendedAnalysisDTO> grouping = new Stack<>();
         int count = 0;
@@ -330,7 +362,7 @@ public class DailyEntryService {
             }
         }
 
-        return new ArrayList<DailyEntryExtendedAnalysisDTO>(grouping);
+        return new ArrayList<>(grouping);
     }
 
     private DailyEntryExtendedAnalysisDTO groupEntries(DailyEntryExtendedAnalysisDTO existing, DailyEntryExtendedAnalysisDTO adding, int size){
